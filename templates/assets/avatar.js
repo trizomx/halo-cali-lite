@@ -75,7 +75,10 @@
       { transform: 'translate3d(0, 0, 0) scale(1)' }
     ], { duration: 240, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' });
     departure.finished.then(() => {
-      if (leaving) location.assign(target.href);
+      if (leaving) {
+        document.dispatchEvent?.(new CustomEvent('cali:page-loading', { detail: { post: link.hasAttribute('data-post-link') } }));
+        location.assign(target.href);
+      }
     }).catch(() => {});
   });
   window.addEventListener('pageshow', () => {

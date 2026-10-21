@@ -11,9 +11,14 @@ spec:
   repo: https://github.com/trizomx/halo-cali-lite
   homepage: https://github.com/trizomx/halo-cali-lite
   issues: https://github.com/trizomx/halo-cali-lite/issues
-  version: 0.1.10
+  version: 0.2.0
   requires: ">=2.27.0"
   settingName: theme-cali-lite-setting
   configMapName: theme-cali-lite-config
+  customTemplates:
+    page:
+      - name: 项目
+        description: cali lite 项目展示页，与首页共用主题设置中的项目列表
+        file: page_projects.html
   license:
     - name: MIT

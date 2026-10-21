@@ -1,0 +1,133 @@
+{
+  "upstream": "https://github.com/CaliCastle/cali.so/tree/v2.0",
+  "fork": "https://github.com/trizomx/wulongxiong-blog",
+  "compiled_css": "https://www.oiov.dev/_next/static/css/f70debf99e825b73.css",
+  "compiled_css_sha256": "fad99e89615c4342e32e97d857b6b75eb133b29ae75cb01228694716f4e167eb",
+  "files": [
+    {
+      "path": "app/(main)/blog/BlogPostCard.tsx",
+      "fork_sha256": "80d92360f6fd334fd2c709a8c4555f5a8711eda1abf8b988ae3c2efcdabce72d",
+      "v2_sha256": "80d92360f6fd334fd2c709a8c4555f5a8711eda1abf8b988ae3c2efcdabce72d"
+    },
+    {
+      "path": "app/(main)/blog/BlogPostPage.tsx",
+      "fork_sha256": "a37f0562f350a5ffa16bd6d716b67dc3b100fadbe7e62b86508002f476a944e9",
+      "v2_sha256": "a37f0562f350a5ffa16bd6d716b67dc3b100fadbe7e62b86508002f476a944e9"
+    },
+    {
+      "path": "app/(main)/blog/BlogPostTableOfContents.tsx",
+      "fork_sha256": "98747b95b0d38ade59e012453404da23a03ebdeb8d59efd151a35899785f3607",
+      "v2_sha256": "98747b95b0d38ade59e012453404da23a03ebdeb8d59efd151a35899785f3607"
+    },
+    {
+      "path": "app/(main)/blog/[slug]/loading.tsx",
+      "fork_sha256": "7e05c1908c99d2eb739d6cbeabff375e0a26c09e8875f96da7c409c90b42824f",
+      "v2_sha256": "7e05c1908c99d2eb739d6cbeabff375e0a26c09e8875f96da7c409c90b42824f"
+    },
+    {
+      "path": "components/Prose.tsx",
+      "fork_sha256": "8fb0ab9fc83e74fc3e650b5a577f2b846fbb556811f410a0621b1330ed8a827a",
+      "v2_sha256": "8fb0ab9fc83e74fc3e650b5a577f2b846fbb556811f410a0621b1330ed8a827a"
+    },
+    {
+      "path": "components/portable-text/PortableTextCodeBlock.tsx",
+      "fork_sha256": "772b54402ba7d23a42fbb726a81457f8ba11f4d131a4bd858ba5fc25f621758a",
+      "v2_sha256": "772b54402ba7d23a42fbb726a81457f8ba11f4d131a4bd858ba5fc25f621758a"
+    },
+    {
+      "path": "components/portable-text/PortableTextBlocks.tsx",
+      "fork_sha256": "49b6ff5790bc60f4a68827ec78ef463ff1daaed1f0f76fd9d54e1d746756422c",
+      "v2_sha256": "49b6ff5790bc60f4a68827ec78ef463ff1daaed1f0f76fd9d54e1d746756422c"
+    },
+    {
+      "path": "tailwind.config.cjs",
+      "fork_sha256": "6fc41cffed68fb47a7cc83546709b8e03686fe934935bbf42772d0afa1a286ad",
+      "v2_sha256": "6fc41cffed68fb47a7cc83546709b8e03686fe934935bbf42772d0afa1a286ad"
+    },
+    {
+      "path": "app/(main)/projects/page.tsx",
+      "fork_sha256": "6c8b12379e1b6f4d995a42c6c7bf1acfa0f0e475d0ae0083e1378ea1fff7019a",
+      "v2_sha256": "6c8b12379e1b6f4d995a42c6c7bf1acfa0f0e475d0ae0083e1378ea1fff7019a"
+    },
+    {
+      "path": "app/(main)/projects/Projects.tsx",
+      "fork_sha256": "48b6923c6b031754bd38a4177a1162660593d3dd32ee7f198755262bd7c9b082",
+      "v2_sha256": "f50915fdf93ae8fbe3730d7628697f0a8b7d38c477af3ce853556aa6f59a38df"
+    },
+    {
+      "path": "app/(main)/projects/ProjectCard.tsx",
+      "fork_sha256": "9cd77da05d6ed85bcba0d4e3e60fc1776684b5051314b893856d8bd600635a1b",
+      "v2_sha256": "9cd77da05d6ed85bcba0d4e3e60fc1776684b5051314b893856d8bd600635a1b"
+    },
+    {
+      "path": "app/(main)/Newsletter.tsx",
+      "fork_sha256": "5b4a0d5f86cedf7571a5024172ed796ea74f7db35677b9b027bfbb88c3a06c15",
+      "v2_sha256": "5b4a0d5f86cedf7571a5024172ed796ea74f7db35677b9b027bfbb88c3a06c15"
+    },
+    {
+      "path": "app/(main)/Footer.tsx",
+      "fork_sha256": "42e04cb530e7207018a66726e14ceb242264436c2b1616f0ea4702811b1c556b",
+      "v2_sha256": "42e04cb530e7207018a66726e14ceb242264436c2b1616f0ea4702811b1c556b"
+    },
+    {
+      "path": "app/(main)/page.tsx",
+      "fork_sha256": "8216082ce0befbfe039b3e5e4cf4c8564bc572b33cc137a2e02010c612f8775a",
+      "v2_sha256": "8254ab1269880e85accc0040e60a8b865755685d6b5b8285fdaadab19601b1e9"
+    },
+    {
+      "path": "components/ui/Card.tsx",
+      "fork_sha256": "06e3c8b5450401bd7e2fc763e1e0ae99892764e10ac2222e198f14edf8105515",
+      "v2_sha256": "06e3c8b5450401bd7e2fc763e1e0ae99892764e10ac2222e198f14edf8105515"
+    },
+    {
+      "path": "components/ui/Button.tsx",
+      "fork_sha256": "00ccb8120ffc6607ac0d8f3e7ebb5787f631816ad676be8c4bd5dea98d8b6e65",
+      "v2_sha256": "00ccb8120ffc6607ac0d8f3e7ebb5787f631816ad676be8c4bd5dea98d8b6e65"
+    },
+    {
+      "path": "assets/icons/CalendarIcon.tsx",
+      "fork_sha256": "1b5118c35c90efb267e5a54a90a299df1f315cafeb4af8b0420df01d397ae884",
+      "v2_sha256": "1b5118c35c90efb267e5a54a90a299df1f315cafeb4af8b0420df01d397ae884"
+    },
+    {
+      "path": "assets/icons/CursorClickIcon.tsx",
+      "fork_sha256": "967df02438084d2e77b682a06976f030a66d6466938d8129a3238f4a58e77ce3",
+      "v2_sha256": "967df02438084d2e77b682a06976f030a66d6466938d8129a3238f4a58e77ce3"
+    },
+    {
+      "path": "assets/icons/HourglassIcon.tsx",
+      "fork_sha256": "c245742fa462ad091b2c112e75a1490233ffea2999271e3359088dfb11476604",
+      "v2_sha256": "c245742fa462ad091b2c112e75a1490233ffea2999271e3359088dfb11476604"
+    },
+    {
+      "path": "assets/icons/ScriptIcon.tsx",
+      "fork_sha256": "f789319107ea04b3276b6b14c351029090a9e009917cc971d1b329630fa290aa",
+      "v2_sha256": "f789319107ea04b3276b6b14c351029090a9e009917cc971d1b329630fa290aa"
+    },
+    {
+      "path": "assets/icons/UTurnLeftIcon.tsx",
+      "fork_sha256": "490a6164e79ca77eac37337ede991907c2ba24079ae96478671d62401a05e832",
+      "v2_sha256": "490a6164e79ca77eac37337ede991907c2ba24079ae96478671d62401a05e832"
+    },
+    {
+      "path": "assets/icons/UFOIcon.tsx",
+      "fork_sha256": "62ae000949908ad865840e9a57d627fe9c885591f2f07fb64cf76ac5463d10bc",
+      "v2_sha256": "62ae000949908ad865840e9a57d627fe9c885591f2f07fb64cf76ac5463d10bc"
+    },
+    {
+      "path": "assets/icons/PencilSwooshIcon.tsx",
+      "fork_sha256": "444ae2bf78049bf054cbcf08a4463c81e045224cb8a83ecc1a5aba69d019fb64",
+      "v2_sha256": "444ae2bf78049bf054cbcf08a4463c81e045224cb8a83ecc1a5aba69d019fb64"
+    },
+    {
+      "path": "assets/icons/TiltedSendIcon.tsx",
+      "fork_sha256": "93caa2203764fd007b05a422e19be6e83b9a15fdeb721c0ce13da52d2ddb6837",
+      "v2_sha256": "93caa2203764fd007b05a422e19be6e83b9a15fdeb721c0ce13da52d2ddb6837"
+    },
+    {
+      "path": "assets/icons/ExternalLinkIcon.tsx",
+      "fork_sha256": "131c471c230c0618efd6ba40d5ad244501594c5ee00b16c053645bc58764adfd",
+      "v2_sha256": "131c471c230c0618efd6ba40d5ad244501594c5ee00b16c053645bc58764adfd"
+    }
+  ]
+}

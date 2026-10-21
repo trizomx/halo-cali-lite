@@ -6,15 +6,21 @@
   <meta name="color-scheme" content="light dark" />
   <title th:if="${extraHead == null}" th:text="${pageTitle}"></title>
   <th:block th:if="${extraHead != null}"><th:block th:replace="${extraHead}"></th:block></th:block>
+  <script th:src="@{/assets/appearance.js(v=${theme.spec.version})}" th:attr="data-light-background=${theme.config?.appearance?.light_background},data-dark-background=${theme.config?.appearance?.dark_background},data-light-accent=${theme.config?.appearance?.light_accent},data-dark-accent=${theme.config?.appearance?.dark_accent},data-nav-size=${theme.config?.appearance?.nav_font_size},data-indicator-height=${theme.config?.appearance?.indicator_height},data-grid=${theme.config?.appearance?.show_grid}"></script>
   <script th:src="@{/assets/theme-init.js(v=${theme.spec.version})}"></script>
   <link rel="stylesheet" th:href="@{/assets/style.css(v=${theme.spec.version})}" />
+  <link rel="stylesheet" th:href="@{/assets/cali-source.css(v=${theme.spec.version})}" />
   <script defer th:src="@{/assets/main.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/navigation.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/avatar.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/cards.js(v=${theme.spec.version})}"></script>
+  <script defer th:src="@{/assets/source-post.js(v=${theme.spec.version})}"></script>
+  <script defer th:src="@{/assets/source-navigation.js(v=${theme.spec.version})}"></script>
+  <script defer th:src="@{/assets/source-projects.js(v=${theme.spec.version})}"></script>
 </head>
-<body th:classappend="${active == 'home'} ? 'is-home'">
+<body class="cali-source" th:classappend="${active == 'home'} ? 'is-home'" th:with="projectsPage=${not #strings.isEmpty(theme.config?.projects?.page_name) ? singlePageFinder.getByName(theme.config.projects.page_name) : null}, projectsUrl=${projectsPage != null and projectsPage.spec.publish == true and projectsPage.spec.visible == 'PUBLIC' ? projectsPage.status.permalink : '/#projects'}">
   <a class="skip-link" href="#main" th:text="#{skip}"></a>
+  <th:block th:replace="~{modules/source-icons :: icons}"></th:block>
   <div class="site-shell">
     <header class="site-header" data-sticky-header>
       <a class="brand" th:href="@{/}" th:aria-label="${site.title}">
@@ -32,6 +38,7 @@
     <a class="nav-item" th:href="@{/}" th:attr="aria-current=${active == 'home' ? 'page' : null}"><span th:text="#{nav.home}"></span></a>
     <a class="nav-item" th:href="@{${site.routes.archivesUri}}" th:attr="aria-current=${active == 'writing' ? 'page' : null}"><span th:text="#{nav.writing}"></span></a>
     <a class="nav-item" th:href="@{${site.routes.categoriesUri}}" th:attr="aria-current=${active == 'categories' ? 'page' : null}"><span th:text="#{nav.categories}"></span></a>
+    <a class="nav-item" th:if="${theme.config?.projects?.nav_enabled != false}" th:href="@{${projectsUrl}}" th:attr="aria-current=${active == 'projects' ? 'page' : null}"><span>项目</span></a>
     <button type="button" class="nav-item" data-about-open aria-haspopup="dialog" aria-controls="about-dialog"><span th:text="#{nav.about}"></span></button>
     
     
@@ -39,9 +46,11 @@
       <div class="header-actions"><button class="round-button theme-toggle" type="button" th:aria-label="#{theme.toggle}" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" class="icon" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button></div>
     </header>
     <th:block th:replace="${viewContent}"></th:block>
+    <div class="source-footer-subscribe" th:if="${theme.config?.newsletter?.show_footer != false}"><th:block th:replace="~{modules/source-newsletter :: newsletter(position='footer')}"></th:block></div>
     <footer class="site-footer" id="site-footer">
       <span>© <span data-current-year></span> <span th:text="${site.title}"></span></span>
-      <span class="footer-note" th:text="#{footer.note}"></span>
+      <nav th:if="${theme.config?.footer?.show_links != false}" class="source-footer-links" aria-label="页脚导航"><a th:href="@{/}">首页</a><a th:href="@{${site.routes.archivesUri}}">文章</a><a th:href="@{${projectsUrl}}">项目</a><a th:if="${theme.config?.footer?.show_source != false}" href="https://github.com/trizomx/halo-cali-lite" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+      <span th:if="${not #strings.isEmpty(theme.config?.footer?.text)}" th:text="${theme.config.footer.text}"></span>
     </footer>
   </div>
   
@@ -54,6 +63,7 @@
   </dialog>
   <button type="button" class="back-top round-button" data-back-top th:aria-label="#{back.top}" hidden><svg viewBox="0 0 24 24" aria-hidden="true" class="icon" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 6-6 6 6"/></svg></button>
   <noscript><style>.theme-toggle,[data-about-open],[data-back-top]{display:none!important}</style></noscript>
+  <th:block th:replace="~{modules/source-loading :: loading}"></th:block>
   <halo:footer />
 </body>
 </html>

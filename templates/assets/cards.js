@@ -69,17 +69,19 @@
   document.querySelectorAll('[data-card-key]').forEach(card => {
     const key = card.dataset.cardKey || card.querySelector('a')?.href || '';
     card.style.setProperty('--card-hue', String(hash(key) % 360));
-    const category = card.querySelector('.home-post-category');
+    const category = card.querySelector('[data-card-category]');
     if (category) category.title = category.textContent.trim();
     const image = card.querySelector('[data-card-image]');
     if (!image) return;
     const unavailable = () => {
       image.hidden = true;
-      const backdrop = card.querySelector('.home-post-backdrop');
+      card.style.setProperty('--post-image', 'none');
+      const backdrop = card.querySelector('[data-card-backdrop]');
       if (backdrop) backdrop.hidden = true;
     };
     const loaded = () => {
       if (!image.naturalWidth) { unavailable(); return; }
+      card.style.setProperty('--post-image', `url(${JSON.stringify(image.currentSrc || image.src)})`);
       palette(image.currentSrc || image.src, image).then(rgb => {
         if (!rgb) return;
         card.style.setProperty('--post-image-bg', `rgb(${rgb.join(',')})`);

@@ -1,0 +1,6 @@
+/* Minimal scoped preflight, before utilities; no reset outside ported components. */
+:where(.cali-source) :where(.source-card,.source-post,.source-projects,.source-project-page,.source-newsletter),:where(.cali-source) :where(.source-card,.source-post,.source-projects,.source-project-page,.source-newsletter) :where(*,::before,::after){box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}
+:where(.cali-source) :where(.source-card,.source-post,.source-projects,.source-project-page,.source-newsletter) :where(::before,::after){--tw-content:''}
+:where(.cali-source) :where(.source-card,.source-post,.source-projects,.source-project-page,.source-newsletter) :where(h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote,pre){margin:0}
+:where(.cali-source) :where(.source-card,.source-post,.source-projects,.source-project-page,.source-newsletter) :where(ul,ol){padding:0;list-style:none}
+:where(.cali-source) :where(.source-card,.source-post,.source-projects,.source-project-page,.source-newsletter) :where(button,input){font:inherit;color:inherit}

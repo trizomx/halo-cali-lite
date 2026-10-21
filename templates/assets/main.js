@@ -32,33 +32,4 @@
   topButton?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }));
   updateScroll();
 
-  const headings = document.querySelectorAll('.article-body h2, .article-body h3');
-  const toc = document.querySelector('[data-toc]');
-  const list = document.querySelector('[data-toc-list]');
-  if (headings.length && toc && list) {
-    const links = new Map();
-    headings.forEach((heading, index) => {
-      if (!heading.id) {
-        let id = `cali-section-${index + 1}`;
-        while (document.getElementById(id)) id += '-';
-        heading.id = id;
-      }
-      const link = document.createElement('a');
-      link.href = '#' + encodeURIComponent(heading.id);
-      link.textContent = heading.textContent;
-      if (heading.tagName === 'H3') link.className = 'toc-sub';
-      list.append(link);
-      links.set(heading, link);
-    });
-    toc.hidden = false;
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          links.forEach(link => link.classList.remove('is-active'));
-          links.get(entry.target)?.classList.add('is-active');
-        }
-      }), { rootMargin: '-10% 0px -70% 0px' });
-      headings.forEach(heading => observer.observe(heading));
-    }
-  }
 })();

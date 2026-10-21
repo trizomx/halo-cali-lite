@@ -24,3 +24,225 @@ spec:
           name: note
           label: 首页侧栏短句
           value: 保持好奇，慢慢记录。
+        - $formkit: switch
+          name: show_photos
+          label: 显示文章封面照片带
+          value: true
+          help: 使用首页真实文章的封面，没有封面时自动隐藏。
+        - $formkit: number
+          name: photo_count
+          label: 照片带展示数量
+          value: 5
+          min: 1
+          max: 5
+          step: 1
+          validation: required|number|min:1|max:5
+        - $formkit: switch
+          name: show_note
+          label: 显示右侧便签
+          value: true
+        - $formkit: text
+          name: note_label
+          label: 便签栏目名称
+          value: 便签
+        - $formkit: textarea
+          name: note_description
+          label: 便签补充文字
+          value: ""
+          help: 留空时使用站点副标题。
+        - $formkit: switch
+          name: show_explore
+          label: 显示分类与标签入口
+          value: true
+    - group: projects
+      label: 项目展示
+      formSchema:
+        - $formkit: switch
+          name: nav_enabled
+          label: 顶部显示项目导航
+          value: true
+        - $formkit: switch
+          name: home_enabled
+          label: 首页显示项目栏目
+          value: true
+        - $formkit: text
+          name: home_title
+          label: 首页项目栏目标题
+          value: 我的项目
+        - $formkit: number
+          name: home_limit
+          label: 首页项目展示数量
+          value: 3
+          min: 1
+          max: 12
+          step: 1
+          validation: required|number|min:1|max:12
+        - $formkit: singlePageSelect
+          name: page_name
+          label: 选择项目页面
+          help: 先发布一个独立页面，模板选“项目”，再在这里选择。导航自动使用页面链接，留空则前往首页项目区。
+          clearable: true
+          placeholder: 请选择已发布的项目页面
+          value: ""
+        - $formkit: array
+          name: items
+          label: 项目列表
+          help: 首页展示前 3 项，项目页展示全部。链接请使用完整 HTTPS 地址。
+          value: []
+          addLabel: 添加项目
+          itemLabels:
+            - type: image
+              label: $value.icon
+            - type: text
+              label: $value.name
+          children:
+            - $formkit: text
+              name: name
+              label: 项目名称
+              value: ""
+              validation: required
+            - $formkit: textarea
+              name: description
+              label: 简介
+              value: ""
+            - $formkit: url
+              name: url
+              label: 项目链接
+              value: ""
+              validation: required|url
+            - $formkit: attachment
+              name: icon
+              label: 图标
+              value: ""
+    - group: newsletter
+      label: 邮件订阅
+      formSchema:
+        - $formkit: switch
+          name: show_home
+          label: 显示首页右侧订阅
+          value: true
+        - $formkit: switch
+          name: show_footer
+          label: 显示页脚订阅
+          value: true
+        - $formkit: text
+          name: button_label
+          label: 订阅按钮文字
+          value: 订阅
+        - $formkit: url
+          name: signup_url
+          label: 现成订阅页面地址（简单方式）
+          value: ""
+          help: 粘贴邮件服务提供的 HTTPS 订阅页面链接即可。填写后按钮直接前往该页面，不在本站收集邮箱。优先于下面的表单提交地址。
+        - $formkit: text
+          name: title
+          label: 区块标题
+          value: 动态更新
+        - $formkit: textarea
+          name: description
+          label: 订阅说明
+          value: 喜欢这些内容的话，不妨订阅支持一下。新的记录，送到你的邮箱。
+        - $formkit: url
+          name: action
+          label: 订阅服务的表单提交地址
+          help: 填写支持原生 HTML 表单 POST 的完整 HTTPS 地址；不要填写管理 API 或密钥。留空时两处区块仍展示，但不收集邮箱。确认邮件、退订和结果页由该服务负责。
+          value: ""
+        - $formkit: text
+          name: email_field
+          label: 邮箱字段名
+          value: email
+          help: 按邮件服务的表单说明填写。两处订阅表单共用同一配置。
+    - group: article
+      label: 文章详情
+      formSchema:
+        - $formkit: switch
+          name: show_cover
+          label: 显示文章顶部封面
+          value: true
+          help: 无封面时展示配色占位；关闭后直接显示文章标题和正文。
+        - $formkit: switch
+          name: show_toc
+          label: 显示桌面左侧目录
+          value: true
+        - $formkit: switch
+          name: show_excerpt
+          label: 显示标题下的摘要
+          value: true
+        - $formkit: switch
+          name: show_stats
+          label: 显示浏览量与估算阅读时长
+          value: true
+        - $formkit: switch
+          name: show_tools
+          label: 显示桌面右侧阅读工具
+          value: true
+        - $formkit: switch
+          name: enter_animation
+          label: 文章分段入场动画
+          value: true
+          help: 跟随访客系统“减少动态效果”设置。
+        - $formkit: switch
+          name: loading
+          label: 点击文章时显示加载动画
+          value: true
+          help: 页面加载较快时不闪现；不会改变文章链接。
+    - group: appearance
+      label: 背景与导航
+      formSchema:
+        - $formkit: switch
+          name: show_grid
+          label: 显示平铺背景网格
+          value: true
+        - $formkit: color
+          name: light_background
+          label: 浅色模式背景
+          format: hex
+          value: "#f7f8fa"
+        - $formkit: color
+          name: dark_background
+          label: 深色模式背景
+          format: hex
+          value: "#17191d"
+        - $formkit: color
+          name: light_accent
+          label: 浅色模式强调色
+          format: hex
+          value: "#4d7128"
+        - $formkit: color
+          name: dark_accent
+          label: 深色模式强调色
+          format: hex
+          value: "#b0cf8a"
+        - $formkit: number
+          name: nav_font_size
+          label: 桌面导航字号
+          value: 14
+          min: 12
+          max: 18
+          step: 1
+          validation: required|number|min:12|max:18
+          help: 手机端保留13px，避免栏目挤出屏幕。
+        - $formkit: number
+          name: indicator_height
+          label: 导航指示线粗细
+          value: 1.5
+          min: 1
+          max: 3
+          step: 0.5
+          validation: required|number|min:1|max:3
+          help: 单位px，默认1.5。
+    - group: footer
+      label: 页脚
+      formSchema:
+        - $formkit: text
+          name: text
+          label: 页脚补充文字
+          value: ""
+        - $formkit: switch
+          name: show_links
+          label: 显示页脚导航
+          value: true
+        - $formkit: switch
+          name: show_source
+          label: 显示主题 GitHub 链接
+          value: true
