@@ -23,7 +23,7 @@
             <span th:if="${#strings.isEmpty(site.logo)}" class="avatar-mark" aria-hidden="true">✳</span>
           </span>
         </span>
-        <span class="brand-label" th:text="${site.title}"></span>
+        <span class="brand-label" th:if="${active != 'home'}" th:text="${site.title}"></span>
       </a>
       <nav class="top-nav" data-top-nav th:aria-label="#{nav.label}">
     <span class="nav-spotlight" aria-hidden="true"></span>
