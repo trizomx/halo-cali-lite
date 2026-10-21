@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"><body>
-    <article class="post-card home-post-card" th:fragment="card(post)"
+    <article class="post-card home-post-card" th:fragment="card(post)" th:attr="data-card-key=${post.metadata.name}"
              th:with="previewContent=${postFinder.content(post.metadata.name)}, plainText=${(previewContent?.content ?: '').replaceAll('(?is)&lt;script[^&gt;]*&gt;.*?&lt;/script&gt;|&lt;style[^&gt;]*&gt;.*?&lt;/style&gt;', '').replaceAll('&lt;[^&gt;]+&gt;', '').replaceAll('&amp;[a-zA-Z0-9#]+;', ' ').trim()}, readingMinutes=${(#strings.length(plainText) + 299) / 300}">
       <a class="home-post-link" th:href="@{${post.status.permalink}}">
-        <div class="home-post-cover" th:if="${not #strings.isEmpty(post.spec.cover)}">
-          <img loading="lazy" decoding="async" th:src="@{${post.spec.cover}}" alt="" width="720" height="405" />
+        <div class="home-post-cover">
+          <img th:if="${not #strings.isEmpty(post.spec.cover)}" data-card-image loading="lazy" decoding="async" th:src="@{${post.spec.cover}}" alt="" width="720" height="405" />
         </div>
         <div class="home-post-info">
           <div class="home-post-backdrop" th:if="${not #strings.isEmpty(post.spec.cover)}" aria-hidden="true">
             <img loading="lazy" decoding="async" th:src="@{${post.spec.cover}}" alt="" width="720" height="405" />
           </div>
           <div class="home-post-text">
-            <h2 th:text="${post.spec.title}"></h2>
+            <h2 th:text="${post.spec.title}" th:title="${post.spec.title}"></h2>
             <div class="home-post-meta">
               <div class="home-post-details">
               <time th:if="${post.spec.publishTime != null}" th:datetime="${post.spec.publishTime}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 11h16"/></svg><span th:text="${#temporals.format(post.spec.publishTime, 'yyyy/MM/dd')}"></span></time>

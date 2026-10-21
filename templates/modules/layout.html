@@ -11,6 +11,7 @@
   <script defer th:src="@{/assets/main.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/navigation.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/avatar.js(v=${theme.spec.version})}"></script>
+  <script defer th:src="@{/assets/cards.js(v=${theme.spec.version})}"></script>
 </head>
 <body th:classappend="${active == 'home'} ? 'is-home'">
   <a class="skip-link" href="#main" th:text="#{skip}"></a>
