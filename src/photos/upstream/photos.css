@@ -1,0 +1,100 @@
+/* ── Calibration marks: viewfinder corner brackets ────────────────── */
+
+.calibration-corners {
+  --corner-arm: 9px;
+  pointer-events: none;
+  user-select: none;
+  color: var(--foreground);
+  background:
+    linear-gradient(currentColor, currentColor) left top / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) left top / var(--border-hairline) var(--corner-arm) no-repeat,
+    linear-gradient(currentColor, currentColor) right top / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) right top / var(--border-hairline) var(--corner-arm) no-repeat,
+    linear-gradient(currentColor, currentColor) left bottom / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) left bottom / var(--border-hairline) var(--corner-arm) no-repeat,
+    linear-gradient(currentColor, currentColor) right bottom / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) right bottom / var(--border-hairline) var(--corner-arm) no-repeat;
+}
+
+/* photo tiles: brackets develop only under a fine-pointer attention */
+.photo-frame .calibration-corners {
+  position: absolute;
+  inset: 6px;
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 150ms ease,
+    transform 300ms var(--ease-swift);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .photo-frame:hover .calibration-corners,
+  .photo-frame:focus-within .calibration-corners {
+    opacity: 0.62;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-frame .calibration-corners {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* center-out list reveal with a tiny swing (rotate −2° → 0) */
+@keyframes enter-swing {
+  from {
+    opacity: 0;
+    transform: translateY(12px) rotate(-2deg);
+    filter: blur(2px);
+  }
+}
+
+.enter-swing {
+  animation: enter-swing 400ms var(--ease-swift) backwards;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter-swing {
+    animation: none;
+  }
+}
+
+/* ── Photo masonry (/photos) — 2 cols, 3 from sm up ───────────────── */
+
+.photo-masonry {
+  columns: 2;
+  column-gap: 0.75rem;
+}
+
+@media (min-width: 40rem) {
+  .photo-masonry {
+    columns: 3;
+  }
+}
+
+.photo-item {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+}
+
+/* tiles sit on the register's 2px corner, matching the loading shell */
+.photo-frame {
+  border-radius: 2px;
+}
+
+.photo-masonry-placeholder {
+  display: block;
+  width: 100%;
+  min-height: 7rem;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--foreground) 7%, var(--background));
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.photo-item .zoom-trigger img {
+  box-shadow: 0 0 0 1px var(--border);
+}
+

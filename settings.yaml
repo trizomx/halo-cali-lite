@@ -51,18 +51,22 @@ spec:
           value: ""
           help: 留空时使用站点副标题。
     - group: gallery
-      label: 照片墙
+      label: 照片页面
       formSchema:
         - $formkit: switch
           name: enabled
-          label: 首页显示照片墙
+          label: 启用照片页面内容
           value: true
-          help: 在下方添加照片后展示，不读取文章封面；空列表时隐藏。网格裁切预览，点开显示完整画面。
+          help: 只在使用“照片”模板的独立页面展示，不影响首页照片带；按原比例瀑布流排列，点开可放大。
+        - $formkit: singlePageSelect
+          name: page_name
+          label: 照片页面
+          value: ""
+          help: 先在“页面”中新建并公开发布一个使用“照片”模板的页面，再在这里选中它，顶部导航才会出现照片入口。地址使用该页面的实际固定链接。
         - $formkit: switch
-          name: replace_cover_strip
-          label: 有照片墙时隐藏文章封面带
+          name: nav_enabled
+          label: 显示照片导航入口
           value: true
-          help: 避免首页出现两块照片区。关闭后可与旧封面合集同时显示。
         - $formkit: select
           name: columns
           label: 电脑端每行照片数量
@@ -75,17 +79,9 @@ spec:
             - label: 4张（紧凑）
               value: "4"
           help: 手机端自动每行2张。
-        - $formkit: number
-          name: limit
-          label: 首页最多展示照片数
-          value: 12
-          min: 1
-          max: 60
-          step: 1
-          validation: required|number|min:1|max:60
         - $formkit: select
           name: thumb_size
-          label: 首页预览图尺寸
+          label: 照片页预览图尺寸
           value: m
           options:
             - label: 400px（更省流量）
@@ -129,7 +125,7 @@ spec:
               label: 照片原图（必填）
               value: ""
               validation: required
-              help: 直接上传或从附件库选择。首页优先使用缩略预览；没有缩略图时请在下方单独上传小尺寸预览图。
+              help: 直接上传或从附件库选择。照片页优先使用缩略预览；没有缩略图时请在下方单独上传小尺寸预览图。
             - $formkit: attachment
               name: preview
               label: 自定义预览图（可留空）

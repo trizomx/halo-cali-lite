@@ -11,7 +11,7 @@ spec:
   repo: https://github.com/trizomx/halo-cali-lite
   homepage: https://github.com/trizomx/halo-cali-lite
   issues: https://github.com/trizomx/halo-cali-lite/issues
-  version: 0.3.0
+  version: 0.4.0
   requires: ">=2.27.0"
   settingName: theme-cali-lite-setting
   configMapName: theme-cali-lite-config
@@ -20,5 +20,8 @@ spec:
       - name: 项目
         description: cali lite 项目展示页，与首页共用主题设置中的项目列表
         file: page_projects.html
+      - name: 照片
+        description: 独立照片瀑布流，与首页文章封面照片带分开管理
+        file: page_photos.html
   license:
     - name: MIT

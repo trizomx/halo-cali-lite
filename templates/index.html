@@ -13,8 +13,7 @@
     <p class="hero-intro" th:text="${theme.config?.home?.intro ?: site.subtitle ?: ''}"></p>
     <div class="hero-links"><a class="text-link" th:href="@{${site.routes.archivesUri}}"><span th:text="#{hero.read}"></span><span aria-hidden="true">↗</span></a><span class="link-dot">·</span><button type="button" class="text-link" data-about-open th:text="#{nav.about}"></button></div>
   </section>
-  <th:block th:replace="~{modules/gallery :: gallery}"></th:block>
-  <div class="filmstrip" th:if="${theme.config?.home?.show_photos != false and not #lists.isEmpty(posts.items) and not (theme.config?.gallery?.enabled != false and theme.config?.gallery?.replace_cover_strip != false and theme.config?.gallery?.items != null and not #lists.isEmpty(theme.config.gallery.items))}" th:with="photoCount=${theme.config?.home?.photo_count ?: 5}" th:aria-label="#{photos.label}">
+  <div class="filmstrip" th:if="${theme.config?.home?.show_photos != false and not #lists.isEmpty(posts.items)}" th:with="photoCount=${theme.config?.home?.photo_count ?: 5}" th:aria-label="#{photos.label}">
     <th:block th:each="post, state : ${posts.items}">
       <a class="film-photo" th:if="${state.index < photoCount and not #strings.isEmpty(post.spec.cover)}" th:href="@{${post.status.permalink}}" th:aria-label="${post.spec.title}"><img th:src="@{${post.spec.cover}}" alt="" loading="lazy" width="320" height="380" /></a>
     </th:block>

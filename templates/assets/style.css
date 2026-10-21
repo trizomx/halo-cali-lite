@@ -100,3 +100,7 @@ html[data-nav-pending] .nav-item[aria-current=page]::after{display:none}
 .brand-label{min-width:0}.site-footer{flex-wrap:wrap}
 
 .home-writing .section-heading h2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:24px;font-weight:600}
+
+/* Six navigation entries still fit 320px screens; preserve readable type. */
+@media(max-width:680px){.site-header{gap:6px}.nav-item{padding-inline:6px}}
+@media(max-width:420px){.nav-item{padding-inline:3px}.top-nav{padding-inline:4px}}

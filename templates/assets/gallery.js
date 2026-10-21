@@ -4,7 +4,26 @@
   const wall = document.querySelector('[data-gallery]');
   if (!wall) return;
   const items = [...wall.querySelectorAll('[data-gallery-item]')];
-  if (!items.length) { wall.hidden = true; return; }
+  if (!items.length) {
+    wall.hidden = true;
+    const empty = document.querySelector('[data-gallery-empty]');
+    if (empty) empty.hidden = false;
+    return;
+  }
+  // v3 PublishedPhotoItem: centre-out reveal. Use the loaded preview's natural
+  // ratio; no original request is needed to lay out the masonry.
+  const center = (items.length - 1) / 2;
+  items.forEach((item, index) => {
+    item.style.setProperty('--photo-delay', `${Math.min(700, 120 + Math.abs(index - center) * 50)}ms`);
+    const preview = item.querySelector('img');
+    if (!preview) return;
+    const ready = () => {
+      if (preview.naturalWidth > 0) item.classList.add('is-loaded');
+    };
+    preview.addEventListener('load', ready);
+    preview.addEventListener('error', () => item.classList.add('is-unavailable'));
+    if (preview.complete) ready();
+  });
   const dialog = wall.querySelector('[data-gallery-dialog]');
   const image = wall.querySelector('[data-gallery-image]');
   const title = wall.querySelector('[data-gallery-title]');

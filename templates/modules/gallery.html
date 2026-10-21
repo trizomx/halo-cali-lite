@@ -1,17 +1,19 @@
 <!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"><body>
-<!-- Native Halo feature, independently developed for this theme. No article data. -->
+<!-- Layout port: CaliCastle/cali.so v3 components/published-photo-wall.tsx.
+     Halo attachment adapter and native lightbox; see SOURCE-NOTICES.md. -->
 <section th:fragment="gallery" class="photo-wall" aria-label="照片墙" data-gallery
  th:if="${theme.config?.gallery?.enabled != false and theme.config?.gallery?.items != null and not #lists.isEmpty(theme.config.gallery.items)}"
- th:with="items=${theme.config.gallery.items}, limit=${theme.config?.gallery?.limit ?: 12}, thumbSize=${theme.config?.gallery?.thumb_size == 's' ? 's' : (theme.config?.gallery?.thumb_size == 'l' ? 'l' : 'm')}"
+ th:with="items=${theme.config.gallery.items}, thumbSize=${theme.config?.gallery?.thumb_size == 's' ? 's' : (theme.config?.gallery?.thumb_size == 'l' ? 'l' : 'm')}"
  th:attr="data-columns=${theme.config?.gallery?.columns ?: '3'},data-load-mode=${theme.config?.gallery?.load_mode ?: 'manual'}">
  <div class="photo-wall-grid">
   <th:block th:each="photo, state : ${items}">
-   <th:block th:if="${state.index < limit and photo.enabled != false and not #strings.isEmpty(photo.original) and (photo.original.startsWith('https://') or (photo.original.startsWith('/') and not photo.original.startsWith('//')))}">
+   <th:block th:if="${photo.enabled != false and not #strings.isEmpty(photo.original) and (photo.original.startsWith('https://') or (photo.original.startsWith('/') and not photo.original.startsWith('//')))}">
     <a class="photo-wall-item" data-gallery-item target="_blank" rel="noopener noreferrer" th:href="@{${photo.original}}"
      th:with="custom=${not #strings.isEmpty(photo.preview) and (photo.preview.startsWith('https://') or (photo.preview.startsWith('/') and not photo.preview.startsWith('//')))}, thumb=${custom ? photo.preview : (thumbnail.gen(photo.original, thumbSize) ?: photo.original)}, large=${custom ? photo.preview : (thumbnail.gen(photo.original, 'l') ?: thumb)}"
      th:attr="data-original=@{${photo.original}},data-preview=@{${large}},data-photo-title=${photo.title ?: ''},data-photo-note=${photo.note ?: ''},data-photo-date=${photo.date ?: ''},data-photo-location=${photo.location ?: ''},data-photo-camera=${photo.camera ?: ''}"
      th:aria-label="${#strings.isEmpty(photo.title) ? '放大查看照片 ' + state.count : '放大查看：' + photo.title}">
-     <img th:src="@{${thumb}}" th:srcset="@{${thumb}}" sizes="(max-width: 680px) 50vw, 33vw" th:alt="${photo.title ?: '照片'}" loading="lazy" decoding="async" width="800" height="1000" />
+     <img th:src="@{${thumb}}" th:srcset="@{${thumb}}" th:alt="${photo.title ?: '照片'}" loading="lazy" decoding="async" />
+     <span class="photo-calibration" aria-hidden="true"></span>
     </a>
    </th:block>
   </th:block>

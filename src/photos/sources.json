@@ -1,0 +1,50 @@
+{
+  "repository": "https://github.com/CaliCastle/cali.so",
+  "ref": "main",
+  "commit": "edd108445c5323a9199af968913876aa37ea59d2",
+  "scope": "Only the standalone photos page; all existing v2 components stay on tag v2.0. main is the v3 release line; no v3.0 tag is assumed.",
+  "files": [
+    {
+      "path": "app/_views/photos-page.tsx",
+      "sha256": "bff4c8b4eca35000fca11acedcc22d9ef6724f2c5b112453737918e54392cf6a",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/app/_views/photos-page.tsx",
+      "snapshot": "upstream/app/_views/photos-page.tsx"
+    },
+    {
+      "path": "components/published-photo-wall.tsx",
+      "sha256": "c60eced19f12d197c31789a0ea23837cf93e9d438fdc03ed7dd365be769d3e2b",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/components/published-photo-wall.tsx",
+      "snapshot": "upstream/components/published-photo-wall.tsx"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "6c0c63b365fe568728cff9068e47275401a70078f6261cb9b0c1bee5ff880eba",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/LICENSE",
+      "snapshot": "upstream/LICENSE"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "c449091a3c8de403a0d164ab6afaaf22f5876af01946ac036237cf95e1deb335",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/app/globals.css",
+      "snapshot": "upstream/photos.css (selected rules)"
+    },
+    {
+      "path": "components/zoom-image.tsx",
+      "sha256": "63d05f317870cc564c30769ad92175af33c156c8ae0992fd56c3cf09895dc9b9",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/components/zoom-image.tsx",
+      "snapshot": "inspected only; not copied"
+    },
+    {
+      "path": "lib/media/photo-selection/server.ts",
+      "sha256": "e0dfcb11a18e7271e1c4fe01f02e7d1f84fb59d7a61b6acab6522db592a9a4aa",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/lib/media/photo-selection/server.ts",
+      "snapshot": "inspected only; not copied"
+    },
+    {
+      "path": "lib/media/photo-selection/repository.ts",
+      "sha256": "aa8785b5028d8954f8d6a46ff88788f9330b4ad8449bc4763637ebba35f8a815",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/lib/media/photo-selection/repository.ts",
+      "snapshot": "inspected only; not copied"
+    }
+  ]
+}

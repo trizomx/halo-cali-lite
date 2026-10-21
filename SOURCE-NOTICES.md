@@ -37,3 +37,40 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## cali.so v3：仅独立照片页
+
+用户明确授权参考 main/v3 的照片页。本次实际读取并固定到 `edd108445c5323a9199af968913876aa37ea59d2`，不是把现有 v2 组件升级到 main，也未假定存在 v3.0 Git tag。布局来源为 `app/_views/photos-page.tsx`、`components/published-photo-wall.tsx` 和 `app/globals.css` 中的瀑布流、取景框及入场规则；原路径与 SHA256 见源码 `src/photos/sources.json`。相关快照和完整许可见 `src/photos/upstream/`。Halo 配置、宽版容器、原生灯箱和质量切换为适配。未复制原作者照片、身份内容、云服务数据或演示数据。
+
+该 v3 快照的原始应用源码采用 MIT；内容和素材例外仍保留。v2 的来源声明保持独立。原许可如下：
+
+MIT License
+
+Copyright (c) 2022-2026 Cali Castle
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Content and asset exception
+
+The MIT License above applies only to original application source code in this
+repository. It does not apply to personal writing or other authored content;
+photographs; illustrations or artwork; Cali Castle's name, identity, likeness,
+logos, branding, or personal data; or third-party assets. Those materials
+remain under their respective rights and may not be copied or reused except as
+separately permitted by their rights holders or applicable law.

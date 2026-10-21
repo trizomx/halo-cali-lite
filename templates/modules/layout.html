@@ -10,8 +10,8 @@
   <script th:src="@{/assets/theme-init.js(v=${theme.spec.version})}"></script>
   <link rel="stylesheet" th:href="@{/assets/style.css(v=${theme.spec.version})}" />
   <link rel="stylesheet" th:href="@{/assets/cali-source.css(v=${theme.spec.version})}" />
-  <link th:if="${active == 'home'}" rel="stylesheet" th:href="@{/assets/gallery.css(v=${theme.spec.version})}" />
-  <script th:if="${active == 'home'}" defer th:src="@{/assets/gallery.js(v=${theme.spec.version})}"></script>
+  <link th:if="${active == 'photos'}" rel="stylesheet" th:href="@{/assets/gallery.css(v=${theme.spec.version})}" />
+  <script th:if="${active == 'photos'}" defer th:src="@{/assets/gallery.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/main.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/navigation.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/avatar.js(v=${theme.spec.version})}"></script>
@@ -20,7 +20,7 @@
   <script defer th:src="@{/assets/source-navigation.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/source-projects.js(v=${theme.spec.version})}"></script>
 </head>
-<body class="cali-source" th:classappend="${active == 'home'} ? 'is-home'" th:with="projectsPage=${not #strings.isEmpty(theme.config?.projects?.page_name) ? singlePageFinder.getByName(theme.config.projects.page_name) : null}, projectsUrl=${projectsPage != null and projectsPage.spec.publish == true and projectsPage.spec.visible == 'PUBLIC' ? projectsPage.status.permalink : '/#projects'}">
+<body class="cali-source" th:classappend="${active == 'home'} ? 'is-home'" th:with="projectsPage=${not #strings.isEmpty(theme.config?.projects?.page_name) ? singlePageFinder.getByName(theme.config.projects.page_name) : null}, projectsUrl=${projectsPage != null and projectsPage.spec.publish == true and projectsPage.spec.visible == 'PUBLIC' ? projectsPage.status.permalink : '/#projects'}, photosPage=${not #strings.isEmpty(theme.config?.gallery?.page_name) ? singlePageFinder.getByName(theme.config.gallery.page_name) : null}, photosUrl=${photosPage != null and photosPage.spec.publish == true and photosPage.spec.visible == 'PUBLIC' and photosPage.spec.template == 'page_photos.html' ? photosPage.status.permalink : null}, photosNav=${theme.config?.gallery?.enabled != false and theme.config?.gallery?.nav_enabled != false and not #strings.isEmpty(photosUrl)}">
   <a class="skip-link" href="#main" th:text="#{skip}"></a>
   <th:block th:replace="~{modules/source-icons :: icons}"></th:block>
   <div class="site-shell">
@@ -39,6 +39,7 @@
     <span class="nav-indicator" aria-hidden="true"></span>
     <a class="nav-item" th:href="@{/}" th:attr="aria-current=${active == 'home' ? 'page' : null}"><span th:text="#{nav.home}"></span></a>
     <a class="nav-item" th:href="@{${site.routes.archivesUri}}" th:attr="aria-current=${active == 'writing' ? 'page' : null}"><span th:text="#{nav.writing}"></span></a>
+    <a class="nav-item" th:if="${photosNav}" th:href="@{${photosUrl}}" th:attr="aria-current=${active == 'photos' ? 'page' : null}"><span>照片</span></a>
     <a class="nav-item" th:href="@{${site.routes.categoriesUri}}" th:attr="aria-current=${active == 'categories' ? 'page' : null}"><span th:text="#{nav.categories}"></span></a>
     <a class="nav-item" th:if="${theme.config?.projects?.nav_enabled != false}" th:href="@{${projectsUrl}}" th:attr="aria-current=${active == 'projects' ? 'page' : null}"><span>项目</span></a>
     <button type="button" class="nav-item" data-about-open aria-haspopup="dialog" aria-controls="about-dialog"><span th:text="#{nav.about}"></span></button>
@@ -51,7 +52,7 @@
     <div class="source-footer-subscribe" th:if="${theme.config?.newsletter?.show_footer != false}"><th:block th:replace="~{modules/source-newsletter :: newsletter(position='footer')}"></th:block></div>
     <footer class="site-footer" id="site-footer">
       <span>© <span data-current-year></span> <span th:text="${site.title}"></span></span>
-      <nav th:if="${theme.config?.footer?.show_links != false}" class="source-footer-links" aria-label="页脚导航"><a th:href="@{/}">首页</a><a th:href="@{${site.routes.archivesUri}}">文章</a><a th:href="@{${projectsUrl}}">项目</a><a th:if="${theme.config?.footer?.show_source != false}" href="https://github.com/trizomx/halo-cali-lite" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+      <nav th:if="${theme.config?.footer?.show_links != false}" class="source-footer-links" aria-label="页脚导航"><a th:href="@{/}">首页</a><a th:href="@{${site.routes.archivesUri}}">文章</a><a th:href="@{${projectsUrl}}">项目</a><a th:if="${photosNav}" th:href="@{${photosUrl}}">照片</a><a th:if="${theme.config?.footer?.show_source != false}" href="https://github.com/trizomx/halo-cali-lite" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
       <span th:if="${not #strings.isEmpty(theme.config?.footer?.text)}" th:text="${theme.config.footer.text}"></span>
     </footer>
   </div>
