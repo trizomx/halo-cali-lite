@@ -10,15 +10,20 @@
   <link rel="stylesheet" th:href="@{/assets/style.css(v=${theme.spec.version})}" />
   <script defer th:src="@{/assets/main.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/navigation.js(v=${theme.spec.version})}"></script>
+  <script defer th:src="@{/assets/avatar.js(v=${theme.spec.version})}"></script>
 </head>
-<body>
+<body th:classappend="${active == 'home'} ? 'is-home'">
   <a class="skip-link" href="#main" th:text="#{skip}"></a>
   <div class="site-shell">
     <header class="site-header" data-sticky-header>
-      <a class="brand" th:href="@{/}">
-        <img th:if="${not #strings.isEmpty(site.logo)}" th:src="@{${site.logo}}" alt="" width="42" height="42" />
-        <span th:if="${#strings.isEmpty(site.logo)}" class="avatar-mark" aria-hidden="true">✳</span>
-        <span th:text="${site.title}"></span>
+      <a class="brand" th:href="@{/}" th:aria-label="${site.title}">
+        <span class="avatar-slot" data-avatar-slot>
+          <span class="site-avatar" data-site-avatar th:if="${active != 'home'}">
+            <img th:if="${not #strings.isEmpty(site.logo)}" th:src="@{${site.logo}}" alt="" width="38" height="38" />
+            <span th:if="${#strings.isEmpty(site.logo)}" class="avatar-mark" aria-hidden="true">✳</span>
+          </span>
+        </span>
+        <span class="brand-label" th:text="${site.title}"></span>
       </a>
       <nav class="top-nav" data-top-nav th:aria-label="#{nav.label}">
     <span class="nav-spotlight" aria-hidden="true"></span>

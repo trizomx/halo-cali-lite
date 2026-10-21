@@ -2,7 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=${site.title}, active='home', extraHead=null)}">
 <main id="main">
   <section class="hero">
-    <div class="hero-avatar"><img th:if="${not #strings.isEmpty(site.logo)}" th:src="@{${site.logo}}" alt="" width="76" height="76" /><span th:if="${#strings.isEmpty(site.logo)}" class="avatar-mark large" aria-hidden="true">✳</span></div>
+    <div class="hero-avatar" data-home-avatar-anchor>
+      <span class="site-avatar" data-site-avatar>
+        <img th:if="${not #strings.isEmpty(site.logo)}" th:src="@{${site.logo}}" alt="" width="70" height="70" />
+        <span th:if="${#strings.isEmpty(site.logo)}" class="avatar-mark" aria-hidden="true">✳</span>
+      </span>
+    </div>
     <span class="eyebrow" th:text="#{hero.eyebrow}"></span>
     <h1><span th:text="${theme.config?.home?.headline ?: '记录与思考，'}"></span><br /><span class="highlight" th:text="${theme.config?.home?.highlight ?: '把好奇写进日常。'}"></span></h1>
     <p class="hero-intro" th:text="${theme.config?.home?.intro ?: site.subtitle ?: ''}"></p>
@@ -16,7 +21,7 @@
   <div class="home-content">
     <section class="home-writing">
       <div class="section-heading"><h2 th:text="#{recent}"></h2><a class="text-link" th:href="@{${site.routes.archivesUri}}" th:text="#{all.posts}"></a></div>
-      <section th:replace="~{modules/posts :: list(posts=${posts})}"></section>
+      <section th:replace="~{modules/posts :: homeList(posts=${posts})}"></section>
     </section>
     <aside class="home-aside">
       <section class="note-card"><span class="note-star" aria-hidden="true">✳</span><span class="eyebrow" th:text="#{aside.eyebrow}"></span><h2 th:text="${theme.config?.home?.note ?: '保持好奇，慢慢记录。'}"></h2><p th:text="${site.subtitle}"></p></section>

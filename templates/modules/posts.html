@@ -1,5 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"><body>
+<section th:fragment="homeList(posts)" class="posts-list home-posts">
+  <div class="home-post-stack" th:if="${not #lists.isEmpty(posts.items)}">
+    <article class="post-card home-post-card" th:each="post : ${posts.items}">
+      <a class="home-post-link" th:href="@{${post.status.permalink}}">
+        <div class="home-post-cover" th:if="${not #strings.isEmpty(post.spec.cover)}">
+          <img loading="lazy" decoding="async" th:src="@{${post.spec.cover}}" alt="" width="720" height="405" />
+        </div>
+        <div class="home-post-info">
+          <div class="home-post-backdrop" th:if="${not #strings.isEmpty(post.spec.cover)}" aria-hidden="true">
+            <img loading="lazy" decoding="async" th:src="@{${post.spec.cover}}" alt="" width="720" height="405" />
+          </div>
+          <div class="home-post-text">
+            <h2 th:text="${post.spec.title}"></h2>
+            <p class="home-post-excerpt" th:if="${not #strings.isEmpty(post.status.excerpt)}" th:text="${post.status.excerpt}"></p>
+            <div class="home-post-meta">
+              <time th:if="${post.spec.publishTime != null}" th:datetime="${post.spec.publishTime}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 11h16"/></svg><span th:text="${#temporals.format(post.spec.publishTime, 'yyyy/MM/dd')}"></span></time>
+              <span class="home-post-category" th:if="${not #lists.isEmpty(post.categories)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h9l7 7-9 9-7-7Z"/><circle cx="9" cy="9" r="1"/></svg><span th:text="${post.categories[0].spec.displayName}"></span></span>
+              <span class="home-post-read"><span th:text="#{read}"></span><span aria-hidden="true">↗</span></span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </article>
+  </div>
+  <div class="empty-state" th:if="${#lists.isEmpty(posts.items)}"><span class="empty-symbol" aria-hidden="true">✳</span><h2 th:text="#{empty.posts}"></h2><p th:text="#{empty.posts.note}"></p></div>
+  <nav th:replace="~{modules/posts :: pagination(result=${posts})}"></nav>
+</section>
 <section th:fragment="list(posts)" class="posts-list">
   <div class="post-grid" th:if="${not #lists.isEmpty(posts.items)}">
     <article class="post-card" th:each="post : ${posts.items}">
