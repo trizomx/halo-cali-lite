@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=${site.title}, active='home', extraHead=null)}">
 <main id="main">
-  <section class="hero">
+  <section class="hero" th:classappend="${theme.config?.home?.headline_two_lines == false} ? 'hero-single-line'">
     <div class="hero-avatar" data-home-avatar-anchor>
       <span class="site-avatar" data-site-avatar>
         <img th:if="${not #strings.isEmpty(avatarUrl)}" th:src="@{${avatarUrl}}" alt="" width="70" height="70" />
@@ -9,7 +9,7 @@
       </span>
     </div>
     <span class="eyebrow" th:text="#{hero.eyebrow}"></span>
-    <h1><span th:text="${theme.config?.home?.headline ?: '记录与思考，'}"></span><br /><span class="highlight" th:text="${theme.config?.home?.highlight ?: '把好奇写进日常。'}"></span></h1>
+    <h1><span th:text="${theme.config?.home?.headline ?: '记录与思考，'}"></span><br th:if="${theme.config?.home?.headline_two_lines != false}" /><span class="highlight"><span th:text="${theme.config?.home?.highlight ?: '把好奇写进日常。'}"></span><span class="headline-frame" aria-hidden="true"><i class="corner-tl"></i><i class="corner-tr"></i><i class="corner-bl"></i><i class="corner-br"></i></span></span></h1>
     <p class="hero-intro" th:text="${theme.config?.home?.intro ?: site.subtitle ?: ''}"></p>
     <div class="hero-links"><a class="text-link" th:href="@{${site.routes.archivesUri}}"><span th:text="#{hero.read}"></span><span aria-hidden="true">↗</span></a><th:block th:if="${aboutNav}"><span class="link-dot">·</span><a class="text-link" th:href="@{${aboutUrl}}" th:text="#{nav.about}"></a></th:block></div>
   </section>

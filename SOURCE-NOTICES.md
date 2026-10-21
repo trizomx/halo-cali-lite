@@ -89,3 +89,7 @@ separately permitted by their rights holders or applicable law.
 ## 0.5.2 共享图片放大适配
 
 用户明确要求正文图片可放大；已授权的v3固定提交ZoomImage原生适配引擎因此复用于正文，新增共享image-viewer片段。仍适用上文v3 MIT及内容／素材例外，不搬运作者照片。v2 PortableTextImage仅用于Halo正文结构与图注排版参考，卡片继续原v2 BlogPostCard迁移；细边框与手机导航变形为本主题适配。
+
+## 0.5.3 标语强调边框
+
+v2／fork app/(main)/Headline.tsx的Designer强调边框与四角方块适配到Halo首页，来源哈希见src/cali/sources.json，遵循上文v2权利边界。未复制原作者个人文案、身份或文字动画。

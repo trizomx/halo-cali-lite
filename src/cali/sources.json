@@ -159,6 +159,12 @@
       "fork_sha256": "aa542e4d12965885f007b5dd4d9c50ca4e55acb89d7064cb5e66c4fb5b2dd4ad",
       "v2_sha256": "aa542e4d12965885f007b5dd4d9c50ca4e55acb89d7064cb5e66c4fb5b2dd4ad",
       "adaptation": "Halo figure/picture/img and caption semantics; 0.5.2 preserves those nodes and delegates image zoom to the separately authorized shared v3 ZoomImage adapter."
+    },
+    {
+      "path": "app/(main)/Headline.tsx",
+      "fork_sha256": "df45a7df8ee0250a5cc909c59e5b2169b52b394cc7fb336578b5882172603036",
+      "v2_sha256": "058b103b8411a127d778475a473477d983e484d9f78e6bf1001f12cacae8a64d",
+      "adaptation": "0.5.3 Designer outline and four 6px square handles only; Halo configured text and theme colours replace author wording. No React headline animation."
     }
   ]
 }

@@ -121,6 +121,14 @@ html{scrollbar-gutter:stable}
  .site-header .header-actions{grid-column:3;grid-row:1}
  .site-header .avatar-slot,.site-header .site-avatar,.site-header .brand img,.site-header .brand .avatar-mark,.site-header .header-actions .round-button{width:var(--header-control);height:var(--header-control)}
  .site-header .header-actions .icon{width:16px;height:16px}
- .site-header.is-reading{transform:none!important}
- .site-header.is-reading>.brand,.site-header.is-reading>.header-actions{visibility:hidden;pointer-events:none}
 }
+
+/* Single-line preference removes only the forced break; small screens can wrap. */
+.hero.hero-single-line{max-width:100%}
+
+/* Port: v2 Headline.tsx Designer — outlined emphasis with four square handles. */
+.hero .highlight{display:inline-block;max-width:100%;box-shadow:none}
+.headline-frame{position:absolute;inset:0;pointer-events:none;border:1px solid currentColor;color:var(--accent);opacity:.7}
+.headline-frame i{position:absolute;width:6px;height:6px;background:var(--bg);border:1px solid currentColor}
+.headline-frame .corner-tl{top:-3.5px;left:-3.5px}.headline-frame .corner-tr{top:-3.5px;right:-3.5px}.headline-frame .corner-bl{bottom:-3.5px;left:-3.5px}.headline-frame .corner-br{bottom:-3.5px;right:-3.5px}
+@media(hover:hover){.hero .highlight:hover .headline-frame{border-style:dashed}}

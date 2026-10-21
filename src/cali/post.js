@@ -50,20 +50,25 @@
   const island = document.querySelector('[data-toc-island]');
   const currentLabel = document.querySelector('[data-toc-current]');
   const ring = document.querySelector('[data-toc-progress]');
+  const percent = document.querySelector('[data-toc-percent]');
   const desktop = matchMedia('(min-width:1024px)');
   const phone = matchMedia('(max-width:1023px)');
   const siteHeader = document.querySelector('[data-sticky-header]');
   const siteNav = document.querySelector('[data-top-nav]');
+  const navItems = [...(siteNav?.querySelectorAll('.nav-item') || [])];
+  const navIndicator = siteNav?.querySelector('.nav-indicator');
+  const navLabel = siteNav?.getAttribute('aria-label') || '顶部导航';
   const islandHome = document.createElement('span');
   islandHome.hidden = true;
   island?.before(islandHome);
   let inHeader = false, readingMode = false;
-  // Move the real map, as with the single shared avatar: one panel, one set of
-  // heading links, and no duplicate IDs or simultaneous floating navigation.
+  // Reuse the original navigation shell. Only its children switch; the source
+  // map moves back to its desktop rail on resize, keeping one set of IDs.
   const placeMap = () => {
-    const next = phone.matches && !!siteHeader;
+    const next = phone.matches && !!siteHeader && !!siteNav && !!headings.length && article.dataset.mobileToc !== 'false';
     if (next === inHeader || !island) return;
-    if (next) siteHeader.append(island); else islandHome.before(island);
+    siteHeader?.classList.toggle('has-article-nav', next);
+    if (next) siteNav.append(island); else islandHome.before(island);
     inHeader = next;
   };
   placeMap();
@@ -126,7 +131,7 @@
         releaseSelection(); selectedTarget = heading; markActive(index);
         selectionTimer = setTimeout(() => { selectedTarget = null; schedule(); }, 1800);
         heading.setAttribute('tabindex', '-1'); heading.focus?.({ preventScroll: true });
-        window.scrollTo({ top: window.scrollY + heading.getBoundingClientRect().top - (phone.matches ? 56 : 104), behavior: reduced.matches || event.detail === 0 ? 'instant' : 'smooth' });
+        window.scrollTo({ top: window.scrollY + heading.getBoundingClientRect().top - (phone.matches ? 96 : 104), behavior: reduced.matches || event.detail === 0 ? 'instant' : 'smooth' });
         history.replaceState(null, '', link.href);
         if (!desktop.matches) setOpen(false, event.detail === 0);
       });
@@ -156,9 +161,10 @@
     const rect = body.getBoundingClientRect(), range = rect.height - window.innerHeight;
     const fraction = Math.max(0, Math.min(1, range > 0 ? -rect.top / range : (rect.bottom <= window.innerHeight ? 1 : 0)));
     if (progress) progress.textContent = `${Math.round(fraction * 100)}%`;
+    if (percent) percent.textContent = `${Math.round(fraction * 100)}%`;
     ring?.setAttribute('stroke-dasharray', `${fraction} 1`);
     if (!links.length) return;
-    const landmarkTop = phone.matches ? 56 : 104;
+    const landmarkTop = phone.matches ? 96 : 104;
     let index = 0;
     targets.forEach((heading, current) => { if (heading.getBoundingClientRect().top <= landmarkTop + 1) index = current; });
     if (rect.bottom <= window.innerHeight) index = targets.length - 1;
@@ -173,7 +179,10 @@
       if (nextReading !== readingMode) {
         readingMode = nextReading;
         siteHeader?.classList.toggle('is-reading', nextReading);
-        if (siteNav) { siteNav.hidden = nextReading; siteNav.inert = nextReading; }
+        navItems.forEach(item => { item.hidden = nextReading; item.inert = nextReading; });
+        if (navIndicator) navIndicator.hidden = nextReading;
+        siteNav?.setAttribute('aria-label', nextReading ? '文章导航' : navLabel);
+        if (!nextReading && island.contains?.(document.activeElement)) navItems.find(item => item.getAttribute('aria-current') === 'page')?.focus({preventScroll:true});
         if (!desktop.matches) setOpen(false, true);
         if (nextReading) {
           island.hidden = false;

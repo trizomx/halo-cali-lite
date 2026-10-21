@@ -9,12 +9,17 @@ spec:
       formSchema:
         - $formkit: text
           name: headline
-          label: 标题第一行
+          label: 标语前半段
           value: 记录与思考，
         - $formkit: text
           name: highlight
-          label: 标题强调行
+          label: 标语强调部分
           value: 把好奇写进日常。
+        - $formkit: switch
+          name: headline_two_lines
+          label: 标语分两行显示
+          value: true
+          help: 开启时在两段标题之间换行；关闭后两段合并显示，强调样式保留。屏幕不足时自然换行，不横向溢出。
         - $formkit: textarea
           name: intro
           label: 简介
@@ -365,7 +370,7 @@ spec:
           name: mobile_toc
           label: 手机阅读时顶部切换为文章目录
           value: true
-          help: 下滑约96px后，顶部胶囊从站点导航切换为当前章节和目录入口；目录默认收起，点击后从屏幕顶部展开，回顶恢复站点导航。关闭时手机不显示文章目录。
+          help: 手机文章页顶部导航保持原位，下滑约96px后只将内容切换为当前章节、阅读百分比和目录入口；默认收起，点击从胶囊下方展开，回顶恢复栏目。关闭时使用普通导航滚动行为。
     - group: appearance
       label: 背景与导航
       formSchema:
