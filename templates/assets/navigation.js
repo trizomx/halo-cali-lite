@@ -85,7 +85,32 @@
   if (typeof ResizeObserver !== 'undefined') new ResizeObserver(restore).observe(nav);
   window.addEventListener('resize', restore, { passive: true });
   window.addEventListener('pageshow', event => { if (event.persisted) restore(); });
-  const updateScroll = () => header?.classList.toggle('is-scrolled', scrollY > 12);
-  window.addEventListener('scroll', updateScroll, { passive: true });
+  let lastScroll = Math.max(0, scrollY);
+  let direction = 0;
+  let travel = 0;
+  let scrollFrame = 0;
+  const showHeader = () => header?.classList.remove('is-header-hidden');
+  const updateScroll = () => {
+    scrollFrame = 0;
+    const current = Math.max(0, scrollY);
+    const delta = current - lastScroll;
+    const nextDirection = Math.sign(delta);
+    if (nextDirection && nextDirection !== direction) travel = 0;
+    if (nextDirection) { direction = nextDirection; travel += Math.abs(delta); }
+    header?.classList.toggle('is-scrolled', current > 12);
+    const threshold = Math.max(120, (header?.offsetHeight || 100) + (document.querySelector('[data-home-avatar-anchor]') ? 80 : 16));
+    if (current <= threshold || dialog?.open || (document.activeElement?.matches(':focus-visible') && header?.contains(document.activeElement))) {
+      showHeader();
+      travel = 0;
+    } else if (travel >= 8) {
+      header?.classList.toggle('is-header-hidden', direction > 0);
+      travel = 0;
+    }
+    lastScroll = current;
+  };
+  const scheduleScroll = () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll); };
+  window.addEventListener('scroll', scheduleScroll, { passive: true });
+  header?.addEventListener('focusin', showHeader);
+  window.addEventListener('pageshow', () => { showHeader(); lastScroll = Math.max(0, scrollY); travel = 0; });
   updateScroll();
 })();

@@ -2,6 +2,7 @@
 (() => {
   const anchor = document.querySelector('[data-home-avatar-anchor]');
   const slot = document.querySelector('[data-avatar-slot]');
+  const header = document.querySelector('[data-sticky-header]');
   const avatar = anchor?.querySelector('[data-site-avatar]');
   if (!anchor || !slot || !avatar) return;
 
@@ -27,7 +28,6 @@
     const y = distance * remaining;
     const scale = 1 + (size / targetSize - 1) * remaining;
     avatar.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
-    document.body.style.setProperty('--avatar-compact', String(progress));
   };
   const measure = () => {
     const origin = anchor.getBoundingClientRect();
@@ -36,7 +36,8 @@
     geometry = {
       top: origin.top + window.scrollY,
       left: origin.left,
-      targetTop: target.top,
+      // Header slide-out changes visual rects, not the resting avatar slot.
+      targetTop: target.top - (header?.getBoundingClientRect().top || 0),
       targetLeft: target.left,
       size: origin.width,
       targetSize: target.width
