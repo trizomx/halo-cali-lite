@@ -4,11 +4,11 @@
   const sync = () => toggles.forEach(button => button.setAttribute('aria-pressed', String(root.dataset.theme === 'dark')));
   const preference = matchMedia('(prefers-color-scheme: dark)');
   let manual = false;
-  try { manual = ['light', 'dark'].includes(localStorage.getItem('wulong-lite-appearance')); } catch (_) {}
+  try { manual = ['light', 'dark'].includes(localStorage.getItem('cali-lite-appearance')); } catch (_) {}
   toggles.forEach(button => button.addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
     manual = true;
-    try { localStorage.setItem('wulong-lite-appearance', root.dataset.theme); } catch (_) {}
+    try { localStorage.setItem('cali-lite-appearance', root.dataset.theme); } catch (_) {}
     sync();
   }));
   preference.addEventListener('change', event => { if (!manual) { root.dataset.theme = event.matches ? 'dark' : 'light'; sync(); } });
@@ -39,7 +39,7 @@
     const links = new Map();
     headings.forEach((heading, index) => {
       if (!heading.id) {
-        let id = `wulong-section-${index + 1}`;
+        let id = `cali-section-${index + 1}`;
         while (document.getElementById(id)) id += '-';
         heading.id = id;
       }

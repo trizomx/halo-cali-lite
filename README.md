@@ -1,10 +1,14 @@
-# cali lite
+# 使用ChatGPT自动化开发
+
+## cali lite
 
 参考 cali.so v2 设计方向、以原生 Thymeleaf 实现的轻量 Halo 主题。
 
+源码仓库：[trizomx/halo-cali-lite](https://github.com/trizomx/halo-cali-lite)。
+
 ## 当前版本
 
-- 主题版本：**0.1.3**
+- 主题版本：**0.1.5**
 - 目标环境：**Halo 2.27.0 及以上**
 - 顶部毛玻璃导航、鼠标光晕、滑动选中指示与渐进增强的页面过渡
 - 全屏平铺网格、中性阅读底色、明暗切换与手机布局
@@ -12,9 +16,9 @@
 
 ## 安装
 
-下载 [cali-lite-0.1.3.zip](releases/cali-lite-0.1.3.zip)，在 Halo Console 的主题页面上传安装或更新，再启用／重载主题配置。
+下载 [cali-lite-0.1.5.zip](releases/cali-lite-0.1.5.zip)，在 Halo Console 的主题页面上传安装，再选择并启用 **cali lite**。源码交付目录的 `releases/` 中也附有安装包。
 
-显示名称为 **cali lite**。内部主题标识 `theme-wulong-lite` 和设置标识保留，以兼容此前安装并保留用户设置；改显示名称不需要修改内部标识。
+内部主题标识为 `theme-cali-lite`，设置标识为 `theme-cali-lite-setting`，配置标识为 `theme-cali-lite-config`。从 0.1.4 及更早版本安装本版时，Halo 会识别为新主题，旧主题设置不会自动继承，请先记录并重新填写；文章、附件及其他站点数据不受影响。
 
 ## 开发和打包
 
@@ -24,7 +28,7 @@
 python3 package.py
 ```
 
-安装包生成在 `dist/`，仅包含运行所需文件，不含开发文档、仓库历史、构建工具和测试数据。`dist/` 已被 Git 忽略。
+安装包生成在 `dist/`，包含运行文件、README、MIT 许可和 `docs/开发说明.md`，不含仓库历史、构建工具和测试数据。`dist/` 已被 Git 忽略。源码包同样附带开发说明。
 
 `releases/` 中保留当前可安装版本作为备份快照。后续发布可将 `dist/` 中的新 ZIP 上传到 GitHub Releases，或有意更新该目录。
 
@@ -40,7 +44,7 @@ docs/开发说明.md     设计、实现与验证记录
 releases/           可安装的版本快照
 ```
 
-详细实现和限制见 [开发说明](docs/开发说明.md)。0.1.2 已由用户确认在站点正常运行；0.1.3 的模板和隔离导航逻辑检查通过，新增视觉动效仍需实站浏览器确认。
+详细实现和限制见 [开发说明](docs/开发说明.md)。0.1.2 已由用户确认在站点正常运行；后续版本通过模板和隔离导航逻辑检查，视觉动效仍需实站浏览器确认。
 
 ## 备份更新
 
@@ -57,8 +61,11 @@ git push origin main
 ## 参考与许可
 
 - [cali.so v2.0](https://github.com/CaliCastle/cali.so/tree/v2.0)
-- [trizomx/wulongxiong-blog 固定参考版本](https://github.com/trizomx/wulongxiong-blog/tree/f91600f145743cb1611073bbb208f4ee839d3226)
 - [Oiov 视觉参考](https://www.oiov.dev/blog)
 - [Halo 主题开发](https://docs.halo.run/developer-guide/theme/ai)
 
 模板、CSS 和脚本重新编写；不包含参考站点文章、照片、个人资料或第三方付费模板文件。本仓库代码按 [MIT](LICENSE) 许可分发。
+
+0.1.4：点击导航后，指示线在目标页面加载完成后再移动，不随悬浮或焦点提前切换。
+
+0.1.5：主题、设置和配置统一使用 cali-lite 标识，源码仓库地址统一为本仓库；README 顶部加入自动化开发声明，安装包和源码包均附开发说明。

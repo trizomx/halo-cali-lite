@@ -1,7 +1,7 @@
 apiVersion: v1alpha1
 kind: Setting
 metadata:
-  name: theme-wulong-lite-setting
+  name: theme-cali-lite-setting
 spec:
   forms:
     - group: home

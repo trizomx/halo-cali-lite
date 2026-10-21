@@ -32,6 +32,7 @@ html{scroll-padding-top:116px}
 .nav-item:active{transform:scale(.96)}
 .nav-item[aria-current=page]::after{content:"";position:absolute;bottom:-2px;left:12px;right:12px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
 .top-nav.is-ready .nav-item::after{display:none}
+html[data-nav-pending] .nav-item[aria-current=page]::after{display:none}
 .nav-spotlight{position:absolute;z-index:0;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(140px circle at var(--pointer-x,50%) var(--pointer-y,50%),rgba(157,187,115,.18),transparent 75%)}
 .top-nav:hover .nav-spotlight,.top-nav:focus-within .nav-spotlight{opacity:1}
 .nav-indicator{position:absolute;z-index:1;bottom:3px;left:0;height:2px;width:0;border-radius:10px;background:linear-gradient(90deg,transparent,var(--accent) 30%,var(--accent) 70%,transparent);opacity:0;pointer-events:none;transition:transform .32s cubic-bezier(.22,1,.36,1),width .32s cubic-bezier(.22,1,.36,1),opacity .18s;view-transition-name:theme-navigation-indicator}
