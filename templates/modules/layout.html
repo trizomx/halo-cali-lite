@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(viewContent, pageTitle, active, extraHead)" lang="zh-CN" th:lang="${site.language}">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(viewContent, pageTitle, active, extraHead)" lang="zh-CN" th:lang="${site.language}" th:with="allPages=${singlePageFinder.list(1,100)}, publicPages=${allPages.items.?[spec.publish == true and spec.visible == 'PUBLIC' and spec.deleted != true]},
+ projectsPage=${not #strings.isEmpty(theme.config?.projects?.page_name) ? singlePageFinder.getByName(theme.config.projects.page_name) : (theme.config?.projects?.auto_page != false ? publicPages.^[spec.template == 'page_projects.html' or ((#strings.isEmpty(spec.template) or spec.template == 'page.html') and spec.slug == 'projects')] : null)},
+ photosPage=${not #strings.isEmpty(theme.config?.gallery?.page_name) ? singlePageFinder.getByName(theme.config.gallery.page_name) : (theme.config?.gallery?.auto_page != false ? publicPages.^[spec.template == 'page_photos.html' or ((#strings.isEmpty(spec.template) or spec.template == 'page.html') and spec.slug == 'photos')] : null)},
+ projectsReady=${projectsPage != null and projectsPage.spec.publish == true and projectsPage.spec.visible == 'PUBLIC' and projectsPage.spec.deleted != true and projectsPage.spec.template != 'page_photos.html'},
+ photosReady=${photosPage != null and photosPage.spec.publish == true and photosPage.spec.visible == 'PUBLIC' and photosPage.spec.deleted != true and photosPage.spec.template != 'page_projects.html'},
+ projectsUrl=${projectsReady ? projectsPage.status.permalink : '/#projects'}, photosUrl=${photosReady ? photosPage.status.permalink : null},
+ photosNav=${theme.config?.gallery?.enabled != false and theme.config?.gallery?.nav_enabled != false and photosReady},
+ pageActive=${not #strings.isEmpty(active) ? active : (singlePage != null and projectsReady and singlePage.metadata.name == projectsPage.metadata.name ? 'projects' : (singlePage != null and photosReady and singlePage.metadata.name == photosPage.metadata.name ? 'photos' : ''))}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -10,8 +17,8 @@
   <script th:src="@{/assets/theme-init.js(v=${theme.spec.version})}"></script>
   <link rel="stylesheet" th:href="@{/assets/style.css(v=${theme.spec.version})}" />
   <link rel="stylesheet" th:href="@{/assets/cali-source.css(v=${theme.spec.version})}" />
-  <link th:if="${active == 'photos'}" rel="stylesheet" th:href="@{/assets/gallery.css(v=${theme.spec.version})}" />
-  <script th:if="${active == 'photos'}" defer th:src="@{/assets/gallery.js(v=${theme.spec.version})}"></script>
+  <link th:if="${pageActive == 'photos'}" rel="stylesheet" th:href="@{/assets/gallery.css(v=${theme.spec.version})}" />
+  <script th:if="${pageActive == 'photos'}" defer th:src="@{/assets/gallery.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/main.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/navigation.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/avatar.js(v=${theme.spec.version})}"></script>
@@ -20,28 +27,28 @@
   <script defer th:src="@{/assets/source-navigation.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/source-projects.js(v=${theme.spec.version})}"></script>
 </head>
-<body class="cali-source" th:classappend="${active == 'home'} ? 'is-home'" th:with="projectsPage=${not #strings.isEmpty(theme.config?.projects?.page_name) ? singlePageFinder.getByName(theme.config.projects.page_name) : null}, projectsUrl=${projectsPage != null and projectsPage.spec.publish == true and projectsPage.spec.visible == 'PUBLIC' ? projectsPage.status.permalink : '/#projects'}, photosPage=${not #strings.isEmpty(theme.config?.gallery?.page_name) ? singlePageFinder.getByName(theme.config.gallery.page_name) : null}, photosUrl=${photosPage != null and photosPage.spec.publish == true and photosPage.spec.visible == 'PUBLIC' and photosPage.spec.template == 'page_photos.html' ? photosPage.status.permalink : null}, photosNav=${theme.config?.gallery?.enabled != false and theme.config?.gallery?.nav_enabled != false and not #strings.isEmpty(photosUrl)}">
+<body class="cali-source" th:classappend="${pageActive == 'home'} ? 'is-home'">
   <a class="skip-link" href="#main" th:text="#{skip}"></a>
   <th:block th:replace="~{modules/source-icons :: icons}"></th:block>
   <div class="site-shell">
     <header class="site-header" data-sticky-header>
       <a class="brand" th:href="@{/}" th:aria-label="${site.title}">
         <span class="avatar-slot" data-avatar-slot>
-          <span class="site-avatar" data-site-avatar th:if="${active != 'home'}">
+          <span class="site-avatar" data-site-avatar th:if="${pageActive != 'home'}">
             <img th:if="${not #strings.isEmpty(site.logo)}" th:src="@{${site.logo}}" alt="" width="38" height="38" />
             <span th:if="${#strings.isEmpty(site.logo)}" class="avatar-mark" aria-hidden="true">✳</span>
           </span>
         </span>
-        <span class="brand-label" th:if="${active != 'home'}" th:text="${site.title}"></span>
+        <span class="brand-label" th:if="${pageActive != 'home'}" th:text="${site.title}"></span>
       </a>
       <nav class="top-nav" data-top-nav th:aria-label="#{nav.label}">
     <span class="nav-spotlight" aria-hidden="true"></span>
     <span class="nav-indicator" aria-hidden="true"></span>
-    <a class="nav-item" th:href="@{/}" th:attr="aria-current=${active == 'home' ? 'page' : null}"><span th:text="#{nav.home}"></span></a>
-    <a class="nav-item" th:href="@{${site.routes.archivesUri}}" th:attr="aria-current=${active == 'writing' ? 'page' : null}"><span th:text="#{nav.writing}"></span></a>
-    <a class="nav-item" th:if="${photosNav}" th:href="@{${photosUrl}}" th:attr="aria-current=${active == 'photos' ? 'page' : null}"><span>照片</span></a>
-    <a class="nav-item" th:href="@{${site.routes.categoriesUri}}" th:attr="aria-current=${active == 'categories' ? 'page' : null}"><span th:text="#{nav.categories}"></span></a>
-    <a class="nav-item" th:if="${theme.config?.projects?.nav_enabled != false}" th:href="@{${projectsUrl}}" th:attr="aria-current=${active == 'projects' ? 'page' : null}"><span>项目</span></a>
+    <a class="nav-item" th:href="@{/}" th:attr="aria-current=${pageActive == 'home' ? 'page' : null}"><span th:text="#{nav.home}"></span></a>
+    <a class="nav-item" th:href="@{${site.routes.archivesUri}}" th:attr="aria-current=${pageActive == 'writing' ? 'page' : null}"><span th:text="#{nav.writing}"></span></a>
+    <a class="nav-item" th:if="${photosNav}" th:href="@{${photosUrl}}" th:attr="aria-current=${pageActive == 'photos' ? 'page' : null}"><span>照片</span></a>
+    <a class="nav-item" th:href="@{${site.routes.categoriesUri}}" th:attr="aria-current=${pageActive == 'categories' ? 'page' : null}"><span th:text="#{nav.categories}"></span></a>
+    <a class="nav-item" th:if="${theme.config?.projects?.nav_enabled != false}" th:href="@{${projectsUrl}}" th:attr="aria-current=${pageActive == 'projects' ? 'page' : null}"><span>项目</span></a>
     <button type="button" class="nav-item" data-about-open aria-haspopup="dialog" aria-controls="about-dialog"><span th:text="#{nav.about}"></span></button>
     
     

@@ -57,12 +57,19 @@ spec:
           name: enabled
           label: 启用照片页面内容
           value: true
-          help: 只在使用“照片”模板的独立页面展示，不影响首页照片带；按原比例瀑布流排列，点开可放大。
+          help: 只在自动识别或手动指定的照片页面展示，不影响首页照片带；按原比例瀑布流排列，点开可放大。
+        - $formkit: switch
+          name: auto_page
+          label: 自动识别照片页面（推荐开启）
+          value: true
+          help: 新建并公开发布别名为 photos 的页面即可，普通默认模板也能自动显示照片与导航，无需另外选择模板。其他别名可在下方手动指定。
         - $formkit: singlePageSelect
           name: page_name
-          label: 照片页面
+          label: 手动指定照片页面（可留空）
+          clearable: true
+          placeholder: 留空自动识别 photos 页面
           value: ""
-          help: 先在“页面”中新建并公开发布一个使用“照片”模板的页面，再在这里选中它，顶部导航才会出现照片入口。地址使用该页面的实际固定链接。
+          help: 通常留空即可。若页面别名不是 photos，在这里选择已公开发布的页面；无需再到页面里切换模板。照片在下方“我的照片”上传，不是在页面正文中上传。只创建页面不会自动生成照片。
         - $formkit: switch
           name: nav_enabled
           label: 显示照片导航入口
@@ -165,12 +172,12 @@ spec:
           value: true
         - $formkit: switch
           name: home_enabled
-          label: 首页右侧显示我的项目
+          label: 首页右侧显示项目开发日志
           value: true
         - $formkit: text
           name: home_title
           label: 右侧项目栏目标题
-          value: 我的项目
+          value: 开发日志
         - $formkit: number
           name: home_limit
           label: 右侧项目展示数量
@@ -179,17 +186,22 @@ spec:
           max: 12
           step: 1
           validation: required|number|min:1|max:12
+        - $formkit: switch
+          name: auto_page
+          label: 自动识别项目页面（推荐开启）
+          value: true
+          help: 新建并公开发布别名为 projects 的页面即可，普通默认模板也能自动显示项目与导航，无需另外选择模板。
         - $formkit: singlePageSelect
           name: page_name
-          label: 选择项目页面
-          help: 先发布一个独立页面，模板选“项目”，再在这里选择。导航自动使用页面链接，留空则前往首页项目区。
+          label: 手动指定项目页面（可留空）
+          help: 通常留空即可。其他别名在这里选择已公开发布的页面，不必再切换模板。项目在下方“项目列表”添加，页面正文只作为顶部简介。未找到页面时导航才回首页项目区。
           clearable: true
-          placeholder: 请选择已发布的项目页面
+          placeholder: 留空自动识别 projects 页面
           value: ""
         - $formkit: array
           name: items
           label: 项目列表
-          help: 首页右栏按上方数量展示，项目页展示全部。链接请使用完整 HTTPS 地址。
+          help: 首页按源码开发日志样式展示：圆图标、项目名、简介／技术、起止日期；项目页展示完整项目卡片。添加真实项目后才有内容。链接可留空，填写时用完整 HTTPS 地址。
           value: []
           addLabel: 添加项目
           itemLabels:
@@ -205,17 +217,28 @@ spec:
               validation: required
             - $formkit: textarea
               name: description
-              label: 简介
+              label: 简介／技术说明
               value: ""
+              help: 首页日志使用这段文字，可写 Nextjs 等技术或简短介绍；完整项目页也会展示。
             - $formkit: url
               name: url
               label: 项目链接
               value: ""
-              validation: required|url
+              validation: url
             - $formkit: attachment
               name: icon
               label: 图标
               value: ""
+            - $formkit: text
+              name: start
+              label: 开始日期（可留空）
+              value: ""
+              help: 例如 2026/10/01；未填写时首页不显示日期，不生成假日期。
+            - $formkit: text
+              name: end
+              label: 结束日期（可留空）
+              value: ""
+              help: 填写开始日期后，此项留空显示“至今”。
     - group: newsletter
       label: 邮件订阅
       formSchema:

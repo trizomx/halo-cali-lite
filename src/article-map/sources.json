@@ -1,0 +1,27 @@
+{
+  "repository": "https://github.com/CaliCastle/cali.so",
+  "commit": "edd108445c5323a9199af968913876aa37ea59d2",
+  "scope": "Only the article map explicitly requested by the user; v2 body/card layout stays unchanged.",
+  "files": [
+    {
+      "path": "components/post-toc.tsx",
+      "sha256": "53af1d3961bbc40976243c523b369d2390980bfc16362fbb52b55fb2ba5f35ad",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/components/post-toc.tsx"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "c449091a3c8de403a0d164ab6afaaf22f5876af01946ac036237cf95e1deb335",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/app/globals.css"
+    },
+    {
+      "path": "lib/content.ts",
+      "sha256": "ae19f40b36f034332d2dd4096dd486bc3ff1f516b175af74e4c8edecd148c56a",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/lib/content.ts"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "6c0c63b365fe568728cff9068e47275401a70078f6261cb9b0c1bee5ff880eba",
+      "url": "https://github.com/CaliCastle/cali.so/blob/edd108445c5323a9199af968913876aa37ea59d2/LICENSE"
+    }
+  ]
+}

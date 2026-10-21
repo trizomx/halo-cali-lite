@@ -138,6 +138,21 @@
       "path": "sanity/schemas/post.ts",
       "fork_sha256": "e6d2556ae5d91717a1ff8783eb1a115fecd951c162b68d024e0b94443fb59584",
       "v2_sha256": "e6d2556ae5d91717a1ff8783eb1a115fecd951c162b68d024e0b94443fb59584"
+    },
+    {
+      "path": "app/(main)/Resume.tsx",
+      "fork_sha256": "f251dff240a3e111f76a27b6f130978c038628bc47c52870acd4031e1aa3b55a",
+      "v2_sha256": "f251dff240a3e111f76a27b6f130978c038628bc47c52870acd4031e1aa3b55a"
+    },
+    {
+      "path": "assets/icons/BriefcaseIcon.tsx",
+      "fork_sha256": "ee14ed5db822ab222c0dde5fa51bf76461473a9a0239d4fa190e4bac6f41c2c0",
+      "v2_sha256": "ee14ed5db822ab222c0dde5fa51bf76461473a9a0239d4fa190e4bac6f41c2c0"
+    },
+    {
+      "path": "sanity/schemas/settings.ts",
+      "fork_sha256": "e8f5ad6120e6d33732cb47edbab4ea6113c1b01e2a964a85e6917c0a7f6a653e",
+      "v2_sha256": "e8f5ad6120e6d33732cb47edbab4ea6113c1b01e2a964a85e6917c0a7f6a653e"
     }
   ]
 }

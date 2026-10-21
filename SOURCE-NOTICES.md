@@ -74,3 +74,10 @@ photographs; illustrations or artwork; Cali Castle's name, identity, likeness,
 logos, branding, or personal data; or third-party assets. Those materials
 remain under their respective rights and may not be copied or reused except as
 separately permitted by their rights holders or applicable law.
+
+
+## 0.4.1 新增来源
+
+首页开发日志迁移自既有v2来源的 `app/(main)/Resume.tsx` 及 `assets/icons/BriefcaseIcon.tsx`；同样遵循上文v2权利边界。独立项目页继续使用ProjectCard来源。
+
+文章地图由用户另行授权参考main/v3同一固定提交 `edd108445c5323a9199af968913876aa37ea59d2`：`components/post-toc.tsx`、`lib/content.ts` 的buildPostRail和相关globals.css。路径与SHA256见src/article-map/sources.json，源码包含相关快照。v3 MIT Copyright (c) 2022-2026 Cali Castle及Content and asset exception适用，完整许可已在上文及src/article-map/upstream/LICENSE保留。没有复制作者文章、照片、身份内容或第三方素材。

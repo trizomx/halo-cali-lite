@@ -27,8 +27,7 @@
       <section class="note-card" th:if="${theme.config?.home?.show_note != false}"><span class="note-star" aria-hidden="true">✳</span><span class="eyebrow" th:text="${theme.config?.home?.note_label ?: '便签'}"></span><h2 th:text="${theme.config?.home?.note ?: '保持好奇，慢慢记录。'}"></h2><p th:text="${theme.config?.home?.note_description ?: site.subtitle}"></p></section>
       <th:block th:if="${theme.config?.newsletter?.show_home != false}"><th:block th:replace="~{modules/source-newsletter :: newsletter(position='home')}"></th:block></th:block>
       <section id="projects" class="home-projects" th:if="${theme.config?.projects?.home_enabled != false}">
-        <div class="section-heading"><h2 th:text="${theme.config?.projects?.home_title ?: '我的项目'}"></h2><a class="text-link" th:href="@{${projectsUrl}}">查看全部 ↗</a></div>
-        <th:block th:replace="~{modules/source-projects :: projects(compact=true)}"></th:block>
+        <th:block th:replace="~{modules/source-resume :: resume}"></th:block>
       </section>
     </aside>
   </div>

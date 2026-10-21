@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=|${singlePage.spec.title} · ${site.title}|, active='photos', extraHead=null)}">
 <!-- Page / wall structure adapted from cali.so v3, with the full cali lite
      content width requested by the user. See src/photos/sources.json. -->
-<main id="main" class="photos-page inner-page">
+<main th:fragment="content" id="main" class="photos-page inner-page">
  <header class="page-heading photos-heading">
   <span class="eyebrow">PHOTOS</span>
   <h1 th:text="${singlePage.spec.title}"></h1>

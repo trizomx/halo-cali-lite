@@ -5,8 +5,22 @@
 <main id="main" class="source-post mt-16 lg:mt-32"
  th:with="plainText=${(post.content?.content ?: '').replaceAll('(?is)&lt;script[^&gt;]*&gt;.*?&lt;/script&gt;|&lt;style[^&gt;]*&gt;.*?&lt;/style&gt;', '').replaceAll('&lt;[^&gt;]+&gt;', '').replaceAll('&amp;[a-zA-Z0-9#]+;', ' ').trim()}, readingMinutes=${(#strings.length(plainText) + 299) / 300}">
  <div class="w-full md:flex md:justify-between xl:relative">
-  <aside class="hidden w-[160px] shrink-0 lg:block source-toc-rail">
-   <div th:if="${theme.config?.article?.show_toc != false}" class="sticky top-2 pt-20" data-toc hidden><nav th:aria-label="#{toc}"><span class="source-toc-title">文章目录</span><ul data-toc-list class="source-toc-list"></ul></nav></div>
+  <aside class="source-toc-rail">
+   <!-- Article map port: cali.so v3 components/post-toc.tsx; native Halo adapter. -->
+   <div th:if="${theme.config?.article?.show_toc != false}" class="source-map-root" data-toc hidden>
+    <div class="source-map-island" data-toc-island>
+     <button type="button" class="source-map-toggle" data-toc-toggle aria-controls="cali-article-map" aria-expanded="true" aria-label="收起文章地图">
+      <svg class="source-map-progress" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle class="source-map-track" cx="12" cy="12" r="10"/><circle class="source-map-value" cx="12" cy="12" r="10" pathLength="1" stroke-dasharray="0 1" data-toc-progress/></svg>
+      <svg class="source-map-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3"><rect x=".75" y="1.75" width="10.5" height="8.5" rx="2"/><path d="M4.5 2v8M8 4.5 6.5 6 8 7.5"/></svg>
+      <span class="source-map-current" data-toc-current>文章地图</span><span class="source-map-chevron" aria-hidden="true">⌄</span>
+     </button>
+     <nav id="cali-article-map" class="source-map-panel" data-toc-panel th:aria-label="#{toc}">
+      <a class="source-map-utility" th:href="@{${site.routes.archivesUri}}">↵ 文章</a>
+      <ul data-toc-list class="source-toc-list"></ul>
+      <button type="button" class="source-map-utility" data-toc-top>↑ 顶部</button>
+     </nav>
+    </div>
+   </div>
   </aside>
   <div class="max-w-2xl md:flex-1 md:shrink-0 source-post-column">
    <a th:href="@{${site.routes.archivesUri}}" th:aria-label="#{back.writing}" class="source-back group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0"><svg class="h-8 w-8 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400" aria-hidden="true"><use href="#cali-UTurnLeftIcon"/></svg></a>

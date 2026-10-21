@@ -7,7 +7,7 @@
 1. 阅读本文件和 `docs/开发说明.md`，特别是“项目参考与每次开发前必读”及最近版本的实现、限制和验证记录。
 2. 阅读 Halo 主题 AI 准则：https://docs.halo.run/developer-guide/theme/ai 。通过主题开发指南 https://docs.halo.run/developer-guide/theme/ 和 https://docs.halo.run/llms.txt 查找本次任务相关的文档正文；不能把索引当作正文。优先使用线上完整 `.md` 页面，避免单独读取不完整 include 片段。
 3. 修改前确认 `theme.yaml` 的 `spec.requires`（当前 >=2.27.0），核对相关 API 变更、页面变量和 Finder API；文档未覆盖的行为应以目标版本 Halo 源码为准。涉及模板时先阅读 Thymeleaf 和对应页面文档，不猜测表达式方法。
-4. 根据任务阅读以下参考项目的相关源码或页面；现有组件继续参考 **tag v2.0**，不能用最新 main 整体替代。用户另行授权：**仅独立照片页**可参考 https://cali.so/photos 与 main/v3 相关源码；不假定存在 v3.0 tag。该范围的来源与固定提交见 `src/photos/sources.json`：
+4. 根据任务阅读以下参考项目的相关源码或页面；现有组件继续参考 **tag v2.0**，不能用最新 main 整体替代。用户另行授权：**独立照片页和文章段落地图**可参考 https://cali.so/photos 、https://cali.so/blog/we-decided-to-stop-buying-saas 与 main/v3 对应源码；不假定存在 v3.0 tag。相关来源与固定提交见 `src/photos/sources.json` 和 `src/article-map/sources.json`：
    - 用户 fork 参考源码：https://github.com/trizomx/wulongxiong-blog 。它是参考项目，不是本主题的发布仓库。
    - 原作者源码：https://github.com/CaliCastle/cali.so/tree/v2.0 。
    - 已部署视觉参考：https://www.oiov.dev/ （文章列表 https://www.oiov.dev/blog ）。
@@ -32,8 +32,10 @@
 - 取封面主色用于卡片边框、信息区和文字前景；无图按文章标识生成稳定配色。跨域不能取色时保留图片并回退配色，不引入第三方代理；图片失败仍保留完整卡片尺寸。
 - README 首行保留“使用ChatGPT自动化开发”一级标题。参考来源集中记录在开发说明；不得恢复用户已删除的固定提交参考许可条目。保留 MIT 许可。
 - 修改源码迁移部分前阅读 `docs/源码迁移对照.md` 和 `SOURCE-NOTICES.md`；保留来源路径与哈希。原项目没有发现独立 LICENSE，不得把第三方改编部分宣称为本仓库原创或直接套用自身 MIT；Tailwind 许可声明须保留。
-- 首页右侧保留便签；首页和项目页共用真实配置的项目数据，不添加示例项目。项目页使用 Halo 自定义独立页面模板、后台 singlePageSelect 下拉选择与其 permalink，未配置时导航回首页项目区。首页侧栏与公共页脚各一处同款邮件订阅；未配置服务时禁用收集，禁止伪造成功、订阅人数、邮件发送或退订能力。
+- 首页右侧保留便签；首页和项目页共用真实配置的项目数据，不添加示例项目。首页右侧必须用源 Resume.tsx 的圆图标／名称／说明／日期日志结构，独立项目页继续用源 ProjectCard 网格，不能混用。项目／照片页默认自动识别已公开发布、别名 projects／photos 或使用对应模板的页面；普通 page.html 也必须正确分流、加载资源与点亮导航，不再要求用户同时切模板和绑定。其他别名支持 singlePageSelect 一次指定，链接必须用 permalink。首页侧栏与公共页脚各一处同款邮件订阅；未配置服务时禁用收集，禁止伪造成功、订阅人数、邮件发送或退订能力。
 - 源码包和安装包都附 `docs/开发说明.md`；源码交付包含本文件。测试数据、模拟文章、预览文件、依赖、密钥和仓库历史不进入安装包；交付源码目录也不含测试数据。
 - 按改动范围执行现有必要检查，明确区分本地逻辑检查、真实浏览器检查和 Halo 实站验证，不夸大验收结果。
-- **独立照片页与首页照片带分开**：`page_photos.html` 使用整个主题内容宽度（不照搬 v3 的600px窄容器），照片墙不得插回首页；首页原照片带只由 home.show_photos/photo_count 控制。照片页使用 gallery.page_name 下拉绑定已公开发布且使用“照片”模板的独立页面，导航使用其 permalink，未绑定时隐藏入口。后台照片仍存 gallery.items，旧配置保留；旧 limit/replace_cover_strip 不再影响展示。
+- **独立照片页与首页照片带分开**：`page_photos.html` 使用整个主题内容宽度（不照搬 v3 的600px窄容器），照片墙不得插回首页；首页原照片带只由 home.show_photos/photo_count 控制。照片页通过默认自动识别或 gallery.page_name 手动指定已公开发布页面，导航使用其 permalink；自动识别失败且没有有效指定时才隐藏入口。后台照片仍存 gallery.items，旧配置保留；旧 limit/replace_cover_strip 不再影响展示。
 - 照片墙是用户授权的功能，0.4.0起布局参考 v3 源码，Halo管理和灯箱保持原生适配：照片来自主题设置附件列表，与文章封面无关；缩略预览优先，原图按访客操作或明确选定的策略加载，不用前端下载原图再假称节省网络。元信息只在放大查看时展示；不得自动提取或上传EXIF，也不得加入演示照片。
+
+- 文章目录0.4.1起参考v3的PostToc／buildPostRail细刻度地图：保留H1–H6可点击层级、当前章节、进度与移动浮动展开；去掉可见H数字标签和块状底色。按本主题放大上下间距和行高，不照搬原站密集布局，不加页侧遮罩。修改适配入口仍为src/cali/post.html、post.js、bridge.css，再构建；v3来源快照另在src/article-map记录。

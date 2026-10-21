@@ -41,70 +41,118 @@
   };
   article.querySelectorAll('[data-reveal]').forEach(element => reveal(element, variants[element.dataset.reveal]));
 
-  const headings = [...body.querySelectorAll('h1,h2,h3,h4,h5,h6')];
+  // cali.so v3 PostToc/buildPostRail: landmarks, three quiet ticks,
+  // reading cursor, progress toggle and a compact phone island. Halo supplies HTML.
+  const headings = [...body.querySelectorAll('h1,h2,h3,h4,h5,h6')].filter(h => h.textContent.trim());
   const list = document.querySelector('[data-toc-list]');
   const toc = document.querySelector('[data-toc]');
-  const links = [];
+  const panel = document.querySelector('[data-toc-panel]');
+  const toggle = document.querySelector('[data-toc-toggle]');
+  const island = document.querySelector('[data-toc-island]');
+  const currentLabel = document.querySelector('[data-toc-current]');
+  const ring = document.querySelector('[data-toc-progress]');
+  const desktop = matchMedia('(min-width:1024px)');
+  const links = [], targets = [];
+  let open = desktop.matches;
+  const setOpen = (next, instant = false) => {
+    open = next;
+    if (!toc || !panel || !toggle) return;
+    if (next) toc.setAttribute('data-open', ''); else toc.removeAttribute('data-open');
+    panel.hidden = !next;
+    toggle.setAttribute('aria-expanded', String(next));
+    toggle.setAttribute('aria-label', next ? '收起文章地图' : '展开文章地图');
+    if (next && !instant && !reduced.matches && article.dataset.entryAnimation !== 'false') {
+      const nodes = [...list.children], center = (nodes.length - 1) / 2;
+      nodes.forEach((item, index) => item.animate?.([
+        { opacity: 0, transform: 'translateY(8px) rotate(-2deg)' },
+        { opacity: 1, transform: 'none' }
+      ], { duration: 260, delay: Math.min(100, Math.abs(index - center) * 12), easing: 'cubic-bezier(.2,.8,.2,1)' }));
+    }
+  };
   if (list && toc && headings.length) {
-    headings.forEach((heading, index) => {
+    const title = article.querySelector('h1');
+    const landmarks = title && !headings.includes(title) ? [title, ...headings] : headings;
+    landmarks.forEach((heading, index) => {
       if (!heading.id) {
         let id = `cali-section-${index + 1}`;
         while (document.getElementById(id)) id += '-';
         heading.id = id;
       }
+      if (index) for (let tick = 0; tick < 3; tick++) {
+        const gap = document.createElement('li'); gap.className = 'source-map-gap';
+        gap.setAttribute('aria-hidden', 'true');
+        const mark = document.createElement('span'); mark.className = 'source-map-tick';
+        gap.append(mark); list.append(gap);
+      }
       const label = heading.textContent.trim();
       const item = document.createElement('li');
       const level = Math.max(1, Math.min(6, Number(heading.tagName.slice(1))));
-      item.className = 'source-toc-item';
-      item.dataset.level = String(level);
+      item.className = 'source-toc-item'; item.dataset.level = String(level);
       const link = document.createElement('a');
-      link.className = 'source-toc-link';
-      link.href = '#' + encodeURIComponent(heading.id);
-      link.setAttribute('aria-label', `H${level}：${label}`);
+      link.className = 'source-toc-link'; link.href = '#' + encodeURIComponent(heading.id);
+      link.setAttribute('aria-label', `H${level}：${label}`); link.title = label;
+      if (heading === title) link.dataset.variant = 'title';
       const marker = document.createElement('span');
-      marker.className = 'source-toc-level'; marker.textContent = `H${level}`;
-      marker.setAttribute('aria-hidden', 'true');
-      const text = document.createElement('span');
-      text.className = 'source-toc-label'; text.textContent = label;
-      link.append(marker, text);
-      item.append(link); list.append(item); links.push(link);
-      if (!heading.querySelector('a[href^="#"]')) {
-        const anchor = document.createElement('a');
-        anchor.className = 'source-heading-anchor'; anchor.href = link.href;
-        anchor.textContent = '#'; anchor.setAttribute('aria-label', '链接到：' + label);
-        heading.append(anchor);
+      marker.className = 'source-map-tick'; marker.setAttribute('aria-hidden', 'true');
+      const text = document.createElement('span'); text.className = 'source-toc-label'; text.textContent = label;
+      link.append(marker, text); item.append(link); list.append(item); links.push(link); targets.push(heading);
+      link.addEventListener('click', event => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        heading.setAttribute('tabindex', '-1'); heading.focus?.({ preventScroll: true });
+        window.scrollTo({ top: window.scrollY + heading.getBoundingClientRect().top - 104, behavior: reduced.matches || event.detail === 0 ? 'instant' : 'smooth' });
+        history.replaceState(null, '', link.href);
+        if (!desktop.matches) setOpen(false, event.detail === 0);
+      });
+      if (heading !== title && !heading.querySelector('a[href^="#"]')) {
+        const anchor = document.createElement('a'); anchor.className = 'source-heading-anchor'; anchor.href = link.href;
+        anchor.textContent = '#'; anchor.setAttribute('aria-label', '链接到：' + label); heading.append(anchor);
       }
-      reveal(item, { delay: .255 + index * .08, blur: 8 });
     });
-    toc.hidden = false;
+    toc.hidden = false; setOpen(open, true);
+    toggle?.addEventListener('click', event => setOpen(!open, event.detail === 0));
+    desktop.addEventListener?.('change', () => { setOpen(desktop.matches, true); schedule(); });
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && open && !desktop.matches) { setOpen(false, true); toggle?.focus(); }
+    });
+    window.addEventListener('pointerdown', event => {
+      if (open && !desktop.matches && !toc.contains(event.target)) setOpen(false, true);
+    });
+    document.querySelector('[data-toc-top]')?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: reduced.matches ? 'instant' : 'smooth' });
+      if (!desktop.matches) setOpen(false, true);
+    });
   }
   const progress = document.querySelector('[data-reading-progress]');
   const update = () => {
-    const rect = body.getBoundingClientRect();
-    const range = rect.height - window.innerHeight;
-    const fraction = range > 0 ? -rect.top / range : (rect.bottom <= window.innerHeight ? 1 : 0);
-    if (progress) progress.textContent = `${Math.round(Math.max(0, Math.min(1, fraction)) * 100)}%`;
+    const rect = body.getBoundingClientRect(), range = rect.height - window.innerHeight;
+    const fraction = Math.max(0, Math.min(1, range > 0 ? -rect.top / range : (rect.bottom <= window.innerHeight ? 1 : 0)));
+    if (progress) progress.textContent = `${Math.round(fraction * 100)}%`;
+    ring?.setAttribute('stroke-dasharray', `${fraction} 1`);
     if (!links.length) return;
-    // Highlight the section being read, rather than the next heading below it.
     let index = 0;
-    headings.forEach((heading, current) => { if (heading.getBoundingClientRect().top <= 128) index = current; });
+    targets.forEach((heading, current) => { if (heading.getBoundingClientRect().top <= 105) index = current; });
+    if (rect.bottom <= window.innerHeight) index = targets.length - 1;
     links.forEach((link, current) => {
       const active = current === index && article.getBoundingClientRect().bottom > 0;
       link.classList.toggle('is-active', active);
-      if (active) link.setAttribute('aria-current', 'location');
-      else link.removeAttribute('aria-current');
+      if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
     });
+    if (currentLabel) currentLabel.textContent = links[index].title;
+    if (island) {
+      const visible = desktop.matches || (article.querySelector('h1') || body).getBoundingClientRect().bottom <= 104;
+      // hidden also removes offscreen controls from keyboard navigation.
+      island.hidden = !visible;
+      if (!visible && open && !desktop.matches) setOpen(false, true);
+    }
   };
   let queued = false;
   const schedule = () => {
     if (queued) return;
-    queued = true;
-    requestAnimationFrame(() => { queued = false; update(); });
+    queued = true; requestAnimationFrame(() => { queued = false; update(); });
   };
   window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
-  window.addEventListener('load', schedule);
-  update();
+  window.addEventListener('resize', schedule); window.addEventListener('load', schedule); update();
   const copy = async (button, value, normal, success) => {
     try {
       if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
