@@ -26,12 +26,12 @@
     <aside class="home-aside">
       <section class="note-card" th:if="${theme.config?.home?.show_note != false}"><span class="note-star" aria-hidden="true">✳</span><span class="eyebrow" th:text="${theme.config?.home?.note_label ?: '便签'}"></span><h2 th:text="${theme.config?.home?.note ?: '保持好奇，慢慢记录。'}"></h2><p th:text="${theme.config?.home?.note_description ?: site.subtitle}"></p></section>
       <th:block th:if="${theme.config?.newsletter?.show_home != false}"><th:block th:replace="~{modules/source-newsletter :: newsletter(position='home')}"></th:block></th:block>
-      <div class="explore-card" th:if="${theme.config?.home?.show_explore != false}"><h2 th:text="#{explore}"></h2><a th:href="@{${site.routes.categoriesUri}}"><span th:text="#{nav.categories}"></span><span aria-hidden="true">↗</span></a><a th:href="@{${site.routes.tagsUri}}"><span th:text="#{nav.tags}"></span><span aria-hidden="true">↗</span></a></div>
+      <section id="projects" class="home-projects" th:if="${theme.config?.projects?.home_enabled != false}">
+        <div class="section-heading"><h2 th:text="${theme.config?.projects?.home_title ?: '我的项目'}"></h2><a class="text-link" th:href="@{${projectsUrl}}">查看全部 ↗</a></div>
+        <th:block th:replace="~{modules/source-projects :: projects(compact=true)}"></th:block>
+      </section>
     </aside>
   </div>
-  <section id="projects" class="home-projects" th:if="${theme.config?.projects?.home_enabled != false}">
-    <div class="section-heading"><h2 th:text="${theme.config?.projects?.home_title ?: '我的项目'}"></h2><a class="text-link" th:href="@{${projectsUrl}}">查看全部 ↗</a></div>
-    <th:block th:replace="~{modules/source-projects :: projects(compact=true)}"></th:block>
-  </section>
+
 </main>
 </html>

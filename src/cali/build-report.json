@@ -251,7 +251,7 @@
     "z-20",
     "z-40"
   ],
-  "css_bytes": 34661,
+  "css_bytes": 34734,
   "components": [
     {
       "path": "app/(main)/blog/BlogPostCard.tsx",
@@ -377,6 +377,16 @@
       "path": "assets/icons/ExternalLinkIcon.tsx",
       "fork_sha256": "131c471c230c0618efd6ba40d5ad244501594c5ee00b16c053645bc58764adfd",
       "v2_sha256": "131c471c230c0618efd6ba40d5ad244501594c5ee00b16c053645bc58764adfd"
+    },
+    {
+      "path": "sanity/queries.ts",
+      "fork_sha256": "74a04d498fef2c1e7c83930745be52f6d15149fa52d17c6bf2eaa11f8d806300",
+      "v2_sha256": "6d42bf026079995c0056e594f62a539f1faa9356ad07bbfaa8b41c0dc27d17d0"
+    },
+    {
+      "path": "sanity/schemas/post.ts",
+      "fork_sha256": "e6d2556ae5d91717a1ff8783eb1a115fecd951c162b68d024e0b94443fb59584",
+      "v2_sha256": "e6d2556ae5d91717a1ff8783eb1a115fecd951c162b68d024e0b94443fb59584"
     }
   ]
 }

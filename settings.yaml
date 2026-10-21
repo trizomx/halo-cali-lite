@@ -50,10 +50,6 @@ spec:
           label: 便签补充文字
           value: ""
           help: 留空时使用站点副标题。
-        - $formkit: switch
-          name: show_explore
-          label: 显示分类与标签入口
-          value: true
     - group: projects
       label: 项目展示
       formSchema:
@@ -63,15 +59,15 @@ spec:
           value: true
         - $formkit: switch
           name: home_enabled
-          label: 首页显示项目栏目
+          label: 首页右侧显示我的项目
           value: true
         - $formkit: text
           name: home_title
-          label: 首页项目栏目标题
+          label: 右侧项目栏目标题
           value: 我的项目
         - $formkit: number
           name: home_limit
-          label: 首页项目展示数量
+          label: 右侧项目展示数量
           value: 3
           min: 1
           max: 12
@@ -87,7 +83,7 @@ spec:
         - $formkit: array
           name: items
           label: 项目列表
-          help: 首页展示前 3 项，项目页展示全部。链接请使用完整 HTTPS 地址。
+          help: 首页右栏按上方数量展示，项目页展示全部。链接请使用完整 HTTPS 地址。
           value: []
           addLabel: 添加项目
           itemLabels:

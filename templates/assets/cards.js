@@ -1,10 +1,15 @@
-/* Stable generated palettes; cover palettes are sampled locally, never proxied. */
+/* Halo adapter for Sanity metadata.palette.dominant background/foreground.
+ * Sample the whole asset by population; never invert, boost or proxy colours.
+ */
 (() => {
   const cache = new Map();
   const hash = value => {
     let result = 2166136261;
     for (const character of value) result = Math.imul(result ^ character.codePointAt(0), 16777619);
-    return result >>> 0;
+    // Avalanche the seed: similar generated post IDs should not cluster in one hue.
+    result = Math.imul(result ^ (result >>> 16), 0x85ebca6b);
+    result = Math.imul(result ^ (result >>> 13), 0xc2b2ae35);
+    return (result ^ (result >>> 16)) >>> 0;
   };
   const foreground = rgb => {
     const luminance = rgb.map(channel => {
@@ -16,20 +21,20 @@
   const sample = image => {
     try {
       const canvas = document.createElement('canvas');
-      canvas.width = 32;
-      canvas.height = 18;
+      if (!image.naturalWidth || !image.naturalHeight) return null;
+      const scale = Math.min(1, 64 / Math.max(image.naturalWidth, image.naturalHeight));
+      canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
       const context = canvas.getContext('2d', { willReadFrequently: true });
-      if (!context || !image.naturalWidth || !image.naturalHeight) return null;
-      const aspect = 240 / 135;
-      const width = Math.min(image.naturalWidth, image.naturalHeight * aspect);
-      const height = width / aspect;
-      context.drawImage(image, (image.naturalWidth - width) / 2, (image.naturalHeight - height) / 2, width, height, 0, 0, 32, 18);
-      const pixels = context.getImageData(0, 0, 32, 18).data;
+      if (!context) return null;
+      // Sanity's palette describes the asset, not a centre crop of its cover.
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
       const buckets = new Map();
       for (let index = 0; index < pixels.length; index += 4) {
         if (pixels[index + 3] < 128) continue;
         const [r, g, b] = pixels.slice(index, index + 3);
-        const key = (r >> 4) * 256 + (g >> 4) * 16 + (b >> 4);
+        const key = (r >> 5) * 64 + (g >> 5) * 8 + (b >> 5);
         const bucket = buckets.get(key) || [0, 0, 0, 0];
         bucket[0]++; bucket[1] += r; bucket[2] += g; bucket[3] += b;
         buckets.set(key, bucket);
@@ -38,8 +43,7 @@
       let best = 0;
       for (const bucket of buckets.values()) {
         const rgb = bucket.slice(1).map(total => Math.round(total / bucket[0]));
-        const saturation = (Math.max(...rgb) - Math.min(...rgb)) / 255;
-        const score = bucket[0] * (1 + saturation * .6);
+        const score = bucket[0];
         if (score > best) { winner = rgb; best = score; }
       }
       return winner;

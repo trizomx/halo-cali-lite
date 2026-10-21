@@ -17,6 +17,7 @@
 
 ## 本项目必须遵守
 
+- **源码优先重构**：后续开发若参考源码／参考网站已有相关功能，必须先定位对应组件、数据查询、样式基础和交互实现，再迁移为 Halo 适配；不得仅根据需求描述或截图另写近似实现。先核实源链路并记录来源与必要差异。只有原功能无法直接适用 Halo 或确实不存在时，才做最小替代实现并说明原因。用户明确要求的差异（如平铺背景、便签、无图等高、后台设置）仍须保留；此规则仅限当前项目。
 - 本主题源码和发布仓库为 https://github.com/trizomx/halo-cali-lite ；不得误改为参考 fork。
 - 原生 Halo / Thymeleaf 主题，无 React、Next.js 或云服务运行依赖。0.2.0 起源码迁移组件维护在 `src/cali/`，由 `scripts/build-source.py` 生成带 Generated 标记的模板、source-*.js 和 cali-source.css，不得直接修改生成文件。其他模板、全局外壳及脚本仍直接维护在 `templates/`。执行 `python3 package.py` 先构建再生成安装包、源码 ZIP 和已解压源码目录；不能在历史 ZIP 或版本副本上开发。
 - 不使用 `#request`、`#response`、`#session`、`#servletContext` 或未经确认的表达式方法。配置按 Halo JsonNode 属性访问规则读取，保留空值回退。

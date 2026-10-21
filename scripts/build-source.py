@@ -57,7 +57,9 @@ def extract(text):
         elif selector.startswith('@'):continue
         else:
             names=classes(selector)
-            initialization=not names and '--tw-ring-offset-width' in body
+            # The original ::before/::after content initializer is required by
+            # all content:var(--tw-content) utility rules, including card blur.
+            initialization=not names and ('--tw-ring-offset-width' in body or (selector in {':after,:before',':before,:after'} and '--tw-content:' in body))
             if not initialization and (not names or not names.issubset(used)):continue
             matched.update(names)
             selector=re.sub(r'(?<![\\\w-])\.dark(?![\\\w-])',':where([data-theme="dark"])',selector)
@@ -77,6 +79,7 @@ def extract(text):
             out.append(scoped+'{'+body+'}')
     return ''.join(out)
 result=extract(css)
+assert ':after,:where(.cali-source) :before{--tw-content:""}' in result, 'Missing upstream pseudo-element initializer'
 for critical in ['text-base','md:text-xl','text-4xl','sm:text-5xl','prose','dark:prose-invert','aspect-[240/135]','before:opacity-70','after:backdrop-blur','animate-pulse','md:w-[120%]']:
     if critical not in matched:raise ValueError('Missing upstream utility '+critical)
 assets=ROOT/'templates/assets';assets.mkdir(exist_ok=True,parents=True)

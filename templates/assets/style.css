@@ -99,4 +99,4 @@ html[data-nav-pending] .nav-item[aria-current=page]::after{display:none}
 
 .brand-label{min-width:0}.site-footer{flex-wrap:wrap}
 
-.home-writing .section-heading h2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:24px;font-weight:600}.home-aside .explore-card{display:block}
+.home-writing .section-heading h2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:24px;font-weight:600}
