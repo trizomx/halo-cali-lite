@@ -10,6 +10,8 @@
   <script th:src="@{/assets/theme-init.js(v=${theme.spec.version})}"></script>
   <link rel="stylesheet" th:href="@{/assets/style.css(v=${theme.spec.version})}" />
   <link rel="stylesheet" th:href="@{/assets/cali-source.css(v=${theme.spec.version})}" />
+  <link th:if="${active == 'home'}" rel="stylesheet" th:href="@{/assets/gallery.css(v=${theme.spec.version})}" />
+  <script th:if="${active == 'home'}" defer th:src="@{/assets/gallery.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/main.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/navigation.js(v=${theme.spec.version})}"></script>
   <script defer th:src="@{/assets/avatar.js(v=${theme.spec.version})}"></script>

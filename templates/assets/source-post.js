@@ -41,7 +41,7 @@
   };
   article.querySelectorAll('[data-reveal]').forEach(element => reveal(element, variants[element.dataset.reveal]));
 
-  const headings = [...body.querySelectorAll('h1,h2,h3,h4')];
+  const headings = [...body.querySelectorAll('h1,h2,h3,h4,h5,h6')];
   const list = document.querySelector('[data-toc-list]');
   const toc = document.querySelector('[data-toc]');
   const links = [];
@@ -54,13 +54,19 @@
       }
       const label = heading.textContent.trim();
       const item = document.createElement('li');
-      item.className = 'text-[12px] font-medium leading-[18px] transition-colors duration-300';
-      if (heading.tagName === 'H3') item.classList.add('ml-1');
-      if (heading.tagName === 'H4') item.classList.add('ml-2');
+      const level = Math.max(1, Math.min(6, Number(heading.tagName.slice(1))));
+      item.className = 'source-toc-item';
+      item.dataset.level = String(level);
       const link = document.createElement('a');
-      link.className = 'source-toc-link block w-full hover:text-zinc-700 dark:hover:text-zinc-400';
+      link.className = 'source-toc-link';
       link.href = '#' + encodeURIComponent(heading.id);
-      link.textContent = label;
+      link.setAttribute('aria-label', `H${level}：${label}`);
+      const marker = document.createElement('span');
+      marker.className = 'source-toc-level'; marker.textContent = `H${level}`;
+      marker.setAttribute('aria-hidden', 'true');
+      const text = document.createElement('span');
+      text.className = 'source-toc-label'; text.textContent = label;
+      link.append(marker, text);
       item.append(link); list.append(item); links.push(link);
       if (!heading.querySelector('a[href^="#"]')) {
         const anchor = document.createElement('a');
@@ -79,8 +85,9 @@
     const fraction = range > 0 ? -rect.top / range : (rect.bottom <= window.innerHeight ? 1 : 0);
     if (progress) progress.textContent = `${Math.round(Math.max(0, Math.min(1, fraction)) * 100)}%`;
     if (!links.length) return;
-    let index = headings.findIndex(heading => heading.getBoundingClientRect().top > 0);
-    if (index < 0) index = headings.length - 1;
+    // Highlight the section being read, rather than the next heading below it.
+    let index = 0;
+    headings.forEach((heading, current) => { if (heading.getBoundingClientRect().top <= 128) index = current; });
     links.forEach((link, current) => {
       const active = current === index && article.getBoundingClientRect().bottom > 0;
       link.classList.toggle('is-active', active);

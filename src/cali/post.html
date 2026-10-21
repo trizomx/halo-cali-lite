@@ -5,7 +5,7 @@
  th:with="plainText=${(post.content?.content ?: '').replaceAll('(?is)&lt;script[^&gt;]*&gt;.*?&lt;/script&gt;|&lt;style[^&gt;]*&gt;.*?&lt;/style&gt;', '').replaceAll('&lt;[^&gt;]+&gt;', '').replaceAll('&amp;[a-zA-Z0-9#]+;', ' ').trim()}, readingMinutes=${(#strings.length(plainText) + 299) / 300}">
  <div class="w-full md:flex md:justify-between xl:relative">
   <aside class="hidden w-[160px] shrink-0 lg:block source-toc-rail">
-   <div th:if="${theme.config?.article?.show_toc != false}" class="sticky top-2 pt-20" data-toc hidden><nav th:aria-label="#{toc}"><ul data-toc-list class="group pointer-events-auto flex flex-col space-y-2 text-zinc-500"></ul></nav></div>
+   <div th:if="${theme.config?.article?.show_toc != false}" class="sticky top-2 pt-20" data-toc hidden><nav th:aria-label="#{toc}"><span class="source-toc-title">文章目录</span><ul data-toc-list class="source-toc-list"></ul></nav></div>
   </aside>
   <div class="max-w-2xl md:flex-1 md:shrink-0 source-post-column">
    <a th:href="@{${site.routes.archivesUri}}" th:aria-label="#{back.writing}" class="source-back group mb-8 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0 dark:ring-white/10 dark:hover:border-zinc-700 dark:hover:ring-white/20 lg:absolute lg:-left-5 lg:-mt-2 lg:mb-0 xl:-top-1.5 xl:left-0 xl:mt-0"><svg class="h-8 w-8 stroke-zinc-500 transition group-hover:stroke-zinc-700 dark:stroke-zinc-500 dark:group-hover:stroke-zinc-400" aria-hidden="true"><use href="#cali-UTurnLeftIcon"/></svg></a>

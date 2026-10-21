@@ -77,9 +77,14 @@
     if (category) category.title = category.textContent.trim();
     const image = card.querySelector('[data-card-image]');
     if (!image) return;
+    card.classList.add('has-cover');
     const unavailable = () => {
+      card.classList.remove('has-cover');
+      card.classList.remove('is-color-sampled');
       image.hidden = true;
       card.style.setProperty('--post-image', 'none');
+      card.style.setProperty('--post-image-bg', '');
+      card.style.setProperty('--post-image-fg', '');
       const backdrop = card.querySelector('[data-card-backdrop]');
       if (backdrop) backdrop.hidden = true;
     };

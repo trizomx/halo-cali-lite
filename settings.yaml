@@ -50,6 +50,116 @@ spec:
           label: 便签补充文字
           value: ""
           help: 留空时使用站点副标题。
+    - group: gallery
+      label: 照片墙
+      formSchema:
+        - $formkit: switch
+          name: enabled
+          label: 首页显示照片墙
+          value: true
+          help: 在下方添加照片后展示，不读取文章封面；空列表时隐藏。网格裁切预览，点开显示完整画面。
+        - $formkit: switch
+          name: replace_cover_strip
+          label: 有照片墙时隐藏文章封面带
+          value: true
+          help: 避免首页出现两块照片区。关闭后可与旧封面合集同时显示。
+        - $formkit: select
+          name: columns
+          label: 电脑端每行照片数量
+          value: "3"
+          options:
+            - label: 2张（大图）
+              value: "2"
+            - label: 3张（推荐）
+              value: "3"
+            - label: 4张（紧凑）
+              value: "4"
+          help: 手机端自动每行2张。
+        - $formkit: number
+          name: limit
+          label: 首页最多展示照片数
+          value: 12
+          min: 1
+          max: 60
+          step: 1
+          validation: required|number|min:1|max:60
+        - $formkit: select
+          name: thumb_size
+          label: 首页预览图尺寸
+          value: m
+          options:
+            - label: 400px（更省流量）
+              value: s
+            - label: 800px（推荐）
+              value: m
+            - label: 1200px（更清晰）
+              value: l
+          help: 使用Halo附件缩略图，保留原图。若存储服务未提供缩略图，可给照片单独上传预览图。
+        - $formkit: select
+          name: load_mode
+          label: 放大后的图片加载方式
+          value: manual
+          options:
+            - label: 先看预览，手动查看原图（推荐）
+              value: manual
+            - label: 先看预览，再自动加载原图
+              value: auto
+            - label: 打开后直接加载原图
+              value: original
+          help: 放大策略只影响正在查看的照片；自动模式尊重省流量／2G设置。缩略图不可用时请单独上传预览图。
+        - $formkit: switch
+          name: show_info
+          label: 放大后显示照片信息
+          value: true
+        - $formkit: array
+          name: items
+          label: 我的照片
+          value: []
+          max: 100
+          addLabel: 添加照片
+          emptyText: 点击“添加照片”，上传一张照片即可开始。
+          itemLabels:
+            - type: image
+              label: $value.original
+            - type: text
+              label: $value.title
+          children:
+            - $formkit: attachment
+              name: original
+              label: 照片原图（必填）
+              value: ""
+              validation: required
+              help: 直接上传或从附件库选择。首页优先使用缩略预览；没有缩略图时请在下方单独上传小尺寸预览图。
+            - $formkit: attachment
+              name: preview
+              label: 自定义预览图（可留空）
+              value: ""
+              help: 留空自动使用Halo缩略图。可上传同一照片的小尺寸版本以确保省流量；不要选另一张照片。
+            - $formkit: text
+              name: title
+              label: 照片名称（可留空）
+              value: ""
+              help: 仅在放大查看时展示，照片墙上不显示文字。
+            - $formkit: textarea
+              name: note
+              label: 照片说明（可留空）
+              value: ""
+            - $formkit: date
+              name: date
+              label: 拍摄日期（可留空）
+              value: ""
+            - $formkit: text
+              name: location
+              label: 地点（可留空）
+              value: ""
+            - $formkit: text
+              name: camera
+              label: 相机或设备（可留空）
+              value: ""
+            - $formkit: switch
+              name: enabled
+              label: 展示这张照片
+              value: true
     - group: projects
       label: 项目展示
       formSchema:

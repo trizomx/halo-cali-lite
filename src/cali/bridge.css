@@ -2,11 +2,11 @@
 .source-projects ul,.source-toc-rail ul{list-style:none;margin:0;padding:0}
 .source-icons{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
 .source-card,.source-post{font-size:16px;line-height:1.5}
-.source-card,.source-post-article{--card-hue:145;--post-image-bg:hsl(var(--card-hue) 44% 79%);--post-image-fg:#172027}
+.source-card,.source-post-article{--card-hue:145;--post-image-bg:hsl(var(--card-hue) 17% 89%);--post-image-fg:#252b33}
 .source-card:nth-child(6n+2){--card-hue:26}.source-card:nth-child(6n+3){--card-hue:204}.source-card:nth-child(6n+4){--card-hue:273}.source-card:nth-child(6n+5){--card-hue:52}.source-card:nth-child(6n){--card-hue:342}
-:root[data-theme=dark] .source-card:not(.is-color-sampled),:root[data-theme=dark] .source-post-article:not(.is-color-sampled){--post-image-bg:hsl(var(--card-hue) 28% 27%);--post-image-fg:#f5f7f6}
+:root[data-theme=dark] .source-card:not(.is-color-sampled),:root[data-theme=dark] .source-post-article:not(.is-color-sampled){--post-image-bg:hsl(var(--card-hue) 11% 25%);--post-image-fg:#edf0f3}
 .source-card>a{height:100%}.source-card h2{margin:0}.source-card-cover,.source-post-cover{background:var(--post-image-bg);border-radius:24px 24px 0 0}
-.source-card-cover{background-image:radial-gradient(ellipse at 18% 20%,#ffffff32,transparent 70%),linear-gradient(145deg,transparent,#0000000d)}
+.source-card-cover{background-image:radial-gradient(ellipse at 24% 16%,#ffffff60,transparent 74%),linear-gradient(145deg,transparent,#00000006)}
 .source-fill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .source-card-info{box-sizing:border-box;height:132px}
 .source-card-title{height:56px;min-height:56px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
@@ -42,3 +42,22 @@
 @media(prefers-reduced-motion:reduce){.source-card>a,.source-card *{transition:none!important}.source-card>a:hover{transform:none}.source-loading .animate-pulse{animation:none}}
 
 @media(max-width:390px){.site-header{gap:6px}.top-nav{padding-left:4px;padding-right:4px}.nav-item{padding-left:6px;padding-right:6px}}
+
+/* No-image is a Halo fallback: v2.0 requires mainImage and defines no empty-cover branch. */
+.source-card:not(.has-cover) .source-card-info{background-image:none;background-color:var(--post-image-bg)}
+.source-card:not(.has-cover) .source-card-title{opacity:1}
+.source-card:not(.has-cover) .source-card-meta{opacity:.82}
+/* User-requested hierarchy and contrast, on the migrated source TOC. */
+.source-toc-title{display:block;margin-bottom:14px;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted)}
+.source-toc-list{display:flex;flex-direction:column;gap:4px}
+.source-toc-item{margin:0;padding:0}
+.source-toc-link{display:flex;align-items:baseline;gap:7px;min-height:32px;width:100%;padding:6px 5px;border-radius:6px;border-left:2px solid transparent;color:var(--muted);font-size:13px;line-height:20px;transition:background-color .15s,color .15s}
+.source-toc-level{flex-shrink:0;font-family:ui-monospace,monospace;font-size:9px;line-height:16px;font-weight:650;color:var(--accent)}
+.source-toc-label{min-width:0;overflow-wrap:anywhere}
+.source-toc-item[data-level="1"] .source-toc-link{font-size:15px;font-weight:750;color:var(--text)}
+.source-toc-item[data-level="2"] .source-toc-link{font-size:14px;font-weight:650;color:var(--text)}
+.source-toc-item[data-level="3"]{padding-left:8px}.source-toc-item[data-level="4"]{padding-left:14px}.source-toc-item[data-level="5"]{padding-left:20px}.source-toc-item[data-level="6"]{padding-left:24px}
+.source-toc-item:is([data-level="5"],[data-level="6"]) .source-toc-link{font-size:12px}
+.source-toc-link:hover,.source-toc-link:focus-visible{background:var(--tint);color:var(--text)}
+.source-toc-link.is-active{border-left-color:var(--accent);background:var(--tint);color:var(--text);font-weight:700}
+.source-prose :is(h1,h2,h3,h4,h5,h6){scroll-margin-top:90px}

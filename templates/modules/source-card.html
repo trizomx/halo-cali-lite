@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"><body>
 <!-- Port: app/(main)/blog/BlogPostCard.tsx. Data and equal-height fallbacks adapt to Halo. -->
-<article class="source-card" th:fragment="card(post)" th:attr="data-card-key=${post.metadata.name}"
+<article class="source-card" th:classappend="${not #strings.isEmpty(post.spec.cover)} ? 'has-cover'" th:fragment="card(post)" th:attr="data-card-key=${post.metadata.name}"
  th:with="previewContent=${postFinder.content(post.metadata.name)}, plainText=${(previewContent?.content ?: '').replaceAll('(?is)&lt;script[^&gt;]*&gt;.*?&lt;/script&gt;|&lt;style[^&gt;]*&gt;.*?&lt;/style&gt;', '').replaceAll('&lt;[^&gt;]+&gt;', '').replaceAll('&amp;[a-zA-Z0-9#]+;', ' ').trim()}, readingMinutes=${(#strings.length(plainText) + 299) / 300}">
  <a th:href="@{${post.status.permalink}}" data-post-link class="group relative flex w-full transform-gpu flex-col rounded-3xl bg-transparent ring-2 ring-[--post-image-bg] transition-transform hover:-translate-y-0.5">
   <div data-card-cover class="relative aspect-[240/135] w-full source-card-cover">
