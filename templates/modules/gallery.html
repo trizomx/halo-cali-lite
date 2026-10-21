@@ -18,39 +18,27 @@
    </th:block>
   </th:block>
  </div>
- <dialog class="gallery-dialog" data-gallery-dialog aria-labelledby="gallery-title">
-  <div class="gallery-toolbar">
-   <h2 id="gallery-title" data-gallery-title>照片浏览</h2>
-   <span class="gallery-counter" data-gallery-counter></span>
-   <button type="button" class="gallery-icon-button" data-gallery-close aria-label="关闭照片">×</button>
-  </div>
+ <dialog class="gallery-dialog" data-gallery-dialog tabindex="-1" aria-label="照片预览，点击照片或背景关闭，方向键切换">
   <div class="gallery-stage" data-gallery-stage>
-   <button type="button" class="gallery-arrow is-prev" data-gallery-prev aria-label="上一张照片">‹</button>
    <img class="gallery-image" data-gallery-image alt="" />
-   <button type="button" class="gallery-arrow is-next" data-gallery-next aria-label="下一张照片">›</button>
-  <div class="gallery-info" data-gallery-info th:if="${theme.config?.gallery?.show_info != false}">
-   <p data-gallery-note hidden></p>
-   <dl class="gallery-spec-plate">
-    <div data-gallery-row="date" hidden><dt>拍摄日期</dt><dd data-gallery-field="date"></dd></div>
-    <div data-gallery-row="location" hidden><dt>地点</dt><dd data-gallery-field="location"></dd></div>
-    <div data-gallery-row="camera" hidden><dt>相机</dt><dd data-gallery-field="camera"></dd></div>
-    <div data-gallery-row="lens" hidden><dt>镜头</dt><dd data-gallery-field="lens"></dd></div>
-    <div data-gallery-row="focal" hidden><dt>焦距</dt><dd data-gallery-field="focal"></dd></div>
-    <div data-gallery-row="aperture" hidden><dt>光圈</dt><dd data-gallery-field="aperture"></dd></div>
-    <div data-gallery-row="shutter" hidden><dt>快门</dt><dd data-gallery-field="shutter"></dd></div>
-    <div data-gallery-row="iso" hidden><dt>ISO</dt><dd data-gallery-field="iso"></dd></div>
-    <div><dt>当前图片</dt><dd data-gallery-dimensions></dd></div>
-   </dl>
+   <span class="gallery-marks" data-gallery-marks aria-hidden="true"></span>
+   <div class="gallery-info" data-gallery-info hidden th:if="${theme.config?.gallery?.show_info != false}">
+    <p data-gallery-note hidden></p>
+    <dl class="gallery-spec-plate" data-gallery-plate>
+     <div data-gallery-row="date" hidden><dt>拍摄日期</dt><dd data-gallery-field="date"></dd></div>
+     <div data-gallery-row="location" hidden><dt>地点</dt><dd data-gallery-field="location"></dd></div>
+     <div data-gallery-row="camera" hidden><dt>相机</dt><dd data-gallery-field="camera"></dd></div>
+     <div data-gallery-row="lens" hidden><dt>镜头</dt><dd data-gallery-field="lens"></dd></div>
+     <div data-gallery-row="focal" hidden><dt>焦距</dt><dd data-gallery-field="focal"></dd></div>
+     <div data-gallery-row="aperture" hidden><dt>光圈</dt><dd data-gallery-field="aperture"></dd></div>
+     <div data-gallery-row="shutter" hidden><dt>快门</dt><dd data-gallery-field="shutter"></dd></div>
+     <div data-gallery-row="iso" hidden><dt>ISO</dt><dd data-gallery-field="iso"></dd></div>
+    </dl>
+   </div>
   </div>
-  </div>
-  <div class="gallery-dock">
-  <div class="gallery-controls">
-   <span class="gallery-status" data-gallery-status role="status" aria-live="polite"></span>
+  <div class="gallery-dock" data-gallery-dock hidden>
    <button type="button" data-gallery-original>查看原图</button>
-   <a data-gallery-open-original target="_blank" rel="noopener noreferrer">新窗口打开原图 ↗</a>
   </div>
-
- </div>
  </dialog>
 </section>
 </body></html>

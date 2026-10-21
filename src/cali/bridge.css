@@ -92,3 +92,18 @@
 .source-toc-link{transition:font-size .2s,line-height .2s,color .15s}
 .source-toc-item .source-toc-link.is-active{font-size:14.5px;line-height:22px;font-weight:650}
 .source-toc-link.is-active .source-toc-label{top:-11px;max-height:44px}
+
+/* 0.5.1: source dominant colour remains on the cover/ring. Text needs a
+   contrast-safe, nearly opaque tint even when local photo colours differ. */
+.source-card .source-card-title,.source-card .source-card-meta{opacity:1!important}
+.source-card .source-card-info::before{background-color:var(--post-caption-bg,var(--post-image-bg));opacity:.96!important}
+.source-card .source-card-info::after{--tw-gradient-to:var(--post-caption-bg,var(--post-image-bg));backdrop-filter:blur(12px)}
+/* PortableTextImage's round print/caption adapted to Halo's figure/picture/img.
+   Natural size is preserved; never turn a small print into a stretched cover. */
+.source-prose :is(figure,picture){max-width:100%;min-width:0}
+.source-prose figure{margin:32px auto}
+.source-prose picture{display:block}
+.source-prose img:not(.emoji){display:block;max-width:100%;height:auto;margin-left:auto;margin-right:auto;border-radius:12px;box-shadow:0 0 0 1px var(--line)}
+.source-prose :is(figcaption,.image-caption){margin:12px 0 0;text-align:center;color:var(--muted);font-size:13px;line-height:22px;overflow-wrap:anywhere}
+.source-prose figure>p{margin:0}
+@media(min-width:768px){.source-prose img:not(.emoji){border-radius:24px}}

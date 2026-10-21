@@ -359,13 +359,6 @@ spec:
     - group: appearance
       label: 背景与导航
       formSchema:
-        - $formkit: userSelect
-          name: profile_user
-          label: 首页展示的博主账号
-          value: ""
-          clearable: true
-          placeholder: 选择已设置头像的Halo用户
-          help: 头像在Halo用户资料中上传，这里选择展示哪位博主，首页大头像和页头小头像同步使用。多用户站点固定使用所选账号，不随登录用户或最新文章作者改变；留空或账号没有头像时兼容使用站点Logo。
         - $formkit: switch
           name: show_grid
           label: 显示平铺背景网格
@@ -428,3 +421,11 @@ spec:
           label: 显示实际主题版本号
           value: true
           help: 页脚自动显示当前安装的 cali lite 版本，更新主题时同步改变，不读取上面的补充文字。无需再手写版本号；关闭此项可隐藏。
+    - group: privacy
+      label: 抓取与AI使用限制
+      formSchema:
+        - $formkit: switch
+          name: discourage_crawlers
+          label: 拒绝搜索收录、AI训练与Agents采集（声明）
+          value: false
+          help: 开启后在主题页面添加noindex及拒绝文本挖掘、AI与Agents使用的声明。不是访问拦截，不能保证阻止采集或撤回已训练内容；根目录robots.txt与Cloudflare规则需另行设置，见开发说明“抓取限制”。关闭不撤销Halo系统已有的屏蔽设置。

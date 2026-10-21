@@ -401,6 +401,12 @@
       "path": "sanity/schemas/settings.ts",
       "fork_sha256": "e8f5ad6120e6d33732cb47edbab4ea6113c1b01e2a964a85e6917c0a7f6a653e",
       "v2_sha256": "e8f5ad6120e6d33732cb47edbab4ea6113c1b01e2a964a85e6917c0a7f6a653e"
+    },
+    {
+      "path": "components/portable-text/PortableTextImage.tsx",
+      "fork_sha256": "aa542e4d12965885f007b5dd4d9c50ca4e55acb89d7064cb5e66c4fb5b2dd4ad",
+      "v2_sha256": "aa542e4d12965885f007b5dd4d9c50ca4e55acb89d7064cb5e66c4fb5b2dd4ad",
+      "adaptation": "0.5.1 Halo figure/picture/img rounding and caption typography only."
     }
   ]
 }

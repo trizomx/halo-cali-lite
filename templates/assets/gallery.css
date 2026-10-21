@@ -11,38 +11,48 @@
 .photo-wall[data-columns="2"] .photo-wall-grid{columns:2}
 .photo-wall[data-columns="4"] .photo-wall-grid{columns:4}
 @keyframes photo-enter-swing{from{opacity:0;transform:translateY(12px) rotate(-2deg);filter:blur(2px)}}
-.photo-wall-item{display:block;position:relative;break-inside:avoid;margin-bottom:12px;overflow:hidden;border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--line);animation:photo-enter-swing .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--photo-delay,0ms)}
+.photo-wall-item{cursor:zoom-in;display:block;position:relative;break-inside:avoid;margin-bottom:12px;overflow:hidden;border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--line);animation:photo-enter-swing .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--photo-delay,0ms)}
 .photo-wall-item img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;transition:transform .4s}
 .photo-wall-item.is-loaded img{aspect-ratio:auto}
 .photo-wall-item:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .photo-wall-item.is-unavailable{min-height:140px;background:linear-gradient(145deg,var(--surface),var(--line))}
-.photo-calibration{position:absolute;inset:8px;pointer-events:none;opacity:0;transform:scale(1.05);transition:opacity .15s,transform .3s;color:#fff;--arm:9px;filter:drop-shadow(0 1px 2px #0008);background:linear-gradient(currentColor,currentColor) left top/var(--arm) 1px no-repeat,linear-gradient(currentColor,currentColor) left top/1px var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--arm) 1px no-repeat,linear-gradient(currentColor,currentColor) right top/1px var(--arm) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--arm) 1px no-repeat,linear-gradient(currentColor,currentColor) left bottom/1px var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--arm) 1px no-repeat,linear-gradient(currentColor,currentColor) right bottom/1px var(--arm) no-repeat}
-@media(hover:hover) and (pointer:fine){.photo-wall-item:hover img{transform:scale(1.025)}.photo-wall-item:hover .photo-calibration,.photo-wall-item:focus-within .photo-calibration{opacity:.7;transform:none}}
+.photo-calibration{position:absolute;inset:8px;pointer-events:none;opacity:0;transform:scale(1.05);transition:opacity .15s,transform .3s;color:#fff;--arm:9px;--photo-line:.75px;filter:drop-shadow(0 1px 2px #0008);background:linear-gradient(currentColor,currentColor) left top/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) left top/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--photo-line) var(--arm) no-repeat}
+@media(hover:hover) and (pointer:fine){.photo-wall-item:hover img{transform:scale(1.025)}.photo-wall-item:hover .photo-calibration,.photo-wall-item:focus-visible .photo-calibration{opacity:.62;transform:none}}
 /* Full-viewport photographic overlay; no window frame or panel surface.
  * FLIP flight adapted from cali.so v3 ZoomImage; native dialog keeps focus safe. */
-.gallery-dialog{position:fixed;inset:0;width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;margin:0;padding:0;color:#f5f5f5;background:transparent;border:0;border-radius:0;box-shadow:none;overflow:hidden;overscroll-behavior:contain}
-.gallery-dialog:not([open]){display:none}.gallery-dialog[open]{display:grid;grid-template-rows:auto minmax(0,1fr) auto}
-.gallery-dialog::backdrop{background:rgba(0,0,0,.94);transition:background .32s ease}
-.gallery-dialog.is-closing::backdrop{background:transparent}
-.gallery-toolbar{display:flex;align-items:center;gap:16px;min-height:60px;padding:12px 24px;position:relative;z-index:2}
-.gallery-toolbar h2{font-size:14px;font-weight:500;margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#ffffffb3}
-.gallery-counter{margin-left:auto;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap;color:#ffffffb3}
-.gallery-icon-button{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#ffffff12;color:#fff;font-size:27px;line-height:1}
-.gallery-stage{position:relative;min-height:0;background:none;touch-action:pan-y pinch-zoom}
+.gallery-dialog{position:fixed;inset:0;width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;margin:0;padding:0;color:var(--text);background:transparent;border:0;border-radius:0;box-shadow:none;overflow:hidden;overscroll-behavior:contain;outline:none}
+.gallery-dialog:not([open]){display:none}.gallery-dialog[open]{display:block}
+.gallery-dialog::backdrop{background:var(--glass);background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background .32s cubic-bezier(.2,.8,.2,1),backdrop-filter .32s cubic-bezier(.2,.8,.2,1),-webkit-backdrop-filter .32s cubic-bezier(.2,.8,.2,1)}
+@starting-style{.gallery-dialog[open]::backdrop{background:transparent;backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0)}}
+.gallery-dialog.is-closing::backdrop{background:transparent;backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0)}
+.gallery-stage{position:absolute;inset:24px;min-height:0;touch-action:pan-y pinch-zoom;cursor:zoom-out}
 .gallery-image{position:fixed;display:block;max-width:none;max-height:none;object-fit:contain;transform-origin:center center;border-radius:2px;box-shadow:0 12px 60px #0006;cursor:zoom-out;will-change:transform}
-.gallery-arrow{position:absolute;z-index:2;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:40px;height:52px;border-radius:20px;background:#ffffff10;color:#fff;font-size:34px;line-height:1}
-.gallery-arrow.is-prev{left:12px}.gallery-arrow.is-next{right:12px}.gallery-arrow:disabled{opacity:.25}
-.gallery-dock{position:relative;z-index:2;max-height:30vh;max-height:30dvh;overflow:auto;padding:12px 24px max(18px,env(safe-area-inset-bottom));color:#ffffffbf}
-.gallery-controls{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:12px}
-.gallery-status{color:#ffffff94;min-height:20px}
-.gallery-controls button,.gallery-controls a{border:1px solid #ffffff35;border-radius:999px;padding:5px 12px;background:transparent;color:#fff;font-size:12px}
-.gallery-controls button:hover,.gallery-controls a:hover{border-color:#ffffffa8;background:#ffffff12}.gallery-controls button:disabled{opacity:.5;cursor:default}
+.photo-wall-item[data-zoomed] img{visibility:hidden}
+.gallery-dock{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:2}
+.gallery-dock button{border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--glass);color:var(--text);font-size:12px}
+.gallery-dock button:disabled{opacity:.6}
+.gallery-dialog.is-closing .gallery-info,.gallery-dialog.is-closing .gallery-dock{opacity:0;pointer-events:none}
 /* Source PhotoDetails / spec-plate-flow: caption directly below the print. */
-.gallery-info{position:fixed;z-index:1;transform:translateX(-50%);max-height:28dvh;overflow:auto;color:#ffffffad;pointer-events:auto;text-align:left;font-size:12px}
+.gallery-info{transition:opacity .15s;position:fixed;z-index:1;transform:translateX(-50%);max-height:28dvh;overflow:auto;color:var(--muted);pointer-events:auto;text-align:left;font-size:12px}
 .gallery-info p{margin:0 0 8px;white-space:pre-line;overflow-wrap:anywhere;text-align:center}
-.gallery-spec-plate{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin:0;padding:8px 0;border-top:1px solid #ffffff24;border-bottom:1px solid #ffffff24;font-family:ui-monospace,SFMono-Regular,monospace;font-variant-numeric:tabular-nums}
-.gallery-spec-plate>div{display:block;min-width:0}.gallery-spec-plate dt{font-size:10px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff80}.gallery-spec-plate dd{margin:2px 0 0;font-size:12px;line-height:18px;letter-spacing:.02em;color:#ffffffdf;overflow-wrap:anywhere}
-.gallery-dialog :focus-visible{outline:2px solid #fff;outline-offset:4px}
+.gallery-spec-plate{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin:0;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:ui-monospace,SFMono-Regular,monospace;font-variant-numeric:tabular-nums}
+.gallery-spec-plate>div{display:block;min-width:0}.gallery-spec-plate dt{font-size:10px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.gallery-spec-plate dd{margin:2px 0 0;font-size:12px;line-height:18px;letter-spacing:.02em;color:var(--text);overflow-wrap:anywhere}
+.gallery-dialog :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 html.is-gallery-open{overflow:hidden}
-@media(max-width:680px){.photo-wall{margin:0 0 48px}.photo-wall-grid,.photo-wall[data-columns] .photo-wall-grid{columns:2;column-gap:10px}.photo-wall-item{border-radius:10px;margin-bottom:10px}.gallery-toolbar{min-height:52px;padding:8px 12px;gap:8px}.gallery-arrow{width:30px;height:44px;background:#0005}.gallery-arrow.is-prev{left:4px}.gallery-arrow.is-next{right:4px}.gallery-dock{padding:10px 12px max(16px,env(safe-area-inset-bottom));max-height:35dvh}.gallery-controls{gap:8px}.gallery-status{flex:1 0 100%;text-align:center}}
+@media(max-width:680px){.photo-wall{margin:0 0 48px}.photo-wall-grid,.photo-wall[data-columns] .photo-wall-grid{columns:2;column-gap:10px}.photo-wall-item{border-radius:10px;margin-bottom:10px}.gallery-stage{inset:16px}}
 @media(prefers-reduced-motion:reduce){.photo-wall-item,.photo-wall-item img,.photo-calibration,.gallery-dialog::backdrop{animation:none;transition:none}.photo-wall-item:hover img{transform:none}}
+
+/* Source photo-frame local hover only; restored mouse focus is not a hover. */
+.photo-wall-item[data-zoomed] .photo-calibration{opacity:0!important}
+
+.gallery-info{cursor:auto}
+
+/* ZoomImage's calibration-corners + zoom-overlay-marks: settled image geometry,
+   hairline arms, delayed development and a quick fade before returning. */
+.gallery-marks{position:fixed;z-index:1;pointer-events:none;user-select:none;opacity:0;color:var(--text);--corner-arm:11px;--corner-line:.75px;transition:opacity 120ms ease;background:linear-gradient(currentColor,currentColor) left top/var(--corner-arm) var(--corner-line) no-repeat,linear-gradient(currentColor,currentColor) left top/var(--corner-line) var(--corner-arm) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--corner-arm) var(--corner-line) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--corner-line) var(--corner-arm) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--corner-arm) var(--corner-line) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--corner-line) var(--corner-arm) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--corner-arm) var(--corner-line) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--corner-line) var(--corner-arm) no-repeat}
+.gallery-dialog.is-expanded:not(.is-closing) .gallery-marks{opacity:.55;transition:opacity 200ms ease 140ms}
+.gallery-spec-plate>div{opacity:0;transform:translateY(10px) scale(.97);transition:opacity 150ms ease calc(var(--detail-index,0)*15ms),transform 150ms ease calc(var(--detail-index,0)*15ms)}
+.gallery-dialog.is-expanded:not(.is-closing) .gallery-spec-plate>div{opacity:1;transform:none;transition:opacity 200ms ease calc(120ms + var(--detail-index,0)*45ms),transform 350ms cubic-bezier(.2,.8,.2,1) calc(120ms + var(--detail-index,0)*45ms)}
+.gallery-dialog.is-instant .gallery-marks,.gallery-dialog.is-instant .gallery-spec-plate>div{transition:none;transform:none}
+@media(max-width:680px){.gallery-marks{--corner-arm:9px;--corner-line:.5px}.photo-calibration{--arm:7px;--photo-line:.5px}}
+@media(prefers-reduced-motion:reduce){.gallery-marks,.gallery-spec-plate>div{transition:none!important;transform:none!important}}

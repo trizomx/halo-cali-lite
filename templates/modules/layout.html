@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(viewContent, pageTitle, active, extraHead)" lang="zh-CN" th:lang="${site.language}" th:with="allPages=${singlePageFinder.list(1,100)}, profileUser=${not #strings.isEmpty(theme.config?.appearance?.profile_user) ? contributorFinder.getContributor(theme.config.appearance.profile_user) : null}, avatarUrl=${not #strings.isEmpty(profileUser?.avatar) ? profileUser.avatar : site.logo}, publicPages=${allPages.items.?[spec.publish == true and #strings.toString(spec.visible) == 'PUBLIC' and spec.deleted != true]},
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(viewContent, pageTitle, active, extraHead)" lang="zh-CN" th:lang="${site.language}" th:with="allPages=${singlePageFinder.list(1,100)}, avatarUrl=${site.logo}, publicPages=${allPages.items.?[spec.publish == true and #strings.toString(spec.visible) == 'PUBLIC' and spec.deleted != true]},
  projectsPage=${not #strings.isEmpty(theme.config?.projects?.page_name) ? singlePageFinder.getByName(theme.config.projects.page_name) : (theme.config?.projects?.auto_page != false ? publicPages.^[spec.template == 'page_projects.html' or ((#strings.isEmpty(spec.template) or spec.template == 'page.html') and spec.slug == 'projects')] : null)},
  photosPage=${not #strings.isEmpty(theme.config?.gallery?.page_name) ? singlePageFinder.getByName(theme.config.gallery.page_name) : (theme.config?.gallery?.auto_page != false ? publicPages.^[spec.template == 'page_photos.html' or ((#strings.isEmpty(spec.template) or spec.template == 'page.html') and spec.slug == 'photos')] : null)},
  aboutPage=${not #strings.isEmpty(theme.config?.about?.page_name) ? singlePageFinder.getByName(theme.config.about.page_name) : (theme.config?.about?.auto_page != false ? publicPages.^[spec.template == 'page_about.html' or ((#strings.isEmpty(spec.template) or spec.template == 'page.html') and spec.slug == 'about')] : null)},
@@ -14,6 +14,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="light dark" />
+  <!-- Halo emits its own noindex when system SEO blocks spiders. Avoid duplicates. -->
+  <meta th:if="${theme.config?.privacy?.discourage_crawlers == true and site.seo?.blockSpiders != true}" name="robots" content="noindex, nofollow, noimageindex, nosnippet" />
+  <th:block th:if="${theme.config?.privacy?.discourage_crawlers == true}">
+    <meta name="tdm-reservation" content="1" />
+    <meta name="robots-policy" content="No automated collection, AI training, AI inference or agent reuse. Human browsing only." />
+  </th:block>
   <title th:if="${extraHead == null}" th:text="${pageTitle}"></title>
   <th:block th:if="${extraHead != null}"><th:block th:replace="${extraHead}"></th:block></th:block>
   <script th:src="@{/assets/appearance.js(v=${theme.spec.version})}" th:attr="data-light-background=${theme.config?.appearance?.light_background},data-dark-background=${theme.config?.appearance?.dark_background},data-light-accent=${theme.config?.appearance?.light_accent},data-dark-accent=${theme.config?.appearance?.dark_accent},data-nav-size=${theme.config?.appearance?.nav_font_size},data-indicator-height=${theme.config?.appearance?.indicator_height},data-grid=${theme.config?.appearance?.show_grid}"></script>

@@ -11,12 +11,23 @@
     result = Math.imul(result ^ (result >>> 13), 0xc2b2ae35);
     return (result ^ (result >>> 16)) >>> 0;
   };
-  const foreground = rgb => {
+  const luminance = rgb => {
     const luminance = rgb.map(channel => {
       const value = channel / 255;
       return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4;
     }).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
-    return (luminance + .05) / .05 >= 1.05 / (luminance + .05) ? '#000000' : '#ffffff';
+    return luminance;
+  };
+  const foreground = rgb => luminance(rgb) > .179 ? '#000000' : '#ffffff';
+  // Keep the sampled cover/ring hue; reserve extra contrast for the text layer.
+  const caption = (rgb, fg) => {
+    const target = fg === '#000000' ? 255 : 0;
+    for (let amount = 0; amount <= 1; amount += .05) {
+      const color = rgb.map(c => Math.round(c + (target - c) * amount));
+      const l = luminance(color), ratio = fg === '#000000' ? (l + .05) / .05 : 1.05 / (l + .05);
+      if (ratio >= 7.5) return color;
+    }
+    return [target, target, target];
   };
   const sample = image => {
     try {
@@ -85,6 +96,7 @@
       card.style.setProperty('--post-image', 'none');
       card.style.setProperty('--post-image-bg', '');
       card.style.setProperty('--post-image-fg', '');
+      card.style.setProperty('--post-caption-bg', '');
       const backdrop = card.querySelector('[data-card-backdrop]');
       if (backdrop) backdrop.hidden = true;
     };
@@ -94,7 +106,9 @@
       palette(image.currentSrc || image.src, image).then(rgb => {
         if (!rgb) return;
         card.style.setProperty('--post-image-bg', `rgb(${rgb.join(',')})`);
-        card.style.setProperty('--post-image-fg', foreground(rgb));
+        const fg = foreground(rgb);
+        card.style.setProperty('--post-image-fg', fg);
+        card.style.setProperty('--post-caption-bg', `rgb(${caption(rgb, fg).join(',')})`);
         card.classList.add('is-color-sampled');
       });
     };

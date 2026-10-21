@@ -114,3 +114,21 @@
   gap: 0.5rem 1.5rem;
 }
 
+
+/* Shared source calibration arm geometry. */
+.calibration-corners {
+  --corner-arm: 9px;
+  pointer-events: none;
+  user-select: none;
+  color: var(--foreground);
+  background:
+    linear-gradient(currentColor, currentColor) left top / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) left top / var(--border-hairline) var(--corner-arm) no-repeat,
+    linear-gradient(currentColor, currentColor) right top / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) right top / var(--border-hairline) var(--corner-arm) no-repeat,
+    linear-gradient(currentColor, currentColor) left bottom / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) left bottom / var(--border-hairline) var(--corner-arm) no-repeat,
+    linear-gradient(currentColor, currentColor) right bottom / var(--corner-arm) var(--border-hairline) no-repeat,
+    linear-gradient(currentColor, currentColor) right bottom / var(--border-hairline) var(--corner-arm) no-repeat;
+}
+

@@ -108,3 +108,6 @@ html[data-nav-pending] .nav-item[aria-current=page]::after{display:none}
 .theme-version{white-space:nowrap;font-variant-numeric:tabular-nums}
 
 .about-page{max-width:760px;margin-inline:auto}.about-content{max-width:672px;margin:0 auto}.about-page .page-heading{max-width:672px;margin-inline:auto}.about-empty{color:var(--muted);padding:24px 0}.about-content img{height:auto;max-width:100%}
+
+/* Keep the inline image landing position stable when a full-screen photo opens. */
+html{scrollbar-gutter:stable}

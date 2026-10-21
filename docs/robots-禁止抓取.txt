@@ -1,0 +1,6 @@
+# Domain-root policy. Serve as /robots.txt with Content-Type: text/plain.
+# No automated collection or reuse for search, AI training, AI input or agents.
+# Advisory instructions: enforce unwanted traffic with origin/edge access rules.
+User-agent: *
+Disallow: /
+Content-Signal: search=no, ai-input=no, ai-train=no

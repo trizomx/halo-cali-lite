@@ -43,5 +43,17 @@
 - **Halo真实类型回归**：SinglePageSpec.visible在目标Halo中是Post.VisibleEnum，不得直接与字符串PUBLIC比较。统一用 `#strings.toString(...visible) == 'PUBLIC'` 做空值安全的规范化，自动发现、手动指定和当前页判定均要覆盖。测试须包含真实枚举／POJO字段类型；不能只用公开JSON中的字符串就声称复现了运行时。
 - 项目导航必须指向独立项目页的permalink，禁止回退到 /#projects；无有效页面时隐藏入口。页脚版本读取theme.spec.version，由footer.show_version控制；不得拿用户手写footer.text作版本依据，不覆盖用户文字。
 
-- **0.5.0用户头像与独立关于**：通过appearance.profile_user的原生userSelect明确选择首页博主账号，用contributorFinder.getContributor(name).avatar；首页大头像与页头小头像同源，不以登录访客、第一位用户或最新文章作者决定。未选择／无头像才兼容site.logo。关于使用已公开发布的独立页面，about别名自动识别或单次指定，正文由Halo编辑器维护，不恢复简介弹窗。顶部暂不展示分类入口。
-- **0.5.0照片放大**：以src/photos固定ZoomImage为来源继续适配FLIP；黑色全屏背景、无窗口面板，参数在照片正下方，保留手动／自动／直接原图策略与焦点恢复。camera/lens/focal/aperture/shutter/iso等只显示用户填写内容，不伪造EXIF。当前章节／点击目标放大应保留，主动滚动必须能解除点击固定状态。
+- **0.5.1恢复系统标识**：首页和页头只使用site.logo，站名用site.title；不得恢复appearance.profile_user或重复Logo上传项。关于继续使用可编辑独立页，顶部暂不展示分类。
+
+- **0.5.0照片放大历史基础（背景以0.5.1新要求为准）**：以src/photos固定ZoomImage为来源继续适配FLIP；黑色全屏背景、无窗口面板，参数在照片正下方，保留手动／自动／直接原图策略与焦点恢复。camera/lens/focal/aperture/shutter/iso等只显示用户填写内容，不伪造EXIF。当前章节／点击目标放大应保留，主动滚动必须能解除点击固定状态。
+
+- **0.5.1优先于旧界面**：照片放大只保留照片与用户填写的说明／拍摄信息，无信息则纯照片；移除标题、X、计数、可见左右按钮、原图外链、自动像素信息。只有手动原图模式显示原图按钮及其请求状态，自动模式静默。回收从当前视觉矩阵开始，不在原图升级时改变目标框。
+- 抓取／AI／Agents限制必须区分主题HTML声明、根目录robots及边缘阻断；不以JS屏蔽或自定义meta伪称强制拦截，不覆盖Halo系统已有noindex，不声称追溯删除训练数据。配套域名规则见docs/抓取限制.md。
+
+- **0.5.1最新视觉要求优先**：照片放大改为随主题明暗的半透明背景与backdrop blur，关闭同步退去模糊；不再恢复固定黑色。继续迁移ZoomImage的变换与反向落点，不加可见标题或X按钮。
+
+- 照片取景角标按源photo-frame只随当前单张hover出现，移出隐藏；键盘仅focus-visible提示，不能用focus-within让鼠标回焦后的角标持续可见。
+
+- 照片墙缩略图光标zoom-in，放大图与背景zoom-out，原图按钮保留pointer；取景角标仅本图交互显示。
+
+- 放大态也迁移ZoomImage四角：照片外沿定位、延迟淡入及退出淡出，桌面0.75px／手机0.5px细线，小屏角臂9px、外扩7px；保留减少动态效果和滑动后合成点击抑制。

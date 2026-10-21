@@ -51,6 +51,6 @@
   "caption_source": "components/published-photo-wall.tsx::cameraFields / PhotoDetails and app/globals.css::spec-plate-flow; adapted in v0.5.0 as metadata immediately below the photo.",
   "selected_css": {
     "path": "upstream/zoom.css",
-    "sha256": "f33238d5dcea167e95e3dfb0f430cb9a5c6aa9b3595ad73370cbc9c6e7c9a6e5"
+    "sha256": "0fbad390463f98c0a68a20878b2cf1ed9204e59d68872462091f7e334efb9ca4"
   }
 }
