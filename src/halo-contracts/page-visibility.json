@@ -1,0 +1,14 @@
+{
+  "target": "Halo v2.27.0",
+  "contract": "SinglePageSpec.visible is Post.VisibleEnum, not the HTTP JSON string. Normalize with #strings.toString before comparing; exercise both list and getByName paths.",
+  "source_files": [
+    {
+      "url": "https://github.com/halo-dev/halo/blob/v2.27.0/api/src/main/java/run/halo/app/core/extension/content/SinglePage.java",
+      "sha256": "251b83a42c73f127ffadfdffee23c7448321361247c5c00c9eb513e7d681f477"
+    },
+    {
+      "url": "https://github.com/halo-dev/halo/blob/v2.27.0/application/src/main/java/run/halo/app/theme/finders/impl/SinglePageFinderImpl.java",
+      "sha256": "4fa304b4e93561c9986d995c3868bc1525d6be9f34a982a1e3e6957ee1aaf69a"
+    }
+  ]
+}

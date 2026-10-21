@@ -371,3 +371,8 @@ spec:
           name: show_source
           label: 显示主题 GitHub 链接
           value: true
+        - $formkit: switch
+          name: show_version
+          label: 显示实际主题版本号
+          value: true
+          help: 页脚自动显示当前安装的 cali lite 版本，更新主题时同步改变，不读取上面的补充文字。无需再手写版本号；关闭此项可隐藏。

@@ -104,3 +104,5 @@ html[data-nav-pending] .nav-item[aria-current=page]::after{display:none}
 /* Six navigation entries still fit 320px screens; preserve readable type. */
 @media(max-width:680px){.site-header{gap:6px}.nav-item{padding-inline:6px}}
 @media(max-width:420px){.nav-item{padding-inline:3px}.top-nav{padding-inline:4px}}
+
+.theme-version{white-space:nowrap;font-variant-numeric:tabular-nums}

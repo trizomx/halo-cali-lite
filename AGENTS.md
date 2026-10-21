@@ -39,3 +39,6 @@
 - 照片墙是用户授权的功能，0.4.0起布局参考 v3 源码，Halo管理和灯箱保持原生适配：照片来自主题设置附件列表，与文章封面无关；缩略预览优先，原图按访客操作或明确选定的策略加载，不用前端下载原图再假称节省网络。元信息只在放大查看时展示；不得自动提取或上传EXIF，也不得加入演示照片。
 
 - 文章目录0.4.1起参考v3的PostToc／buildPostRail细刻度地图：保留H1–H6可点击层级、当前章节、进度与移动浮动展开；去掉可见H数字标签和块状底色。按本主题放大上下间距和行高，不照搬原站密集布局，不加页侧遮罩。修改适配入口仍为src/cali/post.html、post.js、bridge.css，再构建；v3来源快照另在src/article-map记录。
+
+- **Halo真实类型回归**：SinglePageSpec.visible在目标Halo中是Post.VisibleEnum，不得直接与字符串PUBLIC比较。统一用 `#strings.toString(...visible) == 'PUBLIC'` 做空值安全的规范化，自动发现、手动指定和当前页判定均要覆盖。测试须包含真实枚举／POJO字段类型；不能只用公开JSON中的字符串就声称复现了运行时。
+- 项目导航必须指向独立项目页的permalink，禁止回退到 /#projects；无有效页面时隐藏入口。页脚版本读取theme.spec.version，由footer.show_version控制；不得拿用户手写footer.text作版本依据，不覆盖用户文字。

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(viewContent, pageTitle, active, extraHead)" lang="zh-CN" th:lang="${site.language}" th:with="allPages=${singlePageFinder.list(1,100)}, publicPages=${allPages.items.?[spec.publish == true and spec.visible == 'PUBLIC' and spec.deleted != true]},
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(viewContent, pageTitle, active, extraHead)" lang="zh-CN" th:lang="${site.language}" th:with="allPages=${singlePageFinder.list(1,100)}, publicPages=${allPages.items.?[spec.publish == true and #strings.toString(spec.visible) == 'PUBLIC' and spec.deleted != true]},
  projectsPage=${not #strings.isEmpty(theme.config?.projects?.page_name) ? singlePageFinder.getByName(theme.config.projects.page_name) : (theme.config?.projects?.auto_page != false ? publicPages.^[spec.template == 'page_projects.html' or ((#strings.isEmpty(spec.template) or spec.template == 'page.html') and spec.slug == 'projects')] : null)},
  photosPage=${not #strings.isEmpty(theme.config?.gallery?.page_name) ? singlePageFinder.getByName(theme.config.gallery.page_name) : (theme.config?.gallery?.auto_page != false ? publicPages.^[spec.template == 'page_photos.html' or ((#strings.isEmpty(spec.template) or spec.template == 'page.html') and spec.slug == 'photos')] : null)},
- projectsReady=${projectsPage != null and projectsPage.spec.publish == true and projectsPage.spec.visible == 'PUBLIC' and projectsPage.spec.deleted != true and projectsPage.spec.template != 'page_photos.html'},
- photosReady=${photosPage != null and photosPage.spec.publish == true and photosPage.spec.visible == 'PUBLIC' and photosPage.spec.deleted != true and photosPage.spec.template != 'page_projects.html'},
- projectsUrl=${projectsReady ? projectsPage.status.permalink : '/#projects'}, photosUrl=${photosReady ? photosPage.status.permalink : null},
+ projectsReady=${projectsPage != null and projectsPage.spec.publish == true and #strings.toString(projectsPage.spec.visible) == 'PUBLIC' and projectsPage.spec.deleted != true and projectsPage.spec.template != 'page_photos.html'},
+ photosReady=${photosPage != null and photosPage.spec.publish == true and #strings.toString(photosPage.spec.visible) == 'PUBLIC' and photosPage.spec.deleted != true and photosPage.spec.template != 'page_projects.html'},
+ projectsUrl=${projectsReady ? projectsPage.status.permalink : null}, photosUrl=${photosReady ? photosPage.status.permalink : null},
  photosNav=${theme.config?.gallery?.enabled != false and theme.config?.gallery?.nav_enabled != false and photosReady},
  pageActive=${not #strings.isEmpty(active) ? active : (singlePage != null and projectsReady and singlePage.metadata.name == projectsPage.metadata.name ? 'projects' : (singlePage != null and photosReady and singlePage.metadata.name == photosPage.metadata.name ? 'photos' : ''))}">
 <head>
@@ -48,7 +48,7 @@
     <a class="nav-item" th:href="@{${site.routes.archivesUri}}" th:attr="aria-current=${pageActive == 'writing' ? 'page' : null}"><span th:text="#{nav.writing}"></span></a>
     <a class="nav-item" th:if="${photosNav}" th:href="@{${photosUrl}}" th:attr="aria-current=${pageActive == 'photos' ? 'page' : null}"><span>照片</span></a>
     <a class="nav-item" th:href="@{${site.routes.categoriesUri}}" th:attr="aria-current=${pageActive == 'categories' ? 'page' : null}"><span th:text="#{nav.categories}"></span></a>
-    <a class="nav-item" th:if="${theme.config?.projects?.nav_enabled != false}" th:href="@{${projectsUrl}}" th:attr="aria-current=${pageActive == 'projects' ? 'page' : null}"><span>项目</span></a>
+    <a class="nav-item" th:if="${theme.config?.projects?.nav_enabled != false and projectsReady}" th:href="@{${projectsUrl}}" th:attr="aria-current=${pageActive == 'projects' ? 'page' : null}"><span>项目</span></a>
     <button type="button" class="nav-item" data-about-open aria-haspopup="dialog" aria-controls="about-dialog"><span th:text="#{nav.about}"></span></button>
     
     
@@ -59,7 +59,8 @@
     <div class="source-footer-subscribe" th:if="${theme.config?.newsletter?.show_footer != false}"><th:block th:replace="~{modules/source-newsletter :: newsletter(position='footer')}"></th:block></div>
     <footer class="site-footer" id="site-footer">
       <span>© <span data-current-year></span> <span th:text="${site.title}"></span></span>
-      <nav th:if="${theme.config?.footer?.show_links != false}" class="source-footer-links" aria-label="页脚导航"><a th:href="@{/}">首页</a><a th:href="@{${site.routes.archivesUri}}">文章</a><a th:href="@{${projectsUrl}}">项目</a><a th:if="${photosNav}" th:href="@{${photosUrl}}">照片</a><a th:if="${theme.config?.footer?.show_source != false}" href="https://github.com/trizomx/halo-cali-lite" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+      <nav th:if="${theme.config?.footer?.show_links != false}" class="source-footer-links" aria-label="页脚导航"><a th:href="@{/}">首页</a><a th:href="@{${site.routes.archivesUri}}">文章</a><a th:if="${projectsReady}" th:href="@{${projectsUrl}}">项目</a><a th:if="${photosNav}" th:href="@{${photosUrl}}">照片</a><a th:if="${theme.config?.footer?.show_source != false}" href="https://github.com/trizomx/halo-cali-lite" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+      <span class="theme-version" data-theme-version aria-label="主题版本" th:if="${theme.config?.footer?.show_version != false}" th:text="|cali lite v${theme.spec.version}|"></span>
       <span th:if="${not #strings.isEmpty(theme.config?.footer?.text)}" th:text="${theme.config.footer.text}"></span>
     </footer>
   </div>
