@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="html(head, content)"
+      th:replace="~{modules/layout :: html(viewContent=~{::pluginBody}, pageTitle=${site.title}, active='', extraHead=${head})}">
+  <main id="main" class="inner-page" th:fragment="pluginBody">
+    <th:block th:replace="${content}"></th:block>
+  </main>
+</html>

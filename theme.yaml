@@ -1,0 +1,19 @@
+apiVersion: theme.halo.run/v1alpha1
+kind: Theme
+metadata:
+  name: theme-wulong-lite
+spec:
+  displayName: cali lite
+  author:
+    name: trizomx
+    website: https://github.com/trizomx
+  description: 参考 cali.so v2 风格的轻量原生 Halo 主题，含顶部毛玻璃导航。
+  repo: https://github.com/trizomx/halo-cali-lite
+  homepage: https://github.com/trizomx/halo-cali-lite
+  issues: https://github.com/trizomx/halo-cali-lite/issues
+  version: 0.1.3
+  requires: ">=2.27.0"
+  settingName: theme-wulong-lite-setting
+  configMapName: theme-wulong-lite-config
+  license:
+    - name: MIT

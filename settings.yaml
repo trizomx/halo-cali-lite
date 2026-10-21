@@ -1,0 +1,26 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: theme-wulong-lite-setting
+spec:
+  forms:
+    - group: home
+      label: 首页与关于
+      formSchema:
+        - $formkit: text
+          name: headline
+          label: 标题第一行
+          value: 记录与思考，
+        - $formkit: text
+          name: highlight
+          label: 标题强调行
+          value: 把好奇写进日常。
+        - $formkit: textarea
+          name: intro
+          label: 简介
+          help: 留空时使用 Halo 站点副标题。关于弹窗也使用此简介。
+          value: ""
+        - $formkit: text
+          name: note
+          label: 首页侧栏短句
+          value: 保持好奇，慢慢记录。

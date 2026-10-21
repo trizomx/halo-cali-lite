@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=#{archive.title} + ' · ' + ${site.title}, active='writing', extraHead=null)}">
+<main id="main" class="inner-page">
+  <header class="page-heading"><span class="eyebrow">WRITING</span><h1 th:text="#{archive.title}"></h1><p th:text="#{archive.intro}"></p></header>
+  <div class="archive-year" th:each="archive : ${archives.items}"><h2 th:text="${archive.year}"></h2><th:block th:each="month : ${archive.months}"><article class="archive-post" th:each="post : ${month.posts}"><time th:if="${post.spec.publishTime != null}" th:text="${#temporals.format(post.spec.publishTime, 'MM / dd')}"></time><a th:href="@{${post.status.permalink}}" th:text="${post.spec.title}"></a><span aria-hidden="true">↗</span></article></th:block></div>
+  <div class="empty-state" th:if="${#lists.isEmpty(archives.items)}"><h2 th:text="#{empty.posts}"></h2><p th:text="#{empty.posts.note}"></p></div>
+  <nav th:replace="~{modules/posts :: pagination(result=${archives})}"></nav>
+</main></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=${site.title}, active='home', extraHead=null)}">
+<main id="main">
+  <section class="hero">
+    <div class="hero-avatar"><img th:if="${not #strings.isEmpty(site.logo)}" th:src="@{${site.logo}}" alt="" width="76" height="76" /><span th:if="${#strings.isEmpty(site.logo)}" class="avatar-mark large" aria-hidden="true">✳</span></div>
+    <span class="eyebrow" th:text="#{hero.eyebrow}"></span>
+    <h1><span th:text="${theme.config?.home?.headline ?: '记录与思考，'}"></span><br /><span class="highlight" th:text="${theme.config?.home?.highlight ?: '把好奇写进日常。'}"></span></h1>
+    <p class="hero-intro" th:text="${theme.config?.home?.intro ?: site.subtitle ?: ''}"></p>
+    <div class="hero-links"><a class="text-link" th:href="@{${site.routes.archivesUri}}"><span th:text="#{hero.read}"></span><span aria-hidden="true">↗</span></a><span class="link-dot">·</span><button type="button" class="text-link" data-about-open th:text="#{nav.about}"></button></div>
+  </section>
+  <div class="filmstrip" th:if="${not #lists.isEmpty(posts.items)}" th:aria-label="#{photos.label}">
+    <th:block th:each="post, state : ${posts.items}">
+      <a class="film-photo" th:if="${state.index < 5 and not #strings.isEmpty(post.spec.cover)}" th:href="@{${post.status.permalink}}" th:aria-label="${post.spec.title}"><img th:src="@{${post.spec.cover}}" alt="" loading="lazy" width="320" height="380" /></a>
+    </th:block>
+  </div>
+  <div class="home-content">
+    <section class="home-writing">
+      <div class="section-heading"><h2 th:text="#{recent}"></h2><a class="text-link" th:href="@{${site.routes.archivesUri}}" th:text="#{all.posts}"></a></div>
+      <section th:replace="~{modules/posts :: list(posts=${posts})}"></section>
+    </section>
+    <aside class="home-aside">
+      <section class="note-card"><span class="note-star" aria-hidden="true">✳</span><span class="eyebrow" th:text="#{aside.eyebrow}"></span><h2 th:text="${theme.config?.home?.note ?: '保持好奇，慢慢记录。'}"></h2><p th:text="${site.subtitle}"></p></section>
+      <div class="explore-card"><h2 th:text="#{explore}"></h2><a th:href="@{${site.routes.categoriesUri}}"><span th:text="#{nav.categories}"></span><span aria-hidden="true">↗</span></a><a th:href="@{${site.routes.tagsUri}}"><span th:text="#{nav.tags}"></span><span aria-hidden="true">↗</span></a></div>
+    </aside>
+  </div>
+</main>
+</html>

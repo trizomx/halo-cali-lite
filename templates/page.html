@@ -1,0 +1,3 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=|${singlePage.spec.title} · ${site.title}|, active='', extraHead=null)}">
+<main id="main" class="inner-page"><article class="article"><header class="article-heading"><h1 th:text="${singlePage.spec.title}"></h1></header><div class="article-body prose" th:utext="${singlePage.content.content}"></div></article></main></html>

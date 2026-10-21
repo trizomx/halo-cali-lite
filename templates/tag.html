@@ -1,0 +1,4 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=${tag.spec.displayName} + ' · ' + ${site.title}, active='categories', extraHead=null)}">
+<main id="main" class="inner-page"><header class="page-heading"><span class="eyebrow">COLLECTION</span><h1 th:text="${tag.spec.displayName}"></h1></header><section th:replace="~{modules/posts :: list(posts=${posts})}"></section></main>
+</html>

@@ -1,0 +1,3 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=#{error.title} + ' · ' + ${site.title}, active='', extraHead=null)}">
+<main id="main" class="inner-page"><section class="empty-state error-state"><span class="error-number" th:text="${error.status}"></span><h1 th:text="#{error.title}"></h1><p th:text="#{error.note}"></p><a class="pill-button" th:href="@{/}" th:text="#{nav.home}"></a></section></main></html>

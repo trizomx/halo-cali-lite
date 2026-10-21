@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::main}, pageTitle=|${post.spec.title} · ${site.title}|, active='writing', extraHead=null)}">
+<main id="main" class="inner-page article-page">
+  <a class="back-link" th:href="@{${site.routes.archivesUri}}" th:text="#{back.writing}"></a>
+  <article class="article">
+    <header class="article-heading"><div class="post-meta"><time th:if="${post.spec.publishTime != null}" th:datetime="${post.spec.publishTime}" th:text="${#temporals.format(post.spec.publishTime, 'yyyy / MM / dd')}"></time><a th:each="category : ${post.categories}" th:href="@{${category.status.permalink}}" th:text="${category.spec.displayName}"></a></div><h1 th:text="${post.spec.title}"></h1><p class="article-excerpt" th:if="${not #strings.isEmpty(post.status.excerpt)}" th:text="${post.status.excerpt}"></p></header>
+    <img class="article-cover" th:if="${not #strings.isEmpty(post.spec.cover)}" th:src="@{${post.spec.cover}}" alt="" width="1200" height="750" />
+    <div class="article-body prose" th:utext="${post.content.content}"></div>
+    <div class="article-tags"><a th:each="tag : ${post.tags}" th:href="@{${tag.status.permalink}}" th:text="|# ${tag.spec.displayName}|"></a></div>
+  </article>
+  <aside class="toc" data-toc hidden><span class="eyebrow" th:text="#{toc}"></span><nav data-toc-list th:aria-label="#{toc}"></nav></aside>
+</main></html>
