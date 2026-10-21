@@ -10,7 +10,7 @@
    <th:block th:if="${photo.enabled != false and not #strings.isEmpty(photo.original) and (photo.original.startsWith('https://') or (photo.original.startsWith('/') and not photo.original.startsWith('//')))}">
     <a class="photo-wall-item" data-gallery-item target="_blank" rel="noopener noreferrer" th:href="@{${photo.original}}"
      th:with="custom=${not #strings.isEmpty(photo.preview) and (photo.preview.startsWith('https://') or (photo.preview.startsWith('/') and not photo.preview.startsWith('//')))}, thumb=${custom ? photo.preview : (thumbnail.gen(photo.original, thumbSize) ?: photo.original)}, large=${custom ? photo.preview : (thumbnail.gen(photo.original, 'l') ?: thumb)}"
-     th:attr="data-original=@{${photo.original}},data-preview=@{${large}},data-photo-title=${photo.title ?: ''},data-photo-note=${photo.note ?: ''},data-photo-date=${photo.date ?: ''},data-photo-location=${photo.location ?: ''},data-photo-camera=${photo.camera ?: ''}"
+     th:attr="data-original=@{${photo.original}},data-preview=@{${large}},data-photo-title=${photo.title ?: ''},data-photo-note=${photo.note ?: ''},data-photo-date=${photo.date ?: ''},data-photo-location=${photo.location ?: ''},data-photo-camera=${photo.camera ?: ''},data-photo-lens=${photo.lens ?: ''},data-photo-focal=${photo.focal ?: ''},data-photo-aperture=${photo.aperture ?: ''},data-photo-shutter=${photo.shutter ?: ''},data-photo-iso=${photo.iso ?: ''}"
      th:aria-label="${#strings.isEmpty(photo.title) ? '放大查看照片 ' + state.count : '放大查看：' + photo.title}">
      <img th:src="@{${thumb}}" th:srcset="@{${thumb}}" th:alt="${photo.title ?: '照片'}" loading="lazy" decoding="async" />
      <span class="photo-calibration" aria-hidden="true"></span>
@@ -28,22 +28,29 @@
    <button type="button" class="gallery-arrow is-prev" data-gallery-prev aria-label="上一张照片">‹</button>
    <img class="gallery-image" data-gallery-image alt="" />
    <button type="button" class="gallery-arrow is-next" data-gallery-next aria-label="下一张照片">›</button>
+  <div class="gallery-info" data-gallery-info th:if="${theme.config?.gallery?.show_info != false}">
+   <p data-gallery-note hidden></p>
+   <dl class="gallery-spec-plate">
+    <div data-gallery-row="date" hidden><dt>拍摄日期</dt><dd data-gallery-field="date"></dd></div>
+    <div data-gallery-row="location" hidden><dt>地点</dt><dd data-gallery-field="location"></dd></div>
+    <div data-gallery-row="camera" hidden><dt>相机</dt><dd data-gallery-field="camera"></dd></div>
+    <div data-gallery-row="lens" hidden><dt>镜头</dt><dd data-gallery-field="lens"></dd></div>
+    <div data-gallery-row="focal" hidden><dt>焦距</dt><dd data-gallery-field="focal"></dd></div>
+    <div data-gallery-row="aperture" hidden><dt>光圈</dt><dd data-gallery-field="aperture"></dd></div>
+    <div data-gallery-row="shutter" hidden><dt>快门</dt><dd data-gallery-field="shutter"></dd></div>
+    <div data-gallery-row="iso" hidden><dt>ISO</dt><dd data-gallery-field="iso"></dd></div>
+    <div><dt>当前图片</dt><dd data-gallery-dimensions></dd></div>
+   </dl>
   </div>
+  </div>
+  <div class="gallery-dock">
   <div class="gallery-controls">
    <span class="gallery-status" data-gallery-status role="status" aria-live="polite"></span>
    <button type="button" data-gallery-original>查看原图</button>
    <a data-gallery-open-original target="_blank" rel="noopener noreferrer">新窗口打开原图 ↗</a>
   </div>
-  <details class="gallery-info" th:if="${theme.config?.gallery?.show_info != false}" open>
-   <summary>照片信息</summary>
-   <p data-gallery-note hidden></p>
-   <dl>
-    <div data-gallery-row="date" hidden><dt>拍摄日期</dt><dd data-gallery-field="date"></dd></div>
-    <div data-gallery-row="location" hidden><dt>地点</dt><dd data-gallery-field="location"></dd></div>
-    <div data-gallery-row="camera" hidden><dt>设备</dt><dd data-gallery-field="camera"></dd></div>
-    <div><dt>当前图片</dt><dd data-gallery-dimensions></dd></div>
-   </dl>
-  </details>
+
+ </div>
  </dialog>
 </section>
 </body></html>

@@ -53,7 +53,16 @@
   const ring = document.querySelector('[data-toc-progress]');
   const desktop = matchMedia('(min-width:1024px)');
   const links = [], targets = [];
-  let open = desktop.matches;
+  let open = desktop.matches, selectedTarget = null, selectionTimer = null;
+  const markActive = index => {
+    links.forEach((link, current) => {
+      const active = current === index && article.getBoundingClientRect().bottom > 0;
+      link.classList.toggle('is-active', active);
+      if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
+    });
+    if (currentLabel && links[index]) currentLabel.textContent = links[index].title;
+  };
+  const releaseSelection = () => { selectedTarget = null; clearTimeout(selectionTimer); };
   const setOpen = (next, instant = false) => {
     open = next;
     if (!toc || !panel || !toggle) return;
@@ -99,6 +108,8 @@
       link.addEventListener('click', event => {
         if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
+        releaseSelection(); selectedTarget = heading; markActive(index);
+        selectionTimer = setTimeout(() => { selectedTarget = null; schedule(); }, 1800);
         heading.setAttribute('tabindex', '-1'); heading.focus?.({ preventScroll: true });
         window.scrollTo({ top: window.scrollY + heading.getBoundingClientRect().top - 104, behavior: reduced.matches || event.detail === 0 ? 'instant' : 'smooth' });
         history.replaceState(null, '', link.href);
@@ -113,6 +124,7 @@
     toggle?.addEventListener('click', event => setOpen(!open, event.detail === 0));
     desktop.addEventListener?.('change', () => { setOpen(desktop.matches, true); schedule(); });
     window.addEventListener('keydown', event => {
+      if (/^(ArrowUp|ArrowDown|PageUp|PageDown|Home|End| )$/.test(event.key)) releaseSelection();
       if (event.key === 'Escape' && open && !desktop.matches) { setOpen(false, true); toggle?.focus(); }
     });
     window.addEventListener('pointerdown', event => {
@@ -133,12 +145,12 @@
     let index = 0;
     targets.forEach((heading, current) => { if (heading.getBoundingClientRect().top <= 105) index = current; });
     if (rect.bottom <= window.innerHeight) index = targets.length - 1;
-    links.forEach((link, current) => {
-      const active = current === index && article.getBoundingClientRect().bottom > 0;
-      link.classList.toggle('is-active', active);
-      if (active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current');
-    });
-    if (currentLabel) currentLabel.textContent = links[index].title;
+    if (selectedTarget) {
+      const top = selectedTarget.getBoundingClientRect().top;
+      if (Math.abs(top - 104) <= 3) releaseSelection();
+      else index = targets.indexOf(selectedTarget);
+    }
+    markActive(index);
     if (island) {
       const visible = desktop.matches || (article.querySelector('h1') || body).getBoundingClientRect().bottom <= 104;
       // hidden also removes offscreen controls from keyboard navigation.
@@ -152,6 +164,8 @@
     queued = true; requestAnimationFrame(() => { queued = false; update(); });
   };
   window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('wheel', releaseSelection, { passive: true });
+  window.addEventListener('touchstart', releaseSelection, { passive: true });
   window.addEventListener('resize', schedule); window.addEventListener('load', schedule); update();
   const copy = async (button, value, normal, success) => {
     try {

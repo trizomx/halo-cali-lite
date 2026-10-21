@@ -3,5 +3,6 @@
 <th:block th:fragment="pageContent">
  <th:block th:if="${pageActive == 'projects'}"><th:block th:replace="~{page_projects :: content}"></th:block></th:block>
  <th:block th:if="${pageActive == 'photos'}"><th:block th:replace="~{page_photos :: content}"></th:block></th:block>
- <main id="main" class="inner-page" th:if="${pageActive != 'projects' and pageActive != 'photos'}"><article class="article"><header class="article-heading"><h1 th:text="${singlePage.spec.title}"></h1></header><div class="article-body prose" th:utext="${singlePage.content?.content ?: ''}"></div></article></main>
+ <th:block th:if="${pageActive == 'about'}"><th:block th:replace="~{page_about :: content}"></th:block></th:block>
+ <main id="main" class="inner-page" th:if="${pageActive != 'projects' and pageActive != 'photos' and pageActive != 'about'}"><article class="article"><header class="article-heading"><h1 th:text="${singlePage.spec.title}"></h1></header><div class="article-body prose" th:utext="${singlePage.content?.content ?: ''}"></div></article></main>
 </th:block></html>

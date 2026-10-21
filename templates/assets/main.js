@@ -14,17 +14,6 @@
   preference.addEventListener('change', event => { if (!manual) { root.dataset.theme = event.matches ? 'dark' : 'light'; sync(); } });
   sync();
 
-  const dialog = document.getElementById('about-dialog');
-  document.querySelectorAll('[data-about-open]').forEach(button => button.addEventListener('click', () => {
-    if (!dialog || dialog.open) return;
-    dialog.showModal();
-  }));
-  document.querySelector('[data-about-close]')?.addEventListener('click', () => dialog.close());
-  dialog?.addEventListener('click', event => {
-    const box = dialog.getBoundingClientRect();
-    if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close();
-  });
-
   document.querySelectorAll('[data-current-year]').forEach(element => { element.textContent = String(new Date().getFullYear()); });
   const topButton = document.querySelector('[data-back-top]');
   const updateScroll = () => { if (topButton) topButton.hidden = scrollY < 500; };

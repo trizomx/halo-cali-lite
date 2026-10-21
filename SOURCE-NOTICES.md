@@ -81,3 +81,7 @@ separately permitted by their rights holders or applicable law.
 首页开发日志迁移自既有v2来源的 `app/(main)/Resume.tsx` 及 `assets/icons/BriefcaseIcon.tsx`；同样遵循上文v2权利边界。独立项目页继续使用ProjectCard来源。
 
 文章地图由用户另行授权参考main/v3同一固定提交 `edd108445c5323a9199af968913876aa37ea59d2`：`components/post-toc.tsx`、`lib/content.ts` 的buildPostRail和相关globals.css。路径与SHA256见src/article-map/sources.json，源码包含相关快照。v3 MIT Copyright (c) 2022-2026 Cali Castle及Content and asset exception适用，完整许可已在上文及src/article-map/upstream/LICENSE保留。没有复制作者文章、照片、身份内容或第三方素材。
+
+## 0.5.0 新增照片缩放来源
+
+同一v3固定提交的components/zoom-image.tsx（完整源码快照）、published-photo-wall.tsx中的PhotoDetails／cameraFields与app/globals.css的zoom-overlay／zoom-detail／spec-plate-flow用于FLIP几何过渡、无框放大与照片下方参数排版。来源与哈希见src/photos/sources.json，上述v3 MIT及Content and asset exception完整适用。原生dialog、Halo用户头像选择和预览／原图策略为本项目适配，没有复制作者照片或拍摄数据。

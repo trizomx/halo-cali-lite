@@ -35,6 +35,7 @@
   const stage = wall.querySelector('[data-gallery-stage]');
   const previous = wall.querySelector('[data-gallery-prev]');
   const next = wall.querySelector('[data-gallery-next]');
+  const info = wall.querySelector('[data-gallery-info]');
   if (!dialog || !image || typeof dialog.showModal !== 'function') return;
   const safeUrl = value => {
     if (!value) return null;
@@ -47,6 +48,39 @@
   const connection = navigator.connection;
   const saveData = () => !!connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType || '');
   let index = 0, opener = null, request = null, ticket = 0, slowTimer = null;
+  let motion = null, motionTimer = null, closing = false, currentRatio = 4 / 3;
+  const reducedMotion = () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const stopMotion = () => { clearTimeout(motionTimer); motion?.cancel(); motion = null; };
+  const fitPhoto = (width, height) => {
+    if (width > 0 && height > 0) currentRatio = width / height;
+    const rect = stage.getBoundingClientRect(), pad = (window.innerWidth || 1024) < 680 ? 36 : 64;
+    const maxW = Math.max(1, (rect.width || rect.right - rect.left) - pad * 2);
+    if (info) info.style.width = `${Math.min(640, maxW)}px`;
+    const captionHeight = info ? info.getBoundingClientRect().height || 80 : 0;
+    const captionSpace = captionHeight ? captionHeight + 16 : 0;
+    const maxH = Math.max(1, (rect.height || rect.bottom - rect.top) - 20 - captionSpace);
+    const w = Math.min(maxW, maxH * currentRatio), h = w / currentRatio;
+    image.style.left = `${rect.left + ((rect.width || rect.right - rect.left) - w) / 2}px`;
+    const top = rect.top + ((rect.height || rect.bottom - rect.top) - h - captionSpace) / 2;
+    image.style.top = `${top}px`;
+    if (info) { info.style.top = `${top + h + 16}px`; info.style.left = `${rect.left + (rect.width || rect.right - rect.left) / 2}px`; }
+    image.style.width = `${w}px`; image.style.height = `${h}px`;
+  };
+  // v3 ZoomImage FLIP: map the full image rectangle back to its inline thumbnail.
+  const flight = (returning = false) => {
+    stopMotion();
+    if (reducedMotion() || !image.animate || image.hidden) return null;
+    const source = items[index].querySelector('img')?.getBoundingClientRect();
+    const target = image.getBoundingClientRect();
+    if (!source || !(target.width > 0) || !(source.width > 0)) return null;
+    const scale = source.width / target.width;
+    const x = source.left + source.width / 2 - (target.left + target.width / 2);
+    const y = source.top + source.height / 2 - (target.top + target.height / 2);
+    const inline = { transform: `translate(${x}px,${y}px) scale(${scale})`, opacity: .8 };
+    const expanded = { transform: 'none', opacity: 1 };
+    motion = image.animate(returning ? [expanded, inline] : [inline, expanded], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' });
+    return motion;
+  };
   const stopRequest = () => {
     ticket++;
     clearTimeout(slowTimer);
@@ -61,7 +95,7 @@
     counter.textContent = `${index + 1} / ${items.length}`;
     const note = wall.querySelector('[data-gallery-note]');
     if (note) { note.textContent = data.photoNote || ''; note.hidden = !data.photoNote; }
-    for (const field of ['date', 'location', 'camera']) {
+    for (const field of ['date', 'location', 'camera', 'lens', 'focal', 'aperture', 'shutter', 'iso']) {
       const row = wall.querySelector(`[data-gallery-row="${field}"]`);
       const target = wall.querySelector(`[data-gallery-field="${field}"]`);
       const value = data['photo' + field[0].toUpperCase() + field.slice(1)] || '';
@@ -87,6 +121,7 @@
       const label = quality === 'original' ? '原图' : '预览';
       status.textContent = quality === 'preview' && mode === 'auto' && saveData() ? '预览已加载；省流量模式下不自动加载原图' : `${label}已加载`;
       if (dimensions) dimensions.textContent = `${label} · ${candidate.naturalWidth} × ${candidate.naturalHeight} px`;
+      fitPhoto(candidate.naturalWidth, candidate.naturalHeight);
       originalButton.disabled = quality === 'original';
       originalButton.textContent = quality === 'original' ? '已显示原图' : '查看原图';
       if (onReady) onReady();
@@ -107,8 +142,9 @@
     }, 15000);
     candidate.src = url;
   };
-  const show = nextIndex => {
-    stopRequest();
+  const show = (nextIndex, animate = false) => {
+    if (closing) return;
+    stopMotion(); stopRequest();
     index = (nextIndex + items.length) % items.length;
     const item = items[index];
     const original = safeUrl(item.dataset.original);
@@ -123,6 +159,8 @@
     else { image.removeAttribute('src'); image.hidden = true; }
     originalLink.href = original;
     previous.disabled = next.disabled = items.length === 1;
+    fitPhoto(thumb?.naturalWidth || 800, thumb?.naturalHeight || 600);
+    if (animate) flight();
     if (mode === 'original' || preview === original) load(original, 'original');
     else load(preview, 'preview', () => {
       // Automatic upgrading applies only to the photo actually being viewed.
@@ -140,21 +178,33 @@
       }
       event.preventDefault(); opener = item;
       document.documentElement.classList.add('is-gallery-open');
-      show(itemIndex);
+      show(itemIndex, event.detail !== 0);
     });
   });
   const cleanup = () => {
-    stopRequest();
+    stopRequest(); stopMotion(); closing = false; dialog.classList.remove('is-closing');
     document.documentElement.classList.remove('is-gallery-open');
     image.removeAttribute('src');
     opener?.focus({ preventScroll: true });
   };
-  wall.querySelector('[data-gallery-close]')?.addEventListener('click', () => dialog.close());
+  const requestClose = (instant = false) => {
+    if (!dialog.open || closing) return;
+    closing = true; stopRequest();
+    dialog.classList.add('is-closing');
+    const animation = instant ? null : flight(true);
+    if (!animation) { dialog.close(); return; }
+    let settled = false;
+    const finish = () => { if (settled) return; settled = true; if (dialog.open) dialog.close(); };
+    animation.finished.then(finish).catch(() => {});
+    motionTimer = setTimeout(finish, 450);
+  };
+  wall.querySelector('[data-gallery-close]')?.addEventListener('click', () => requestClose());
   dialog.addEventListener('close', cleanup);
+  dialog.addEventListener('cancel', event => { event.preventDefault(); requestClose(true); });
   dialog.addEventListener('click', event => {
-    const rect = dialog.getBoundingClientRect();
-    if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();
+    if (event.target === dialog || event.target === stage || event.target === image) requestClose();
   });
+  window.addEventListener('resize', () => { if (dialog.open && !closing) { stopMotion(); fitPhoto(); } });
   previous.addEventListener('click', () => show(index - 1));
   next.addEventListener('click', () => show(index + 1));
   originalButton.addEventListener('click', () => {

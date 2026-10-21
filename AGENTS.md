@@ -42,3 +42,6 @@
 
 - **Halo真实类型回归**：SinglePageSpec.visible在目标Halo中是Post.VisibleEnum，不得直接与字符串PUBLIC比较。统一用 `#strings.toString(...visible) == 'PUBLIC'` 做空值安全的规范化，自动发现、手动指定和当前页判定均要覆盖。测试须包含真实枚举／POJO字段类型；不能只用公开JSON中的字符串就声称复现了运行时。
 - 项目导航必须指向独立项目页的permalink，禁止回退到 /#projects；无有效页面时隐藏入口。页脚版本读取theme.spec.version，由footer.show_version控制；不得拿用户手写footer.text作版本依据，不覆盖用户文字。
+
+- **0.5.0用户头像与独立关于**：通过appearance.profile_user的原生userSelect明确选择首页博主账号，用contributorFinder.getContributor(name).avatar；首页大头像与页头小头像同源，不以登录访客、第一位用户或最新文章作者决定。未选择／无头像才兼容site.logo。关于使用已公开发布的独立页面，about别名自动识别或单次指定，正文由Halo编辑器维护，不恢复简介弹窗。顶部暂不展示分类入口。
+- **0.5.0照片放大**：以src/photos固定ZoomImage为来源继续适配FLIP；黑色全屏背景、无窗口面板，参数在照片正下方，保留手动／自动／直接原图策略与焦点恢复。camera/lens/focal/aperture/shutter/iso等只显示用户填写内容，不伪造EXIF。当前章节／点击目标放大应保留，主动滚动必须能解除点击固定状态。

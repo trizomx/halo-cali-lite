@@ -1,0 +1,116 @@
+.zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-toast);
+  cursor: zoom-out;
+  outline: none;
+}
+
+.zoom-overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklab, var(--background) 94%, transparent);
+  opacity: 0;
+  transition: opacity 300ms var(--ease-swift);
+}
+
+.zoom-overlay[data-state='open'] .zoom-overlay-backdrop {
+  opacity: 1;
+}
+
+.zoom-overlay img {
+  position: fixed;
+  border-radius: 2px;
+  background: var(--surface-1);
+  will-change: transform;
+  transition: transform 300ms var(--ease-swift), box-shadow 300ms var(--ease-swift);
+}
+
+.zoom-overlay[data-state='open'] img {
+  box-shadow: var(--shadow-large);
+}
+
+/* viewfinder brackets develop just outside the settled photo */
+.zoom-overlay-marks {
+  position: fixed;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.zoom-overlay[data-state='open'] .zoom-overlay-marks {
+  opacity: 0.55;
+  transition: opacity 200ms ease 140ms;
+}
+
+.zoom-overlay[data-motion='instant'] .zoom-overlay-backdrop,
+.zoom-overlay[data-motion='instant'] img,
+.zoom-overlay[data-motion='instant'] .zoom-overlay-marks {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoom-overlay-backdrop,
+  .zoom-overlay img,
+  .zoom-overlay-marks {
+    transition: none;
+  }
+}
+
+/* Source PhotoDetails label/value parameter plate. */
+.spec-plate {
+  margin-top: 1.5rem;
+}
+
+/* ── Spec plate: stamped label/value meta (technical print register) ── */
+
+.spec-plate {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.625rem 1rem;
+  margin: 0;
+  padding: 0.625rem 0;
+  border-top: var(--border-hairline) solid var(--border);
+  border-bottom: var(--border-hairline) solid var(--border);
+  font-family: var(--font-geist-mono), var(--font-frex-gb, ui-monospace), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+@media (min-width: 28rem) {
+  .spec-plate {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.spec-plate dt {
+  color: color-mix(in oklab, var(--muted-foreground) 72%, transparent);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.spec-plate dd {
+  margin: 0.1875rem 0 0;
+  color: var(--gray-9, var(--muted-foreground));
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* the lit cell — the plate carries this page's single signal mark */
+.spec-signal {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.375rem;
+  vertical-align: 0.09em;
+  background: var(--signal);
+}
+
+/* flow variant: cells wrap to their content instead of the fixed grid */
+.spec-plate-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+

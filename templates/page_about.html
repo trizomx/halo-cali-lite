@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{modules/layout :: html(viewContent=~{::content}, pageTitle=|${singlePage.spec.title} · ${site.title}|, active='about', extraHead=null)}">
+<main th:fragment="content" id="main" class="about-page inner-page">
+ <header class="page-heading"><span class="eyebrow">ABOUT</span><h1 th:text="${singlePage.spec.title}"></h1></header>
+ <article class="about-content source-prose prose dark:prose-invert" th:if="${not #strings.isEmpty(singlePage.content?.content)}" th:utext="${singlePage.content.content}"></article>
+ <p class="about-empty" th:if="${#strings.isEmpty(singlePage.content?.content)}">关于内容正在整理中。</p>
+</main></html>

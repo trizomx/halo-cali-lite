@@ -5,7 +5,7 @@ metadata:
 spec:
   forms:
     - group: home
-      label: 首页与关于
+      label: 首页内容
       formSchema:
         - $formkit: text
           name: headline
@@ -50,6 +50,25 @@ spec:
           label: 便签补充文字
           value: ""
           help: 留空时使用站点副标题。
+    - group: about
+      label: 关于页面
+      formSchema:
+        - $formkit: switch
+          name: nav_enabled
+          label: 显示关于入口
+          value: true
+        - $formkit: switch
+          name: auto_page
+          label: 自动识别关于页面（推荐开启）
+          value: true
+          help: 在“页面”中新建并公开发布别名为 about 的页面即可；直接编辑页面正文，不再弹出简介窗口。未创建时隐藏关于入口。
+        - $formkit: singlePageSelect
+          name: page_name
+          label: 手动指定关于页面（可留空）
+          value: ""
+          clearable: true
+          placeholder: 留空自动识别 about 页面
+          help: 页面使用其他别名时在这里选一次。正文在“页面”中编辑，可放文字、图片和链接，不与首页简介共用。
     - group: gallery
       label: 照片页面
       formSchema:
@@ -114,6 +133,7 @@ spec:
           name: show_info
           label: 放大后显示照片信息
           value: true
+          help: 拍摄参数直接显示在大图正下方；在每张照片中选填，未填项隐藏，不自动读取EXIF。
         - $formkit: array
           name: items
           label: 我的照片
@@ -159,6 +179,31 @@ spec:
               name: camera
               label: 相机或设备（可留空）
               value: ""
+            - $formkit: text
+              name: lens
+              label: 镜头（可留空）
+              value: ""
+              help: 例如 FE 35mm F1.8。仅在放大后的照片下方展示，不自动解析EXIF。
+            - $formkit: text
+              name: focal
+              label: 焦距（可留空）
+              value: ""
+              help: 例如 35 mm。仅在放大后的照片下方展示，不自动解析EXIF。
+            - $formkit: text
+              name: aperture
+              label: 光圈（可留空）
+              value: ""
+              help: 例如 f/1.8。仅在放大后的照片下方展示，不自动解析EXIF。
+            - $formkit: text
+              name: shutter
+              label: 快门（可留空）
+              value: ""
+              help: 例如 1/125 s。仅在放大后的照片下方展示，不自动解析EXIF。
+            - $formkit: text
+              name: iso
+              label: 感光度 ISO（可留空）
+              value: ""
+              help: 例如 100。仅在放大后的照片下方展示，不自动解析EXIF。
             - $formkit: switch
               name: enabled
               label: 展示这张照片
@@ -314,6 +359,13 @@ spec:
     - group: appearance
       label: 背景与导航
       formSchema:
+        - $formkit: userSelect
+          name: profile_user
+          label: 首页展示的博主账号
+          value: ""
+          clearable: true
+          placeholder: 选择已设置头像的Halo用户
+          help: 头像在Halo用户资料中上传，这里选择展示哪位博主，首页大头像和页头小头像同步使用。多用户站点固定使用所选账号，不随登录用户或最新文章作者改变；留空或账号没有头像时兼容使用站点Logo。
         - $formkit: switch
           name: show_grid
           label: 显示平铺背景网格
