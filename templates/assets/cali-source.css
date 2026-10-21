@@ -39,7 +39,7 @@
 .source-project-page h1{margin:0}.source-project-intro{max-width:672px}.source-projects .source-project-list.is-compact{grid-template-columns:1fr}.source-project-link:focus-visible{outline-offset:4px}
 @media(min-width:640px){.source-project-wire{left:-24px;right:-24px;padding-left:24px;padding-right:24px}}
 .home-aside .source-project-list.is-compact{grid-template-columns:minmax(0,1fr);row-gap:40px}
-.source-loading{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;max-width:none;margin:0;padding:0;z-index:1000;background:var(--bg);pointer-events:auto}.source-loading-container{width:min(1024px,calc(100% - 32px));margin-left:auto;margin-right:auto;height:100vh;height:100dvh;min-height:100dvh!important;margin-top:0!important}.source-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.source-loading{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;max-width:none;margin:0;padding:0;z-index:1000;background:var(--bg);background-image:inherit;background-size:inherit;background-position:inherit;pointer-events:auto}.source-loading-container{width:min(1024px,calc(100% - 32px));margin-left:auto;margin-right:auto;height:100vh;height:100dvh;min-height:100dvh!important;margin-top:0!important}.source-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 @media(min-width:768px){.source-card-info{height:130px}.source-card-title{height:64px;min-height:64px}.source-card-meta{display:flex!important;min-height:24px;height:24px}.source-card-stats{flex-shrink:0}.source-post-cover{border-radius:24px}}
 @media(min-width:1024px){.source-back{position:absolute;left:-20px;top:-8px}.source-post-column{max-width:672px}}
 @media(min-width:1280px){.source-back{left:0;top:-6px}}
@@ -130,7 +130,10 @@
    Only its contents switch; the reused source map has no second pill. */
 .source-map-percent{display:none}
 @media(max-width:1023px){
- .site-header.has-article-nav{transform:none!important}
+ .site-header.has-article-nav{transform:none!important;opacity:1}
+ .site-header.has-article-nav>.brand,.site-header.has-article-nav>.header-actions{transform:translate3d(0,var(--header-offset,0px),0);transition:none}
+ .site-header.has-article-nav.is-header-hidden>.top-nav{pointer-events:auto}
+ .site-header.has-article-nav.is-header-hidden>.brand,.site-header.has-article-nav.is-header-hidden>.header-actions{visibility:hidden}
  .site-header.has-article-nav .top-nav{width:min(440px,100%);height:44px}
  .site-header .top-nav>.source-map-island{pointer-events:auto;position:static;inset:auto;transform:none;width:100%;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;animation:none}
  .site-header .top-nav>.source-map-island .source-map-toggle{display:flex;align-items:center;width:100%;height:34px;padding:0 7px;gap:7px;line-height:1}
@@ -148,3 +151,8 @@
  .source-prose :is(h1,h2,h3,h4,h5,h6){scroll-margin-top:96px}
 }
 @media(max-width:680px){.site-header.has-article-nav .top-nav{width:100%}}
+
+/* Keep the original header above the full viewport loading sheet. */
+.is-post-loading .site-header{z-index:1001;transform:none!important;opacity:1}
+.is-post-loading .site-header>.brand,.is-post-loading .site-header>.header-actions{transform:none!important;visibility:visible!important;pointer-events:auto}
+.is-post-loading .site-header>.top-nav{pointer-events:auto}

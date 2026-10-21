@@ -186,7 +186,6 @@
         if (!desktop.matches) setOpen(false, true);
         if (nextReading) {
           island.hidden = false;
-          siteHeader.style.setProperty('--header-offset', '0px');
           if (siteNav.contains?.(document.activeElement)) toggle?.focus({ preventScroll:true });
         }
         window.dispatchEvent?.(new Event('resize'));

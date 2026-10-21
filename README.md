@@ -1,6 +1,6 @@
 # 使用ChatGPT自动化开发
 
-## cali lite 0.5.3
+## cali lite 0.5.4
 
 基于 cali.so **tag v2.0** 与用户 fork 的组件结构迁移到 Halo 的原生 Thymeleaf 主题。卡片、文章详情、项目与订阅组件保留源层级和 utility class，复用对应编译样式；React／Sanity 数据与交互改接 Halo 和原生浏览器 API。
 
@@ -18,7 +18,7 @@
 
 ## 安装与配置
 
-上传 [cali-lite-0.5.3.zip](releases/cali-lite-0.5.3.zip) 到 Halo Console → 主题并更新；若新设置和“照片”模板没有出现，点击“重载主题配置”。
+上传 [cali-lite-0.5.4.zip](releases/cali-lite-0.5.4.zip) 到 Halo Console → 主题并更新；若新设置和“照片”模板没有出现，点击“重载主题配置”。
 
 内部身份 `theme-cali-lite`、Setting `theme-cali-lite-setting`、ConfigMap `theme-cali-lite-config` 保持不变，同身份更新保留设置。
 
@@ -102,3 +102,5 @@ python3 package.py
 文章详情设置新增“正文图片点击放大”和“手机顶部章节导航”，均默认开启。手机顶部胶囊在文章页不随下滑离场，超过96px只切换内部内容为当前章节、进度百分比与居中箭头，目录默认收起；回顶恢复全部栏目，桌面仍保留左侧目录。
 
 首页标语：在“首页内容 → 标语分两行显示”切换；默认两行，关闭后合并两段并保留强调样式，小屏空间不足时自然换行。
+
+0.5.4：手机文章页只有中间胶囊固定，左右Logo／外观按钮恢复连续滚动移出与上滑恢复；文章加载遮罩盖住正文，顶部控件保持可见可操作。点赞与段落评论仅评估，未在本版实现，见docs/互动功能迁移评估.md。

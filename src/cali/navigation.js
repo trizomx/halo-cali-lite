@@ -8,10 +8,11 @@
   const reset = () => {
     clearTimeout(pending); clearTimeout(guard);
     loading.hidden = true;
+    document.documentElement?.classList.toggle('is-post-loading', false);
   };
   const start = () => {
     reset();
-    pending = setTimeout(() => { loading.hidden = false; }, 120);
+    pending = setTimeout(() => { loading.hidden = false; document.documentElement?.classList.toggle('is-post-loading', true); }, 120);
     guard = setTimeout(reset, 12000);
   };
   document.addEventListener('click', event => {
