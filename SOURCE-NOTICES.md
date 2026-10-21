@@ -85,3 +85,7 @@ separately permitted by their rights holders or applicable law.
 ## 0.5.0 新增照片缩放来源
 
 同一v3固定提交的components/zoom-image.tsx（完整源码快照）、published-photo-wall.tsx中的PhotoDetails／cameraFields与app/globals.css的zoom-overlay／zoom-detail／spec-plate-flow用于FLIP几何过渡、无框放大与照片下方参数排版。来源与哈希见src/photos/sources.json，上述v3 MIT及Content and asset exception完整适用。原生dialog、Halo用户头像选择和预览／原图策略为本项目适配，没有复制作者照片或拍摄数据。
+
+## 0.5.2 共享图片放大适配
+
+用户明确要求正文图片可放大；已授权的v3固定提交ZoomImage原生适配引擎因此复用于正文，新增共享image-viewer片段。仍适用上文v3 MIT及内容／素材例外，不搬运作者照片。v2 PortableTextImage仅用于Halo正文结构与图注排版参考，卡片继续原v2 BlogPostCard迁移；细边框与手机导航变形为本主题适配。

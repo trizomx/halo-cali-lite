@@ -11,13 +11,13 @@
 .photo-wall[data-columns="2"] .photo-wall-grid{columns:2}
 .photo-wall[data-columns="4"] .photo-wall-grid{columns:4}
 @keyframes photo-enter-swing{from{opacity:0;transform:translateY(12px) rotate(-2deg);filter:blur(2px)}}
-.photo-wall-item{cursor:zoom-in;display:block;position:relative;break-inside:avoid;margin-bottom:12px;overflow:hidden;border-radius:14px;background:var(--surface);box-shadow:0 0 0 1px var(--line);animation:photo-enter-swing .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--photo-delay,0ms)}
+.photo-wall-item{cursor:zoom-in;display:block;position:relative;break-inside:avoid;margin-bottom:12px;overflow:hidden;border-radius:0;background:var(--surface);box-shadow:0 0 0 1px var(--line);animation:photo-enter-swing .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--photo-delay,0ms)}
 .photo-wall-item img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;transition:transform .4s}
 .photo-wall-item.is-loaded img{aspect-ratio:auto}
 .photo-wall-item:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .photo-wall-item.is-unavailable{min-height:140px;background:linear-gradient(145deg,var(--surface),var(--line))}
-.photo-calibration{position:absolute;inset:8px;pointer-events:none;opacity:0;transform:scale(1.05);transition:opacity .15s,transform .3s;color:#fff;--arm:9px;--photo-line:.75px;filter:drop-shadow(0 1px 2px #0008);background:linear-gradient(currentColor,currentColor) left top/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) left top/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--photo-line) var(--arm) no-repeat}
-@media(hover:hover) and (pointer:fine){.photo-wall-item:hover img{transform:scale(1.025)}.photo-wall-item:hover .photo-calibration,.photo-wall-item:focus-visible .photo-calibration{opacity:.62;transform:none}}
+.photo-calibration{position:absolute;inset:8px;pointer-events:none;opacity:0;transform:scale(1.05);transition:opacity .15s,transform .3s;color:var(--text);--arm:9px;--photo-line:.75px;background:linear-gradient(currentColor,currentColor) left top/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) left top/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) right top/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) left bottom/var(--photo-line) var(--arm) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--arm) var(--photo-line) no-repeat,linear-gradient(currentColor,currentColor) right bottom/var(--photo-line) var(--arm) no-repeat}
+@media(hover:hover) and (pointer:fine){.photo-wall-item:hover img{transform:none}.photo-wall-item:hover .photo-calibration,.photo-wall-item:focus-visible .photo-calibration{opacity:.62;transform:none}}
 /* Full-viewport photographic overlay; no window frame or panel surface.
  * FLIP flight adapted from cali.so v3 ZoomImage; native dialog keeps focus safe. */
 .gallery-dialog{position:fixed;inset:0;width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;margin:0;padding:0;color:var(--text);background:transparent;border:0;border-radius:0;box-shadow:none;overflow:hidden;overscroll-behavior:contain;outline:none}
@@ -26,7 +26,7 @@
 @starting-style{.gallery-dialog[open]::backdrop{background:transparent;backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0)}}
 .gallery-dialog.is-closing::backdrop{background:transparent;backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0)}
 .gallery-stage{position:absolute;inset:24px;min-height:0;touch-action:pan-y pinch-zoom;cursor:zoom-out}
-.gallery-image{position:fixed;display:block;max-width:none;max-height:none;object-fit:contain;transform-origin:center center;border-radius:2px;box-shadow:0 12px 60px #0006;cursor:zoom-out;will-change:transform}
+.gallery-image{position:fixed;display:block;max-width:none;max-height:none;object-fit:contain;transform-origin:center center;border-radius:0;box-shadow:0 12px 60px #0006;cursor:zoom-out;will-change:transform}
 .photo-wall-item[data-zoomed] img{visibility:hidden}
 .gallery-dock{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:2}
 .gallery-dock button{border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--glass);color:var(--text);font-size:12px}
@@ -39,7 +39,7 @@
 .gallery-spec-plate>div{display:block;min-width:0}.gallery-spec-plate dt{font-size:10px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.gallery-spec-plate dd{margin:2px 0 0;font-size:12px;line-height:18px;letter-spacing:.02em;color:var(--text);overflow-wrap:anywhere}
 .gallery-dialog :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 html.is-gallery-open{overflow:hidden}
-@media(max-width:680px){.photo-wall{margin:0 0 48px}.photo-wall-grid,.photo-wall[data-columns] .photo-wall-grid{columns:2;column-gap:10px}.photo-wall-item{border-radius:10px;margin-bottom:10px}.gallery-stage{inset:16px}}
+@media(max-width:680px){.photo-wall{margin:0 0 48px}.photo-wall-grid,.photo-wall[data-columns] .photo-wall-grid{columns:2;column-gap:10px}.photo-wall-item{border-radius:0;margin-bottom:10px}.gallery-stage{inset:16px}}
 @media(prefers-reduced-motion:reduce){.photo-wall-item,.photo-wall-item img,.photo-calibration,.gallery-dialog::backdrop{animation:none;transition:none}.photo-wall-item:hover img{transform:none}}
 
 /* Source photo-frame local hover only; restored mouse focus is not a hover. */
@@ -56,3 +56,10 @@ html.is-gallery-open{overflow:hidden}
 .gallery-dialog.is-instant .gallery-marks,.gallery-dialog.is-instant .gallery-spec-plate>div{transition:none;transform:none}
 @media(max-width:680px){.gallery-marks{--corner-arm:9px;--corner-line:.5px}.photo-calibration{--arm:7px;--photo-line:.5px}}
 @media(prefers-reduced-motion:reduce){.gallery-marks,.gallery-spec-plate>div{transition:none!important;transform:none!important}}
+
+/* Square prints stay square through the shared FLIP. Calibration uses the same
+   theme ink as the expanded frame, never an always-white overlay. */
+.photo-wall-item img{border-radius:0}
+.photo-wall-item{transition:box-shadow .25s,transform .25s}
+@media(hover:hover) and (pointer:fine){.photo-wall-item:hover{z-index:1;transform:translateY(-2px) scale(1.025);box-shadow:0 0 0 1px var(--line),0 7px 18px #00000012}}
+@media(prefers-reduced-motion:reduce){.photo-wall-item{transition:none}.photo-wall-item:hover{transform:none}}

@@ -18,27 +18,6 @@
    </th:block>
   </th:block>
  </div>
- <dialog class="gallery-dialog" data-gallery-dialog tabindex="-1" aria-label="照片预览，点击照片或背景关闭，方向键切换">
-  <div class="gallery-stage" data-gallery-stage>
-   <img class="gallery-image" data-gallery-image alt="" />
-   <span class="gallery-marks" data-gallery-marks aria-hidden="true"></span>
-   <div class="gallery-info" data-gallery-info hidden th:if="${theme.config?.gallery?.show_info != false}">
-    <p data-gallery-note hidden></p>
-    <dl class="gallery-spec-plate" data-gallery-plate>
-     <div data-gallery-row="date" hidden><dt>拍摄日期</dt><dd data-gallery-field="date"></dd></div>
-     <div data-gallery-row="location" hidden><dt>地点</dt><dd data-gallery-field="location"></dd></div>
-     <div data-gallery-row="camera" hidden><dt>相机</dt><dd data-gallery-field="camera"></dd></div>
-     <div data-gallery-row="lens" hidden><dt>镜头</dt><dd data-gallery-field="lens"></dd></div>
-     <div data-gallery-row="focal" hidden><dt>焦距</dt><dd data-gallery-field="focal"></dd></div>
-     <div data-gallery-row="aperture" hidden><dt>光圈</dt><dd data-gallery-field="aperture"></dd></div>
-     <div data-gallery-row="shutter" hidden><dt>快门</dt><dd data-gallery-field="shutter"></dd></div>
-     <div data-gallery-row="iso" hidden><dt>ISO</dt><dd data-gallery-field="iso"></dd></div>
-    </dl>
-   </div>
-  </div>
-  <div class="gallery-dock" data-gallery-dock hidden>
-   <button type="button" data-gallery-original>查看原图</button>
-  </div>
- </dialog>
+ <th:block th:replace="~{modules/image-viewer :: viewer(showInfo=${theme.config?.gallery?.show_info != false})}"></th:block>
 </section>
 </body></html>

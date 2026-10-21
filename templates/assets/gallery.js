@@ -3,7 +3,8 @@
 (() => {
   const wall = document.querySelector('[data-gallery]');
   if (!wall) return;
-  const items = [...wall.querySelectorAll('[data-gallery-item]')];
+  const itemRoot = wall.dataset.viewerKind === 'article' ? document.querySelector('[data-post-detail] .article-body') : wall;
+  const items = [...(itemRoot || wall).querySelectorAll('[data-gallery-item]')];
   if (!items.length) {
     wall.hidden = true;
     const empty = document.querySelector('[data-gallery-empty]');
@@ -73,18 +74,21 @@
   const flight = (returning = false) => {
     // Read the in-flight visual transform before cancelling; reversing an
     // unfinished opening must not jump to the settled full-size rectangle.
-    const currentTransform = window.getComputedStyle?.(image).transform || 'none';
+    const currentStyle = window.getComputedStyle?.(image);
+    const currentTransform = currentStyle?.transform || 'none';
     stopMotion();
     if (reducedMotion() || !image.animate || image.hidden) return null;
-    const source = items[index].querySelector('img')?.getBoundingClientRect();
+    const thumbnail = items[index].querySelector('img');
+    const source = thumbnail?.getBoundingClientRect();
+    const inlineRadius = window.getComputedStyle?.(thumbnail)?.borderRadius || '0px';
     const target = { left: parseFloat(image.style.left), top: parseFloat(image.style.top), width: parseFloat(image.style.width), height: parseFloat(image.style.height) };
     if (!source || !(target.width > 0) || !(source.width > 0)) return null;
     const scale = source.width / target.width;
     const x = source.left + source.width / 2 - (target.left + target.width / 2);
     const y = source.top + source.height / 2 - (target.top + target.height / 2);
-    const inline = { transform: `translate(${x}px,${y}px) scale(${scale})`, opacity: 1 };
-    const expanded = { transform: 'none', opacity: 1 };
-    motion = image.animate(returning ? [{ transform: currentTransform, opacity: 1 }, inline] : [inline, expanded], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' });
+    const inline = { transform: `translate(${x}px,${y}px) scale(${scale})`, opacity: 1, borderRadius: inlineRadius };
+    const expanded = { transform: 'none', opacity: 1, borderRadius: '0px' };
+    motion = image.animate(returning ? [{ transform: currentTransform, opacity: 1, borderRadius: currentStyle?.borderRadius || '0px' }, inline] : [inline, expanded], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' });
     const animation = motion;
     if (!returning) animation.finished.then(() => { if (motion === animation) { motion = null; animation.cancel(); } }).catch(() => {});
     return animation;

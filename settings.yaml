@@ -356,6 +356,16 @@ spec:
           label: 点击文章时显示加载动画
           value: true
           help: 页面加载较快时不闪现；不会改变文章链接。
+        - $formkit: switch
+          name: image_zoom
+          label: 点击正文图片放大
+          value: true
+          help: 保留原图片和图注，点击后使用主题共用放大层；跳过已有链接、按钮及常见插件灯箱标记的图片。点击图片／背景或Esc收回。
+        - $formkit: switch
+          name: mobile_toc
+          label: 手机阅读时顶部切换为文章目录
+          value: true
+          help: 下滑约96px后，顶部胶囊从站点导航切换为当前章节和目录入口；目录默认收起，点击后从屏幕顶部展开，回顶恢复站点导航。关闭时手机不显示文章目录。
     - group: appearance
       label: 背景与导航
       formSchema:

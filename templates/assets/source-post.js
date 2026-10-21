@@ -52,6 +52,22 @@
   const currentLabel = document.querySelector('[data-toc-current]');
   const ring = document.querySelector('[data-toc-progress]');
   const desktop = matchMedia('(min-width:1024px)');
+  const phone = matchMedia('(max-width:1023px)');
+  const siteHeader = document.querySelector('[data-sticky-header]');
+  const siteNav = document.querySelector('[data-top-nav]');
+  const islandHome = document.createElement('span');
+  islandHome.hidden = true;
+  island?.before(islandHome);
+  let inHeader = false, readingMode = false;
+  // Move the real map, as with the single shared avatar: one panel, one set of
+  // heading links, and no duplicate IDs or simultaneous floating navigation.
+  const placeMap = () => {
+    const next = phone.matches && !!siteHeader;
+    if (next === inHeader || !island) return;
+    if (next) siteHeader.append(island); else islandHome.before(island);
+    inHeader = next;
+  };
+  placeMap();
   const links = [], targets = [];
   let open = desktop.matches, selectedTarget = null, selectionTimer = null;
   const markActive = index => {
@@ -66,7 +82,7 @@
   const setOpen = (next, instant = false) => {
     open = next;
     if (!toc || !panel || !toggle) return;
-    if (next) toc.setAttribute('data-open', ''); else toc.removeAttribute('data-open');
+    if (next) { toc.setAttribute('data-open', ''); island?.setAttribute('data-open',''); } else { toc.removeAttribute('data-open'); island?.removeAttribute('data-open'); }
     panel.hidden = !next;
     toggle.setAttribute('aria-expanded', String(next));
     toggle.setAttribute('aria-label', next ? '收起文章地图' : '展开文章地图');
@@ -111,7 +127,7 @@
         releaseSelection(); selectedTarget = heading; markActive(index);
         selectionTimer = setTimeout(() => { selectedTarget = null; schedule(); }, 1800);
         heading.setAttribute('tabindex', '-1'); heading.focus?.({ preventScroll: true });
-        window.scrollTo({ top: window.scrollY + heading.getBoundingClientRect().top - 104, behavior: reduced.matches || event.detail === 0 ? 'instant' : 'smooth' });
+        window.scrollTo({ top: window.scrollY + heading.getBoundingClientRect().top - (phone.matches ? 56 : 104), behavior: reduced.matches || event.detail === 0 ? 'instant' : 'smooth' });
         history.replaceState(null, '', link.href);
         if (!desktop.matches) setOpen(false, event.detail === 0);
       });
@@ -123,12 +139,13 @@
     toc.hidden = false; setOpen(open, true);
     toggle?.addEventListener('click', event => setOpen(!open, event.detail === 0));
     desktop.addEventListener?.('change', () => { setOpen(desktop.matches, true); schedule(); });
+    phone.addEventListener?.('change', () => { placeMap(); setOpen(desktop.matches, true); schedule(); });
     window.addEventListener('keydown', event => {
       if (/^(ArrowUp|ArrowDown|PageUp|PageDown|Home|End| )$/.test(event.key)) releaseSelection();
       if (event.key === 'Escape' && open && !desktop.matches) { setOpen(false, true); toggle?.focus(); }
     });
     window.addEventListener('pointerdown', event => {
-      if (open && !desktop.matches && !toc.contains(event.target)) setOpen(false, true);
+      if (open && !desktop.matches && !toc.contains(event.target) && !island?.contains(event.target)) setOpen(false, true);
     });
     document.querySelector('[data-toc-top]')?.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: reduced.matches ? 'instant' : 'smooth' });
@@ -142,18 +159,31 @@
     if (progress) progress.textContent = `${Math.round(fraction * 100)}%`;
     ring?.setAttribute('stroke-dasharray', `${fraction} 1`);
     if (!links.length) return;
+    const landmarkTop = phone.matches ? 56 : 104;
     let index = 0;
-    targets.forEach((heading, current) => { if (heading.getBoundingClientRect().top <= 105) index = current; });
+    targets.forEach((heading, current) => { if (heading.getBoundingClientRect().top <= landmarkTop + 1) index = current; });
     if (rect.bottom <= window.innerHeight) index = targets.length - 1;
     if (selectedTarget) {
       const top = selectedTarget.getBoundingClientRect().top;
-      if (Math.abs(top - 104) <= 3) releaseSelection();
+      if (Math.abs(top - landmarkTop) <= 3) releaseSelection();
       else index = targets.indexOf(selectedTarget);
     }
     markActive(index);
     if (island) {
-      const visible = desktop.matches || (article.querySelector('h1') || body).getBoundingClientRect().bottom <= 104;
-      // hidden also removes offscreen controls from keyboard navigation.
+      const nextReading = phone.matches && article.dataset.mobileToc !== 'false' && !!siteHeader && !!siteNav && window.scrollY > 96;
+      if (nextReading !== readingMode) {
+        readingMode = nextReading;
+        siteHeader?.classList.toggle('is-reading', nextReading);
+        if (siteNav) { siteNav.hidden = nextReading; siteNav.inert = nextReading; }
+        if (!desktop.matches) setOpen(false, true);
+        if (nextReading) {
+          island.hidden = false;
+          siteHeader.style.setProperty('--header-offset', '0px');
+          if (siteNav.contains?.(document.activeElement)) toggle?.focus({ preventScroll:true });
+        }
+        window.dispatchEvent?.(new Event('resize'));
+      }
+      const visible = phone.matches ? nextReading : (article.dataset.desktopToc !== 'false' && desktop.matches);
       island.hidden = !visible;
       if (!visible && open && !desktop.matches) setOpen(false, true);
     }

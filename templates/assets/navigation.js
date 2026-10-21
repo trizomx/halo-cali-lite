@@ -26,7 +26,7 @@
   };
   const selected = () => dialog?.open ? about : active;
   let initialized = false;
-  const restore = () => { if (initialized) draw(selected()); };
+  const restore = () => { if (initialized && !nav.hidden) draw(selected()); };
 
   let previous = null;
   try {
@@ -105,7 +105,7 @@
     const headerTop = header?.getBoundingClientRect().top || 0;
     const delay = anchor && slot ? Math.max(0, anchor.getBoundingClientRect().top + current - (slot.getBoundingClientRect().top - headerTop)) : 0;
     const delta = Math.max(0, current - delay) - Math.max(0, lastScroll - delay);
-    if (current <= delay || dialog?.open || (document.activeElement?.matches(':focus-visible') && header?.contains(document.activeElement))) {
+    if (current <= delay || dialog?.open || header?.classList.contains('is-reading') || (document.activeElement?.matches(':focus-visible') && header?.contains(document.activeElement))) {
       offset = 0;
     } else {
       offset = Math.min((header?.offsetHeight || 100) + 8, Math.max(0, offset + delta));

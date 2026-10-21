@@ -2,7 +2,7 @@
   "repository": "https://github.com/CaliCastle/cali.so",
   "ref": "main",
   "commit": "edd108445c5323a9199af968913876aa37ea59d2",
-  "scope": "Only the standalone photos page; all existing v2 components stay on tag v2.0. main is the v3 release line; no v3.0 tag is assumed.",
+  "scope": "Standalone photos page and, from 0.5.2 with explicit user authorization, the shared article image zoom viewer. Existing card/home/project components remain on tag v2.0; main is the v3 line, not an assumed v3.0 tag.",
   "files": [
     {
       "path": "app/_views/photos-page.tsx",

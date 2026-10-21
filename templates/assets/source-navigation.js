@@ -3,6 +3,8 @@
 (() => {
   const loading = document.querySelector('[data-post-loading]');
   if (!loading) return;
+  // The loading sheet is a viewport sibling, never a transformed card child.
+  if (document.body && loading.parentElement !== document.body) document.body.append(loading);
   let pending, guard;
   const reset = () => {
     clearTimeout(pending); clearTimeout(guard);

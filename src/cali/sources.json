@@ -158,7 +158,7 @@
       "path": "components/portable-text/PortableTextImage.tsx",
       "fork_sha256": "aa542e4d12965885f007b5dd4d9c50ca4e55acb89d7064cb5e66c4fb5b2dd4ad",
       "v2_sha256": "aa542e4d12965885f007b5dd4d9c50ca4e55acb89d7064cb5e66c4fb5b2dd4ad",
-      "adaptation": "0.5.1 Halo figure/picture/img rounding and caption typography only."
+      "adaptation": "Halo figure/picture/img and caption semantics; 0.5.2 preserves those nodes and delegates image zoom to the separately authorized shared v3 ZoomImage adapter."
     }
   ]
 }

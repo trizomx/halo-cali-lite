@@ -101,7 +101,7 @@ html[data-nav-pending] .nav-item[aria-current=page]::after{display:none}
 
 .home-writing .section-heading h2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:24px;font-weight:600}
 
-/* Six navigation entries still fit 320px screens; preserve readable type. */
+/* Legacy spacing is refined by the complete-navigation rules below. */
 @media(max-width:680px){.site-header{gap:6px}.nav-item{padding-inline:6px}}
 @media(max-width:420px){.nav-item{padding-inline:3px}.top-nav{padding-inline:4px}}
 
@@ -111,3 +111,16 @@ html[data-nav-pending] .nav-item[aria-current=page]::after{display:none}
 
 /* Keep the inline image landing position stable when a full-screen photo opens. */
 html{scrollbar-gutter:stable}
+
+/* Fit the complete navigation rather than hiding columns on small phones. */
+@media(max-width:680px){
+ .site-header{--header-control:clamp(24px,7.5vw,30px);grid-template-columns:var(--header-control) minmax(0,1fr) var(--header-control);gap:clamp(5px,1.7vw,9px);margin-inline:-8px;width:calc(100% + 16px)}
+ .site-header .brand{grid-column:1;grid-row:1;max-width:100%}
+ .site-header .top-nav{grid-column:2;grid-row:1;width:100%;max-width:100%;justify-content:space-evenly;gap:0;padding:4px clamp(2px,.8vw,5px)}
+ .site-header .nav-item{min-width:0;flex:0 1 auto;font-size:13px;padding:7px clamp(4px,1.4vw,9px)}
+ .site-header .header-actions{grid-column:3;grid-row:1}
+ .site-header .avatar-slot,.site-header .site-avatar,.site-header .brand img,.site-header .brand .avatar-mark,.site-header .header-actions .round-button{width:var(--header-control);height:var(--header-control)}
+ .site-header .header-actions .icon{width:16px;height:16px}
+ .site-header.is-reading{transform:none!important}
+ .site-header.is-reading>.brand,.site-header.is-reading>.header-actions{visibility:hidden;pointer-events:none}
+}
